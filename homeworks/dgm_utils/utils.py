@@ -53,7 +53,6 @@ def train_model(
     use_cuda=False,
     loss_key='total_loss'
 ):
-
     optimizer = optim.Adam(model.parameters(), lr=lr)
 
     train_losses = defaultdict(list)
@@ -101,16 +100,30 @@ def plot_training_curves(train_losses, test_losses, logscale_y=False, logscale_x
     plt.show()
 
 
-def load_pickle(path, flatten=True):
+def load_pickle(path, flatten=False, binarize=False):
     with open(path, 'rb') as f:
         data = pickle.load(f)
-    train_data, test_data = data['train'], data['test']
-    train_data = np.transpose(train_data.astype('uint8'), (0, 3, 1, 2))
-    test_data = np.transpose(test_data.astype('uint8'), (0, 3, 1, 2))
+    train_data = data['train'].astype('float32')
+    test_data = data['test'].astype('float32')
+    if binarize:
+        train_data = (train_data > 128).astype('float32')
+        test_data = (test_data > 128).astype('float32')
+    else:
+        train_data = train_data / 255.
+        test_data = test_data / 255.
+    train_data = np.transpose(train_data, (0, 3, 1, 2))
+    test_data = np.transpose(test_data, (0, 3, 1, 2))
     if flatten:
-        train_data = train_data.reshape(-1, 28 * 28)
-        test_data = test_data.reshape(-1, 28 * 28)
+        train_data = train_data.reshape(len(train_data.shape[0]), -1)
+        test_data = test_data.reshape(len(train_data.shape[0]), -1)
     return train_data, test_data
+
+
+def make_grid_from_samples(samples):
+    if isinstance(samples, np.ndarray):
+        samples = torch.FloatTensor(samples)
+    grid_samples = make_grid(samples, nrow=int(np.sqrt(len(samples))))
+    return grid_samples.numpy()
 
 
 def show_samples(samples, title, preprocess_fn=lambda x: x):
@@ -122,13 +135,7 @@ def show_samples(samples, title, preprocess_fn=lambda x: x):
     plt.show()
 
 
-def grid_preprocessing(samples):
-    grid_samples = make_grid(samples, nrow=int(np.sqrt(len(samples))))
-    grid_samples = grid_samples.permute(1, 2, 0)
-    return grid_samples.numpy()
-
-
 def visualize_images(data, title):
     idxs = np.random.choice(len(data), replace=False, size=(100,))
     images = data[idxs]
-    show_samples(images, title, preprocess_fn=grid_preprocessing)
+    show_samples(images, title, preprocess_fn=make_grid_from_samples)
