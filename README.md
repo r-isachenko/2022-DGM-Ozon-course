@@ -8,7 +8,7 @@ We will study the following types of generative models:
 - latent variable models, 
 - normalization flow models, 
 - adversarial models,
-- diffusion models (sorry, next time).
+- diffusion models.
 
 Special attention is paid to the properties of various classes of generative models, their interrelationships, theoretical prerequisites and methods of quality assessment.
 
