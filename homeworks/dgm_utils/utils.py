@@ -119,16 +119,17 @@ def load_pickle(path, flatten=False, binarize=False):
     return train_data, test_data
 
 
-def make_grid_from_samples(samples):
+def show_samples(samples, title, figsize=None, nrow=None):
     if isinstance(samples, np.ndarray):
         samples = torch.FloatTensor(samples)
-    grid_samples = make_grid(samples, nrow=int(np.sqrt(len(samples))))
-    return grid_samples.numpy()
+    if nrow is None:
+        nrow = int(np.sqrt(len(samples)))
+    grid_samples = make_grid(samples, nrow=nrow)
 
-
-def show_samples(samples, title, preprocess_fn=lambda x: x):
-    grid_img = preprocess_fn(samples)
-    plt.figure()
+    grid_img = grid_samples.permute(1, 2, 0)
+    if figsize is None:
+        figsize = (6, 6)
+    plt.figure(figsize=figsize)
     plt.title(title)
     plt.imshow(grid_img)
     plt.axis('off')
@@ -138,4 +139,4 @@ def show_samples(samples, title, preprocess_fn=lambda x: x):
 def visualize_images(data, title):
     idxs = np.random.choice(len(data), replace=False, size=(100,))
     images = data[idxs]
-    show_samples(images, title, preprocess_fn=make_grid_from_samples)
+    show_samples(images, title)
