@@ -1,7 +1,6 @@
 import numpy as np
 import pickle
 import torch
-import wandb
 
 from collections import defaultdict
 from matplotlib import pyplot as plt
@@ -24,9 +23,6 @@ def train_epoch(model, train_loader, optimizer, use_cuda, loss_key='total'):
 
         for k, v in losses.items():
             stats[k].append(v.item())
-        
-        for k, v in losses.items():
-            wandb.log({f'{k}_train': v.item()})
 
     return stats
 
@@ -53,9 +49,6 @@ def train_model(
     test_loader,
     epochs,
     lr,
-    noise=None,
-    preprocess=lambda x: x,
-    n_samples=10,
     use_tqdm=False,
     use_cuda=False,
     loss_key='total_loss'
@@ -73,18 +66,6 @@ def train_model(
         model.train()
         train_loss = train_epoch(model, train_loader, optimizer, use_cuda, loss_key)
         test_loss = eval_model(model, test_loader, use_cuda)
-
-        if n_samples > 0 or noise is not None:
-            with torch.no_grad():
-                if noise is not None:
-                    samples = model.sample(noise=noise)
-                else:
-                    samples = model.sample(n_samples)
-            images = wandb.Image(preprocess(samples))
-            wandb.log({"Samples": images})
-
-        for k in test_loss.keys():
-            wandb.log({f'{k}_test': test_loss[k]})
 
         for k in train_loss.keys():
             train_losses[k].extend(train_loss[k])
