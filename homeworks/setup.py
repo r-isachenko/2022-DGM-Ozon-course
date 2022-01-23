@@ -14,7 +14,6 @@ setup(
         'torchvision', 
         'torchaudio',
         'gdown',
-        'scikit-learn',
-        'wandb',
+        'scikit-learn'
     ]
 )
