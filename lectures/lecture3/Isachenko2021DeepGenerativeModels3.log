@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  25 SEP 2021 12:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  1 FEB 2022 18:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -949,10 +949,6 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@pangrammax=\count280
 )
 (../utils/newcommands.tex) (../utils/title.tex))
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\new@ifnextchar' on input line 4.
-
 (./Isachenko2021DeepGenerativeModels3.aux)
 \openout1 = `Isachenko2021DeepGenerativeModels3.aux'.
 
@@ -1120,9 +1116,15 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <35> not available
 (Font)              size <35.83> substituted on input line 9.
 
+<../utils/ozonmasterslogo.png, id=13, 1284.8pt x 1110.1475pt>
+File: ../utils/ozonmasterslogo.png Graphic file (type png)
+<use ../utils/ozonmasterslogo.png>
+Package pdftex.def Info: ../utils/ozonmasterslogo.png  used on input line 9.
+(pdftex.def)             Requested size: 14.22636pt x 12.2811pt.
 [1
 
-{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../util
+s/ozonmasterslogo.png>]
 LaTeX Font Info:    Try loading font information for U+msa on input line 33.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1152,98 +1154,50 @@ Overfull \vbox (8.79944pt too high) detected at line 61
 
 [3
 
+] [4
+
 ]
-Overfull \hbox (8.81055pt too wide) detected at line 86
-[][] \OT1/cmss/m/n/10.95 = [] \OT1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.95
- (\OT1/cmss/bx/n/10.95 X\OMS/cmsy/m/n/10.95 j[]\OT1/cmss/m/n/10.95 ) = [] [] \O
-T1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 x[]\OMS/c
-msy/m/n/10.95 j[]\OT1/cmss/m/n/10.95 ) = [] [] [] \OT1/mathkerncmss/m/sl/10.95 
-p\OT1/cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 x[]\OMS/cmsy/m/n/10.95 j[]\OT1/cmss/
-m/n/10.95 )\OML/cmm/m/it/10.95 :
+Overfull \vbox (3.37608pt too high) detected at line 114
  []
 
-[4
+[5
+
+] [6
 
 ]
-<figs/mixture_of_gaussians.png, id=49, 477.785pt x 450.68375pt>
-File: figs/mixture_of_gaussians.png Graphic file (type png)
-<use figs/mixture_of_gaussians.png>
-Package pdftex.def Info: figs/mixture_of_gaussians.png  used on input line 122.
+<figs/em_bishop1.png, id=63, 522.95375pt x 334.24875pt>
+File: figs/em_bishop1.png Graphic file (type png)
+<use figs/em_bishop1.png>
+Package pdftex.def Info: figs/em_bishop1.png  used on input line 154.
+(pdftex.def)             Requested size: 124.4507pt x 79.543pt.
+<figs/em_bishop2.png, id=64, 612.2875pt x 340.27126pt>
+File: figs/em_bishop2.png Graphic file (type png)
+<use figs/em_bishop2.png>
+Package pdftex.def Info: figs/em_bishop2.png  used on input line 154.
+(pdftex.def)             Requested size: 143.65984pt x 79.83394pt.
+<figs/em_bishop3.png, id=65, 549.05125pt x 398.48875pt>
+File: figs/em_bishop3.png Graphic file (type png)
+<use figs/em_bishop3.png>
+Package pdftex.def Info: figs/em_bishop3.png  used on input line 154.
+(pdftex.def)             Requested size: 169.01036pt x 122.66072pt.
 
-(pdftex.def)             Requested size: 103.70961pt x 97.82349pt.
-<figs/pca.png, id=51, 485.815pt x 390.96063pt>
-File: figs/pca.png Graphic file (type png)
-<use figs/pca.png>
-Package pdftex.def Info: figs/pca.png  used on input line 122.
-(pdftex.def)             Requested size: 114.00377pt x 91.7445pt.
- [5
-
- <./figs/mixture_of_gaussians.png> <./figs/pca.png>]
-<figs/bayesian_pca.png, id=61, 701.62125pt x 289.08pt>
-File: figs/bayesian_pca.png Graphic file (type png)
-<use figs/bayesian_pca.png>
-Package pdftex.def Info: figs/bayesian_pca.png  used on input line 140.
-(pdftex.def)             Requested size: 215.10196pt x 88.6258pt.
- [6
-
- <./figs/bayesian_pca.png>]
-Overfull \vbox (20.71434pt too high) detected at line 159
+Overfull \vbox (0.42155pt too high) detected at line 154
  []
 
 [7
 
-]
-<figs/lvm_diagram.png, id=74, 379.4175pt x 163.5711pt>
-File: figs/lvm_diagram.png Graphic file (type png)
-<use figs/lvm_diagram.png>
-Package pdftex.def Info: figs/lvm_diagram.png  used on input line 175.
-(pdftex.def)             Requested size: 230.46739pt x 99.3589pt.
- [8
+ <./figs/em_bishop1.png> <./figs/em_bishop2.png> <./figs/em_bishop3.png>]
+[8
 
- <./figs/lvm_diagram.png>] [9
+] [9
 
 ]
-Overfull \vbox (3.37608pt too high) detected at line 228
+Overfull \vbox (32.1363pt too high) detected at line 229
  []
 
 [10
 
 ] [11
-
-]
-<figs/em_bishop1.png, id=98, 522.95375pt x 334.24875pt>
-File: figs/em_bishop1.png Graphic file (type png)
-<use figs/em_bishop1.png>
-Package pdftex.def Info: figs/em_bishop1.png  used on input line 268.
-(pdftex.def)             Requested size: 124.4507pt x 79.543pt.
-<figs/em_bishop2.png, id=99, 612.2875pt x 340.27126pt>
-File: figs/em_bishop2.png Graphic file (type png)
-<use figs/em_bishop2.png>
-Package pdftex.def Info: figs/em_bishop2.png  used on input line 268.
-(pdftex.def)             Requested size: 143.65984pt x 79.83394pt.
-<figs/em_bishop3.png, id=100, 549.05125pt x 398.48875pt>
-File: figs/em_bishop3.png Graphic file (type png)
-<use figs/em_bishop3.png>
-Package pdftex.def Info: figs/em_bishop3.png  used on input line 268.
-(pdftex.def)             Requested size: 169.01036pt x 122.66072pt.
-
-Overfull \vbox (0.42155pt too high) detected at line 268
- []
-
-[12
-
- <./figs/em_bishop1.png> <./figs/em_bishop2.png> <./figs/em_bishop3.png>]
-[13
-
-] [14
-
-]
-Overfull \vbox (32.1363pt too high) detected at line 343
- []
-
-[15
-
-] [16
 
 ]
 \tf@nav=\write7
@@ -1255,11 +1209,11 @@ Overfull \vbox (32.1363pt too high) detected at line 343
 \tf@snm=\write9
 \openout9 = `Isachenko2021DeepGenerativeModels3.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 357.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 357.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 241.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 241.
  (./Isachenko2021DeepGenerativeModels3.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 357.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 357.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 241.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 241.
 Package rerunfilecheck Info: File `Isachenko2021DeepGenerativeModels3.out' has 
 not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -1270,13 +1224,13 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 21424 strings out of 492616
- 415497 string characters out of 6129481
- 500843 words of memory out of 5000000
- 24782 multiletter control sequences out of 15000+600000
- 20843 words of font info for 69 fonts, out of 8000000 for 9000
+ 21377 strings out of 492616
+ 414707 string characters out of 6129481
+ 500747 words of memory out of 5000000
+ 24749 multiletter control sequences out of 15000+600000
+ 20487 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 58i,17n,56p,854b,679s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 58i,17n,55p,854b,671s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
@@ -1295,11 +1249,11 @@ r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
 ocal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/loc
 al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr
 /local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Isachenko2021DeepGenerativeModels3.pdf (16 pages, 1580400 byt
-es).
+Output written on Isachenko2021DeepGenerativeModels3.pdf (11 pages, 599173 byte
+s).
 PDF statistics:
- 200 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 163 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 

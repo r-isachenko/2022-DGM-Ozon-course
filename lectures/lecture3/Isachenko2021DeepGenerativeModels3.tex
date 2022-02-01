@@ -60,120 +60,6 @@
 	\end{block}
 \end{frame}
 %=======
-\begin{frame}{Latent variable models (LVM)}
-	\begin{block}{MLE problem}
-		\vspace{-0.5cm}
-		\[
-		\btheta^* = \argmax_{\btheta} p(\bX | \btheta) = \argmax_{\btheta} \prod_{i=1}^n p(\bx_i | \btheta) = \argmax_{\btheta} \sum_{i=1}^n \log p(\bx_i | \btheta).
-		\]
-		\vspace{-0.5cm}
-	\end{block}
-	The distribution $p(\bx | \btheta)$ could be very complex and intractable (as well as real distribution $\pi(\bx)$).
-	\begin{block}{Extended probabilistic model}
-		Introduce latent variable $\bz$ for each sample $\bx$
-		\[
-		p(\bx, \bz | \btheta) = p(\bx | \bz, \btheta) p(\bz); \quad 
-		\log p(\bx, \bz | \btheta) = \log p(\bx | \bz, \btheta) + \log p(\bz).
-		\]
-		\[
-		p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d\bz = \int p(\bx | \bz, \btheta) p(\bz) d\bz.
-		\]
-	\end{block}
-	\vspace{-0.3cm}
-	\begin{block}{Motivation}
-		The distributions $p(\bx | \bz, \btheta)$ and $p(\bz)$ could be quite simple.
-	\end{block}
-\end{frame}
-%=======
-\begin{frame}{Latent variable models (LVM)}
-	\[
-	\log p(\bx | \btheta) = \log \int p(\bx | \bz, \btheta) p(\bz) d\bz \rightarrow \max_{\btheta}
-	\]
-	\vspace{-0.6cm}
-	\begin{block}{Examples}
-		\begin{minipage}[t]{0.45\columnwidth}
-			\textit{Mixture of gaussians} \\
-			\vspace{-0.5cm}
-			\begin{figure}
-				\centering
-				\includegraphics[width=0.75\linewidth]{figs/mixture_of_gaussians}
-			\end{figure}
-			\vspace{-0.5cm}
-			\begin{itemize}
-				\item $p(\bx | z, \btheta) = \cN(\bx | \bmu_z, \bSigma_z)$
-				\item $p(z) = \text{Categorical}(\bpi)$
-			\end{itemize}
-		\end{minipage}%
-		\begin{minipage}[t]{0.53\columnwidth}
-			\textit{PCA model} \\
-			\vspace{-0.5cm}
-			\begin{figure}
-				\centering
-				\includegraphics[width=.7\linewidth]{figs/pca}
-			\end{figure}
-			\vspace{-0.3cm}
-			\begin{itemize}
-				\item $p(\bx | \bz, \btheta) = \cN(\bx | \bW \bz + \bmu, \sigma^2 \bI)$
-				\item $p(\bz) = \cN(\bz | 0, \bI)$
-			\end{itemize}
-		\end{minipage}
-	\end{block}
-	\myfootnote{Bishop\,C. Pattern Recognition and Machine Learning, 2006}
-\end{frame}
-%=======
-\begin{frame}{Latent variable models (LVM)}
-	\[
-	\log p(\bx | \btheta) = \log \int p(\bx | \bz, \btheta) p(\bz) d\bz \rightarrow \max_{\btheta}
-	\]
-	\textbf{PCA} projects original data $\bX$ onto a low dimensional latent space while maximizing the variance of the projected data. 
-	\begin{figure}
-		\centering
-		\includegraphics[width=.7\linewidth]{figs/bayesian_pca}
-	\end{figure}
-	\vspace{-0.5cm}
-	\begin{itemize}
-		\item $p(\bx | \bz, \btheta) = \cN(\bx | \bW \bz + \bmu, \sigma^2 \bI)$
-		\item $p(\bz) = \cN(\bz | 0, \bI)$
-		\item $p(\bx) = \cN(\bx | \bmu, \bW \bW^T + \sigma^2 \bI)$
-		\item $p(\bz | \bx) = \cN \bigl(\bM^{-1} \bW^T (\bx - \bmu), \sigma^2 \bM\bigr)$, where $\bM = \bW \bW^T + \sigma^2 \bI$
-	\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{Maximum likelihood estimation for LVM}
-	\begin{block}{MLE for extended problem}
-		\vspace{-0.7cm}
-		\begin{multline*}
-			\vspace{-0.5cm}
-			\btheta^* = \argmax_{\btheta} p(\bX, \bZ | \btheta) = \argmax_{\btheta} \prod_{i=1}^n p(\bx_i, \bz_i | \btheta) = \\ = \argmax_{\btheta} \sum_{i=1}^n \log p(\bx_i, \bz_i | \btheta).
-		\end{multline*}
-		\vspace{-0.5cm}
-	\end{block}
-	However, $\bZ$ is unknown.
-	\begin{block}{MLE for original problem}
-		\vspace{-0.7cm}
-		\begin{multline*}
-			\btheta^* = \argmax_{\btheta} \log p(\bX| \btheta) = \argmax_{\btheta} \sum_{i=1}^n \log p(\bx_i | \btheta) = \\ =  \argmax_{\btheta}  \sum_{i=1}^n \log \int p(\bx_i, \bz_i | \btheta) d \bz_i = \\ = \argmax_{\btheta} \log \sum_{i=1}^n \int p(\bx_i| \bz_i, \btheta) p(\bz_i) d\bz_i.
-		\end{multline*}
-	\end{block}
-	
-\end{frame}
-%=======
-\begin{frame}{Naive approach}
-	\begin{figure}
-		\includegraphics[width=.75\linewidth]{figs/lvm_diagram}
-	\end{figure}
-	\begin{block}{Monte-Carlo estimation}
-		\vspace{-0.7cm}
-		\[
-			p(\bx | \btheta) = \int p(\bx | \bz, \btheta) p(\bz) d\bz = \bbE_{p(\bz)} p(\bx | \bz, \btheta) \approx \frac{1}{K} \sum_{k=1}^{K} p(\bx | \bz_k, \btheta),
-		\]
-		\vspace{-0.5cm} \\
-		where $\bz_k \sim p(\bz)$. \\
-		\textbf{Challenge:} to cover the space properly, the number of samples grows exponentially with respect to dimensionality of $\bz$. 
-	\end{block}
-	\myfootnotewithlink{https://jmtomczak.github.io/blog/4/4\_VAE.html}{image credit: https://jmtomczak.github.io/blog/4/4\_VAE.html}
-\end{frame}
-%=======
 \begin{frame}{Variational lower bound (ELBO)}
 	\begin{block}{Derivation 1}
 		\vspace{-0.7cm}
@@ -344,8 +230,6 @@
 %=======
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item LVM introduces latent representation of observed samples to make model more interpretable.
-		\vfill
 		\item LVM maximizes variational evidence lower bound (ELBO) to find MLE of model parameters.
 		\vfill
 		\item The general variational EM algorithm maximizes ELBO objective.

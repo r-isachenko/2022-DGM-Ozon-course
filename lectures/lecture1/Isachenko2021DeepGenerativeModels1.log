@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  20 JAN 2022 18:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  1 FEB 2022 18:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1048,20 +1048,20 @@ File: tikzlibrarytrees.code.tex 2019/04/04 v3.1.2 (3.1.2)
 ) (./Isachenko2021DeepGenerativeModels1.aux)
 \openout1 = `Isachenko2021DeepGenerativeModels1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
-LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1112,7 +1112,7 @@ LaTeX Font Info:    ... okay on input line 10.
 \everyMPtoPDFconversion=\toks56
 ) ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box115
-Package hyperref Info: Link coloring OFF on input line 10.
+Package hyperref Info: Link coloring OFF on input line 6.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -1122,9 +1122,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count287
 )
-LaTeX Info: Redefining \ref on input line 10.
-LaTeX Info: Redefining \pageref on input line 10.
-LaTeX Info: Redefining \nameref on input line 10.
+LaTeX Info: Redefining \ref on input line 6.
+LaTeX Info: Redefining \pageref on input line 6.
+LaTeX Info: Redefining \nameref on input line 6.
 
 (./Isachenko2021DeepGenerativeModels1.out)
 (./Isachenko2021DeepGenerativeModels1.out)
@@ -1132,57 +1132,57 @@ LaTeX Info: Redefining \nameref on input line 10.
 \openout6 = `Isachenko2021DeepGenerativeModels1.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 10.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 6.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 10.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 6.
 \symnumbers=\mathgroup7
 \sympureletters=\mathgroup8
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 10.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 10.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 10.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 10.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 10.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 6.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 10.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 10.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 10.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 6.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 10.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 10.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 10.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 6.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 10.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 10.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 6.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 10.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 6.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 10.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 10.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 10.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 10.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 10.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 6.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 10.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 10.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 6.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 6.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
-(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 1
-0.
+(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 6
+.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
-10.
+6.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 10.
+ut line 6.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/translator/translator-basic-dicti
 onary-English.dict
@@ -1210,18 +1210,18 @@ Dictionary: translator-theorem-dictionary, Language: English
 ) (./Isachenko2021DeepGenerativeModels1.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <35> not available
-(Font)              size <35.83> substituted on input line 15.
+(Font)              size <35.83> substituted on input line 11.
 
 <../utils/ozonmasterslogo.png, id=37, 1284.8pt x 1110.1475pt>
 File: ../utils/ozonmasterslogo.png Graphic file (type png)
 <use ../utils/ozonmasterslogo.png>
-Package pdftex.def Info: ../utils/ozonmasterslogo.png  used on input line 15.
+Package pdftex.def Info: ../utils/ozonmasterslogo.png  used on input line 11.
 (pdftex.def)             Requested size: 14.22636pt x 12.2811pt.
 [1
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../util
 s/ozonmasterslogo.png>]
-Overfull \hbox (6.77243pt too wide) in paragraph at lines 58--58
+Overfull \hbox (6.77243pt too wide) in paragraph at lines 54--54
 [][]  
  []
 
@@ -1231,24 +1231,24 @@ Overfull \hbox (6.77243pt too wide) in paragraph at lines 58--58
 <figs/applications.png, id=55, 2453.165pt x 1234.6125pt>
 File: figs/applications.png Graphic file (type png)
 <use figs/applications.png>
-Package pdftex.def Info: figs/applications.png  used on input line 66.
+Package pdftex.def Info: figs/applications.png  used on input line 62.
 (pdftex.def)             Requested size: 307.28987pt x 154.64644pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 66.
+LaTeX Font Info:    Try loading font information for U+msa on input line 62.
  (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 66.
+LaTeX Font Info:    Try loading font information for U+msb on input line 62.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 66.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 62.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 66.
+line 62.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -1259,10 +1259,10 @@ thkerncmss.
 <figs/vae.png, id=64, 483.8075pt x 435.6275pt>
 File: figs/vae.png Graphic file (type png)
 <use figs/vae.png>
-Package pdftex.def Info: figs/vae.png  used on input line 74.
+Package pdftex.def Info: figs/vae.png  used on input line 70.
 (pdftex.def)             Requested size: 245.83282pt x 221.34949pt.
 
-Overfull \vbox (5.67638pt too high) detected at line 74
+Overfull \vbox (5.67638pt too high) detected at line 70
  []
 
 [4
@@ -1271,7 +1271,7 @@ Overfull \vbox (5.67638pt too high) detected at line 74
 <figs/dcgan.png, id=72, 790.955pt x 399.4925pt>
 File: figs/dcgan.png Graphic file (type png)
 <use figs/dcgan.png>
-Package pdftex.def Info: figs/dcgan.png  used on input line 82.
+Package pdftex.def Info: figs/dcgan.png  used on input line 78.
 (pdftex.def)             Requested size: 307.28987pt x 155.20406pt.
  [5
 
@@ -1279,12 +1279,12 @@ Package pdftex.def Info: figs/dcgan.png  used on input line 82.
 <figs/gan_evolution.png, id=81, 1896.08376pt x 759.83875pt>
 File: figs/gan_evolution.png Graphic file (type png)
 <use figs/gan_evolution.png>
-Package pdftex.def Info: figs/gan_evolution.png  used on input line 95.
+Package pdftex.def Info: figs/gan_evolution.png  used on input line 91.
 (pdftex.def)             Requested size: 261.19826pt x 104.67235pt.
 <figs/stylegan.png, id=82, 1219.55624pt x 540.0175pt>
 File: figs/stylegan.png Graphic file (type png)
 <use figs/stylegan.png>
-Package pdftex.def Info: figs/stylegan.png  used on input line 95.
+Package pdftex.def Info: figs/stylegan.png  used on input line 91.
 (pdftex.def)             Requested size: 230.46739pt x 102.04407pt.
  [6
 
@@ -1292,7 +1292,7 @@ Package pdftex.def Info: figs/stylegan.png  used on input line 95.
 <figs/vq_vae.png, id=92, 647.41875pt x 643.40375pt>
 File: figs/vq_vae.png Graphic file (type png)
 <use figs/vq_vae.png>
-Package pdftex.def Info: figs/vq_vae.png  used on input line 103.
+Package pdftex.def Info: figs/vq_vae.png  used on input line 99.
 (pdftex.def)             Requested size: 215.10196pt x 213.76706pt.
  [7
 
@@ -1300,12 +1300,12 @@ Package pdftex.def Info: figs/vq_vae.png  used on input line 103.
 <figs/gpt2-sizes.png, id=102, 1445.4pt x 529.98pt>
 File: figs/gpt2-sizes.png Graphic file (type png)
 <use figs/gpt2-sizes.png>
-Package pdftex.def Info: figs/gpt2-sizes.png  used on input line 115.
+Package pdftex.def Info: figs/gpt2-sizes.png  used on input line 111.
 (pdftex.def)             Requested size: 199.73653pt x 73.23434pt.
 <figs/nlp_models.png, id=103, 1161.33875pt x 657.45625pt>
 File: figs/nlp_models.png Graphic file (type png)
 <use figs/nlp_models.png>
-Package pdftex.def Info: figs/nlp_models.png  used on input line 115.
+Package pdftex.def Info: figs/nlp_models.png  used on input line 111.
 (pdftex.def)             Requested size: 215.10196pt x 121.76794pt.
  [8
 
@@ -1313,27 +1313,27 @@ Package pdftex.def Info: figs/nlp_models.png  used on input line 115.
 <figs/taming_transformers_1.png, id=114, 752.30458pt x 293.43361pt>
 File: figs/taming_transformers_1.png Graphic file (type png)
 <use figs/taming_transformers_1.png>
-Package pdftex.def Info: figs/taming_transformers_1.png  used on input line 126
+Package pdftex.def Info: figs/taming_transformers_1.png  used on input line 122
 .
 (pdftex.def)             Requested size: 245.83282pt x 95.88417pt.
 <figs/taming_transformers_2.jpeg, id=115, 1284.8pt x 461.725pt>
 File: figs/taming_transformers_2.jpeg Graphic file (type jpg)
 <use figs/taming_transformers_2.jpeg>
 Package pdftex.def Info: figs/taming_transformers_2.jpeg  used on input line 12
-6.
+2.
 (pdftex.def)             Requested size: 307.28987pt x 110.42877pt.
  [9
 
  <./figs/taming_transformers_1.png> <./figs/taming_transformers_2.jpeg>]
-<figs/dalle1.png, id=123, 808.01875pt x 220.825pt>
+<figs/dalle1.png, id=123, 871.255pt x 237.88875pt>
 File: figs/dalle1.png Graphic file (type png)
 <use figs/dalle1.png>
-Package pdftex.def Info: figs/dalle1.png  used on input line 138.
-(pdftex.def)             Requested size: 307.28987pt x 83.97838pt.
+Package pdftex.def Info: figs/dalle1.png  used on input line 134.
+(pdftex.def)             Requested size: 307.28987pt x 83.90115pt.
 <figs/dalle2.png, id=124, 811.03pt x 221.82875pt>
 File: figs/dalle2.png Graphic file (type png)
 <use figs/dalle2.png>
-Package pdftex.def Info: figs/dalle2.png  used on input line 138.
+Package pdftex.def Info: figs/dalle2.png  used on input line 134.
 (pdftex.def)             Requested size: 307.28987pt x 84.04869pt.
  [10
 
@@ -1341,24 +1341,24 @@ Package pdftex.def Info: figs/dalle2.png  used on input line 138.
 <figs/diffusion_models.png, id=134, 1096.095pt x 655.44875pt>
 File: figs/diffusion_models.png Graphic file (type png)
 <use figs/diffusion_models.png>
-Package pdftex.def Info: figs/diffusion_models.png  used on input line 145.
+Package pdftex.def Info: figs/diffusion_models.png  used on input line 141.
 (pdftex.def)             Requested size: 307.28987pt x 183.75443pt.
  [11
 
  <./figs/diffusion_models.png>] [12
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 187--187
+Underfull \hbox (badness 10000) in paragraph at lines 183--183
 
  []
 
-<figs/histogram.png, id=155, 433.62pt x 361.35pt>
+<figs/histogram.png, id=154, 433.62pt x 361.35pt>
 File: figs/histogram.png Graphic file (type png)
 <use figs/histogram.png>
-Package pdftex.def Info: figs/histogram.png  used on input line 187.
+Package pdftex.def Info: figs/histogram.png  used on input line 183.
 (pdftex.def)             Requested size: 122.91406pt x 102.42342pt.
 
-Overfull \vbox (8.63454pt too high) detected at line 187
+Overfull \vbox (8.63454pt too high) detected at line 183
  []
 
 [13
@@ -1371,12 +1371,12 @@ Overfull \vbox (8.63454pt too high) detected at line 187
 <figs/f_divs.png, id=176, 632.3625pt x 209.28188pt>
 File: figs/f_divs.png Graphic file (type png)
 <use figs/f_divs.png>
-Package pdftex.def Info: figs/f_divs.png  used on input line 240.
+Package pdftex.def Info: figs/f_divs.png  used on input line 242.
 (pdftex.def)             Requested size: 307.28987pt x 101.69955pt.
  [16
 
  <./figs/f_divs.png>]
-Overfull \hbox (8.81055pt too wide) detected at line 264
+Overfull \hbox (8.81055pt too wide) detected at line 266
 [][] \OT1/cmss/m/n/10.95 = [] \OT1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.95
  (\OT1/cmss/bx/n/10.95 X\OMS/cmsy/m/n/10.95 j[]\OT1/cmss/m/n/10.95 ) = [] [] \O
 T1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 x[]\OMS/c
@@ -1388,13 +1388,13 @@ m/n/10.95 )\OML/cmm/m/it/10.95 :
 [17
 
 ]
-Overfull \vbox (1.00012pt too high) detected at line 286
+Overfull \vbox (1.00012pt too high) detected at line 288
  []
 
 [18
 
 ]
-Overfull \hbox (8.81055pt too wide) detected at line 308
+Overfull \hbox (8.81055pt too wide) detected at line 310
 [][] \OT1/cmss/m/n/10.95 = [] \OT1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.95
  (\OT1/cmss/bx/n/10.95 X\OMS/cmsy/m/n/10.95 j[]\OT1/cmss/m/n/10.95 ) = [] [] \O
 T1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 x[]\OMS/c
@@ -1411,7 +1411,7 @@ m/n/10.95 )\OML/cmm/m/it/10.95 :
 <figs/sequential_MLP.png, id=209, 681.54625pt x 250.9375pt>
 File: figs/sequential_MLP.png Graphic file (type png)
 <use figs/sequential_MLP.png>
-Package pdftex.def Info: figs/sequential_MLP.png  used on input line 358.
+Package pdftex.def Info: figs/sequential_MLP.png  used on input line 360.
 (pdftex.def)             Requested size: 187.447pt x 69.01376pt.
  [21
 
@@ -1419,12 +1419,25 @@ Package pdftex.def Info: figs/sequential_MLP.png  used on input line 358.
 <figs/sequential_RNN.png, id=218, 681.54625pt x 250.9375pt>
 File: figs/sequential_RNN.png Graphic file (type png)
 <use figs/sequential_RNN.png>
-Package pdftex.def Info: figs/sequential_RNN.png  used on input line 375.
+Package pdftex.def Info: figs/sequential_RNN.png  used on input line 377.
 (pdftex.def)             Requested size: 199.77199pt x 73.55495pt.
  [22
 
  <./figs/sequential_RNN.png>]
+<figs/char_rnn.png, id=226, 565.11125pt x 462.72874pt>
+File: figs/char_rnn.png Graphic file (type png)
+<use figs/char_rnn.png>
+Package pdftex.def Info: figs/char_rnn.png  used on input line 394.
+(pdftex.def)             Requested size: 169.01036pt x 138.38899pt.
+<figs/char_rnn_output.png, id=227, 1056.94875pt x 1084.05pt>
+File: figs/char_rnn_output.png Graphic file (type png)
+<use figs/char_rnn_output.png>
+Package pdftex.def Info: figs/char_rnn_output.png  used on input line 394.
+(pdftex.def)             Requested size: 135.20828pt x 138.6653pt.
+
 [23
+
+ <./figs/char_rnn.png> <./figs/char_rnn_output.png>] [24
 
 ]
 \tf@nav=\write7
@@ -1436,11 +1449,12 @@ Package pdftex.def Info: figs/sequential_RNN.png  used on input line 375.
 \tf@snm=\write9
 \openout9 = `Isachenko2021DeepGenerativeModels1.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 399.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 399.
- (./Isachenko2021DeepGenerativeModels1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 399.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 399.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 418.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 418.
+
+(./Isachenko2021DeepGenerativeModels1.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 418.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 418.
 Package rerunfilecheck Info: File `Isachenko2021DeepGenerativeModels1.out' has 
 not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -1451,10 +1465,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 24239 strings out of 492616
- 495827 string characters out of 6129481
- 606042 words of memory out of 5000000
- 27505 multiletter control sequences out of 15000+600000
+ 24255 strings out of 492616
+ 496138 string characters out of 6129481
+ 606123 words of memory out of 5000000
+ 27517 multiletter control sequences out of 15000+600000
  26204 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  58i,16n,83p,854b,1373s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1477,11 +1491,11 @@ usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
 pfb>
-Output written on Isachenko2021DeepGenerativeModels1.pdf (23 pages, 19871502 by
+Output written on Isachenko2021DeepGenerativeModels1.pdf (24 pages, 20623885 by
 tes).
 PDF statistics:
- 301 PDF objects out of 1000 (max. 8388607)
- 200 compressed objects within 2 object streams
- 47 named destinations out of 1000 (max. 500000)
- 229 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 313 PDF objects out of 1000 (max. 8388607)
+ 206 compressed objects within 3 object streams
+ 49 named destinations out of 1000 (max. 500000)
+ 239 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  26 SEP 2021 20:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  1 FEB 2022 18:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -949,10 +949,6 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@pangrammax=\count280
 )
 (../utils/newcommands.tex) (../utils/title.tex))
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\new@ifnextchar' on input line 4.
-
 (./Isachenko2021DeepGenerativeModels4.aux)
 \openout1 = `Isachenko2021DeepGenerativeModels4.aux'.
 
@@ -1120,34 +1116,38 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <35> not available
 (Font)              size <35.83> substituted on input line 9.
 
+<../utils/ozonmasterslogo.png, id=13, 1284.8pt x 1110.1475pt>
+File: ../utils/ozonmasterslogo.png Graphic file (type png)
+<use ../utils/ozonmasterslogo.png>
+Package pdftex.def Info: ../utils/ozonmasterslogo.png  used on input line 9.
+(pdftex.def)             Requested size: 14.22636pt x 12.2811pt.
 [1
 
-{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for U+msa on input line 33.
+{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../util
+s/ozonmasterslogo.png>]
+LaTeX Font Info:    Try loading font information for U+msa on input line 41.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 33.
+LaTeX Font Info:    Try loading font information for U+msb on input line 41.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 33.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 41.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 33.
+line 41.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
-) [2
-
-]
-Overfull \hbox (5.36461pt too wide) detected at line 65
+)
+Overfull \hbox (5.36461pt too wide) detected at line 41
 \OMS/cmsy/m/n/10.95 L\OT1/cmss/m/n/10.95 (\OT1/mathkerncmss/m/sl/10.95 q\OML/cm
 m/m/it/10.95 ; []\OT1/cmss/m/n/10.95 ) = [] \OT1/mathkerncmss/m/sl/10.95 q\OT1/
 cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 z\OT1/cmss/m/n/10.95 ) [] []\OT1/mathkernc
@@ -1161,27 +1161,27 @@ cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 z\OT1/cmss/m/n/10.95 ))
  []
 
 
-Overfull \vbox (5.714pt too high) detected at line 65
+Overfull \vbox (5.714pt too high) detected at line 41
+ []
+
+[2
+
+]
+Overfull \vbox (7.06403pt too high) detected at line 73
  []
 
 [3
 
 ]
-Overfull \vbox (7.06403pt too high) detected at line 97
+Overfull \vbox (32.1363pt too high) detected at line 95
  []
 
 [4
 
-]
-Overfull \vbox (32.1363pt too high) detected at line 119
- []
-
-[5
-
-] [6
+] [5
 
 ]
-Overfull \hbox (21.65611pt too wide) detected at line 163
+Overfull \hbox (21.65611pt too wide) detected at line 139
  []$[]  \OMS/cmsy/m/n/10.95 r[]L\OT1/cmss/m/n/10.95 ([]\OML/cmm/m/it/10.95 ; []
 \OT1/cmss/m/n/10.95 ) = \OMS/cmsy/m/n/10.95 r[] [] \OT1/mathkerncmss/m/sl/10.95
  q\OT1/cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 z\OMS/cmsy/m/n/10.95 j\OT1/cmss/bx/
@@ -1195,128 +1195,128 @@ n/10.95 )\OMS/cmsy/m/n/10.95 jj\OT1/mathkerncmss/m/sl/10.95 p\OT1/cmss/m/n/10.9
 5 (\OT1/cmss/bx/n/10.95 z\OT1/cmss/m/n/10.95 ))$ 
  []
 
-[7
+[6
 
 ]
-Overfull \hbox (16.93416pt too wide) detected at line 189
+Overfull \hbox (16.93416pt too wide) detected at line 165
 []
  []
 
 
-Overfull \vbox (13.08774pt too high) detected at line 189
+Overfull \vbox (13.08774pt too high) detected at line 165
  []
 
-[8
+[7
 
 ]
-<figs/vae_scheme.png, id=73, 598.235pt x 749.80125pt>
+<figs/vae_scheme.png, id=71, 598.235pt x 749.80125pt>
 File: figs/vae_scheme.png Graphic file (type png)
 <use figs/vae_scheme.png>
-Package pdftex.def Info: figs/vae_scheme.png  used on input line 207.
+Package pdftex.def Info: figs/vae_scheme.png  used on input line 183.
 (pdftex.def)             Requested size: 138.2795pt x 173.30873pt.
- [9
+ [8
 
  <./figs/vae_scheme.png>]
-<figs/VAE.png, id=83, 782.925pt x 691.58376pt>
+<figs/VAE.png, id=80, 782.925pt x 691.58376pt>
 File: figs/VAE.png Graphic file (type png)
 <use figs/VAE.png>
-Package pdftex.def Info: figs/VAE.png  used on input line 215.
+Package pdftex.def Info: figs/VAE.png  used on input line 191.
 (pdftex.def)             Requested size: 215.10196pt x 190.00145pt.
- [10
+ [9
 
  <./figs/VAE.png>]
-<figs/vae-gaussian.png, id=91, 1187.43625pt x 550.055pt>
+<figs/vae-gaussian.png, id=88, 1187.43625pt x 550.055pt>
 File: figs/vae-gaussian.png Graphic file (type png)
 <use figs/vae-gaussian.png>
-Package pdftex.def Info: figs/vae-gaussian.png  used on input line 228.
+Package pdftex.def Info: figs/vae-gaussian.png  used on input line 204.
 (pdftex.def)             Requested size: 307.28987pt x 142.34785pt.
- [11
+ [10
 
  <./figs/vae-gaussian.png>]
-Overfull \vbox (15.71149pt too high) detected at line 257
+Overfull \vbox (15.71149pt too high) detected at line 233
+ []
+
+[11
+
+]
+Overfull \vbox (7.65842pt too high) detected at line 267
  []
 
 [12
 
-]
-Overfull \vbox (7.65842pt too high) detected at line 291
- []
-
-[13
+] [13
 
 ] [14
 
 ] [15
 
-] [16
-
 ]
-<figs/jacobian_det.png, id=126, 436.63126pt x 545.03625pt>
+<figs/jacobian_det.png, id=123, 436.63126pt x 545.03625pt>
 File: figs/jacobian_det.png Graphic file (type png)
 <use figs/jacobian_det.png>
-Package pdftex.def Info: figs/jacobian_det.png  used on input line 380.
+Package pdftex.def Info: figs/jacobian_det.png  used on input line 356.
 (pdftex.def)             Requested size: 138.2795pt x 172.61046pt.
- [17
+ [16
 
  <./figs/jacobian_det.png>]
-<figs/flows_how2.png, id=134, 1023.825pt x 538.01pt>
+<figs/flows_how2.png, id=131, 1023.825pt x 538.01pt>
 File: figs/flows_how2.png Graphic file (type png)
 <use figs/flows_how2.png>
-Package pdftex.def Info: figs/flows_how2.png  used on input line 397.
+Package pdftex.def Info: figs/flows_how2.png  used on input line 373.
 (pdftex.def)             Requested size: 261.19826pt x 137.2523pt.
 
-Overfull \vbox (10.23001pt too high) detected at line 397
+Overfull \vbox (10.23001pt too high) detected at line 373
  []
 
-[18
+[17
 
  <./figs/flows_how2.png>]
-<figs/normalizing-flow.png, id=142, 1473.505pt x 443.6575pt>
+<figs/normalizing-flow.png, id=139, 1473.505pt x 443.6575pt>
 File: figs/normalizing-flow.png Graphic file (type png)
 <use figs/normalizing-flow.png>
-Package pdftex.def Info: figs/normalizing-flow.png  used on input line 415.
+Package pdftex.def Info: figs/normalizing-flow.png  used on input line 391.
 (pdftex.def)             Requested size: 307.28987pt x 92.52094pt.
- [19
+ [18
 
- <./figs/normalizing-flow.png>] [20
+ <./figs/normalizing-flow.png>] [19
 
 ]
-<figs/flow_4_steps_example.png, id=163, 1667.22874pt x 317.185pt>
+<figs/flow_4_steps_example.png, id=160, 1667.22874pt x 317.185pt>
 File: figs/flow_4_steps_example.png Graphic file (type png)
 <use figs/flow_4_steps_example.png>
-Package pdftex.def Info: figs/flow_4_steps_example.png  used on input line 463.
+Package pdftex.def Info: figs/flow_4_steps_example.png  used on input line 439.
 
 (pdftex.def)             Requested size: 307.28987pt x 58.46051pt.
- [21
+ [20
 
  <./figs/flow_4_steps_example.png>]
-Overfull \vbox (4.115pt too high) detected at line 485
+Overfull \vbox (4.115pt too high) detected at line 461
  []
 
-[22
+[21
 
 ]
-Overfull \hbox (4.91673pt too wide) detected at line 510
+Overfull \hbox (4.91673pt too wide) detected at line 486
 \OT1/mathkerncmss/m/sl/10.95 KL\OT1/cmss/m/n/10.95 (\OT1/mathkerncmss/m/sl/10.9
 5 p\OMS/cmsy/m/n/10.95 jj\OML/cmm/m/it/10.95 ^^Y\OT1/cmss/m/n/10.95 ) = \U/msb/
 m/n/10.95 E[] []
  []
 
 
-Overfull \vbox (0.89871pt too high) detected at line 510
+Overfull \vbox (0.89871pt too high) detected at line 486
+ []
+
+[22
+
+]
+Overfull \vbox (2.73648pt too high) detected at line 507
  []
 
 [23
 
-]
-Overfull \vbox (2.73648pt too high) detected at line 531
- []
-
-[24
+] [24
 
 ] [25
-
-] [26
 
 ]
 \tf@nav=\write7
@@ -1328,11 +1328,11 @@ Overfull \vbox (2.73648pt too high) detected at line 531
 \tf@snm=\write9
 \openout9 = `Isachenko2021DeepGenerativeModels4.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 570.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 570.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 546.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 546.
  (./Isachenko2021DeepGenerativeModels4.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 570.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 570.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 546.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 546.
 Package rerunfilecheck Info: File `Isachenko2021DeepGenerativeModels4.out' has 
 not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -1343,10 +1343,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 21532 strings out of 492616
- 416915 string characters out of 6129481
- 503107 words of memory out of 5000000
- 24860 multiletter control sequences out of 15000+600000
+ 21534 strings out of 492616
+ 417028 string characters out of 6129481
+ 503099 words of memory out of 5000000
+ 24863 multiletter control sequences out of 15000+600000
  34533 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  58i,18n,56p,854b,696s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1373,11 +1373,11 @@ al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/t
 exlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/loc
 al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Isachenko2021DeepGenerativeModels4.pdf (26 pages, 2719580 byt
+Output written on Isachenko2021DeepGenerativeModels4.pdf (25 pages, 3043907 byt
 es).
 PDF statistics:
- 291 PDF objects out of 1000 (max. 8388607)
- 217 compressed objects within 3 object streams
- 53 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 288 PDF objects out of 1000 (max. 8388607)
+ 213 compressed objects within 3 object streams
+ 51 named destinations out of 1000 (max. 500000)
+ 83 words of extra memory for PDF output out of 10000 (max. 10000000)
 

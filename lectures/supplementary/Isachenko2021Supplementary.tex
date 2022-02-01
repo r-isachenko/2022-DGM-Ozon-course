@@ -1,11 +1,71 @@
 \input{../utils/preamble}
-\createdgmtitle{supp}
+\createdgmtitle{supplementary}
 %--------------------------------------------------------------------------------
 \begin{document}
 %--------------------------------------------------------------------------------
 \begin{frame}[noframenumbering,plain]
 %\thispagestyle{empty}
 \titlepage
+\end{frame}
+%=======
+\begin{frame}{MADE}
+\end{frame}
+%=======
+\begin{frame}{MADE}
+	\begin{itemize}
+		\item Vanila autoencoder is not a generative model.
+		\item Let mask the weight matrices to make the model generative: $\bW_M = \bW \cdot \bM$.
+		\begin{figure}
+		    \centering
+		    \includegraphics[width=0.7\linewidth]{figs/made}
+		\end{figure}
+		\item The question is how to create matrices $\bM$ which produce the autoregressive property?
+	\end{itemize}
+	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
+\end{frame}
+%=======
+\begin{frame}{MADE}
+		\begin{minipage}[t]{0.65\columnwidth}
+		    \vspace{-0.5cm}
+			\begin{block}{Masks generation}
+				\begin{itemize}
+					\item Define the ordering of input elements from 1 to $m$.
+					\item Assign the random number $k$ from 1 to $m - 1$ to each hidden unit. The number gives the
+					maximum value of input units to which the unit can be connected.
+					\item Connect each hidden unit with number $k$ with the previous layer units which has the number is \textbf{less or equal} than~$k$.
+					\item Connect each output unit with number $k$ with the previous layer units which has the number is \textbf{less} than $k$.
+				\end{itemize}
+			\end{block}
+		\end{minipage}%
+		\begin{minipage}[t]{0.33\columnwidth}
+			\vspace{2cm}
+			\begin{figure}
+				\centering
+				\includegraphics[width=1.0\linewidth]{figs/made2}
+			\end{figure}
+		\end{minipage}
+	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
+\end{frame}
+%=======
+\begin{frame}{MADE}
+	\begin{block}{Possible variations}
+		\begin{itemize}
+			\item Order agnostic training (missing values in partially observed input vectors can be imputed efficiently);
+			\item Connectivity-agnostic training (cheap ensembling).
+		\end{itemize}
+	\end{block}
+	\vspace{-0.3cm}
+	\begin{minipage}[t]{0.59\columnwidth}
+		\begin{figure}
+			  \includegraphics[width=\linewidth]{figs/made_nmasks}
+		\end{figure}
+	\end{minipage}%
+	\begin{minipage}[t]{0.41\columnwidth}
+		\begin{figure}
+	  		\includegraphics[width=\linewidth]{figs/made_results}
+		\end{figure}
+	\end{minipage}
+	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
 \end{frame}
 %=======
 \begin{frame}{GatedPixelCNN}

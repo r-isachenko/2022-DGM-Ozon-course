@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  14 DEC 2021 15:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.16)  1 FEB 2022 18:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -949,10 +949,6 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@pangrammax=\count280
 )
 (../utils/newcommands.tex) (../utils/title.tex))
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\new@ifnextchar' on input line 4.
-
 (./Isachenko2021Supplementary.aux)
 \openout1 = `Isachenko2021Supplementary.aux'.
 
@@ -1119,82 +1115,114 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <35> not available
 (Font)              size <35.83> substituted on input line 9.
 
-
-Overfull \vbox (2.48508pt too high) detected at line 9
- []
-
+<../utils/ozonmasterslogo.png, id=13, 1284.8pt x 1110.1475pt>
+File: ../utils/ozonmasterslogo.png Graphic file (type png)
+<use ../utils/ozonmasterslogo.png>
+Package pdftex.def Info: ../utils/ozonmasterslogo.png  used on input line 9.
+(pdftex.def)             Requested size: 14.22636pt x 12.2811pt.
 [1
 
-{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2
+{/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../util
+s/ozonmasterslogo.png>] [2
 
 ]
-<figs/gatedpixelcnn.png, id=28, 835.12pt x 486.81876pt>
-File: figs/gatedpixelcnn.png Graphic file (type png)
-<use figs/gatedpixelcnn.png>
-Package pdftex.def Info: figs/gatedpixelcnn.png  used on input line 23.
-(pdftex.def)             Requested size: 153.64493pt x 89.56236pt.
-<figs/gated_block.png, id=30, 788.9475pt x 332.24126pt>
-File: figs/gated_block.png Graphic file (type png)
-<use figs/gated_block.png>
-Package pdftex.def Info: figs/gated_block.png  used on input line 23.
-(pdftex.def)             Requested size: 153.64493pt x 64.70313pt.
- [3
-
- <./figs/gatedpixelcnn.png> <./figs/gated_block.png>]
-<figs/pixelcnn_receptive_field.png, id=39, 413.545pt x 438.63875pt>
-File: figs/pixelcnn_receptive_field.png Graphic file (type png)
-<use figs/pixelcnn_receptive_field.png>
-Package pdftex.def Info: figs/pixelcnn_receptive_field.png  used on input line 
-41.
-(pdftex.def)             Requested size: 138.2795pt x 146.67213pt.
-<figs/gatedpixelcnn_receptive_field.png, id=40, 417.56pt x 443.6575pt>
-File: figs/gatedpixelcnn_receptive_field.png Graphic file (type png)
-<use figs/gatedpixelcnn_receptive_field.png>
-Package pdftex.def Info: figs/gatedpixelcnn_receptive_field.png  used on input 
-line 41.
-(pdftex.def)             Requested size: 138.2795pt x 146.9219pt.
- [4
-
- <./figs/pixelcnn_receptive_field.png> <./figs/gatedpixelcnn_receptive_field.pn
-g>]
-LaTeX Font Info:    Try loading font information for U+msa on input line 52.
+LaTeX Font Info:    Try loading font information for U+msa on input line 25.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 52.
+LaTeX Font Info:    Try loading font information for U+msb on input line 25.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 52.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 25.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 52.
+line 25.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
-) [5
+)
+<figs/made.png, id=31, 719.68875pt x 474.27188pt>
+File: figs/made.png Graphic file (type png)
+<use figs/made.png>
+Package pdftex.def Info: figs/made.png  used on input line 25.
+(pdftex.def)             Requested size: 199.77199pt x 131.64456pt.
+ [3
 
-] [6
+ <./figs/made.png>]
+<figs/made2.png, id=44, 657.45625pt x 763.85374pt>
+File: figs/made2.png Graphic file (type png)
+<use figs/made2.png>
+Package pdftex.def Info: figs/made2.png  used on input line 48.
+(pdftex.def)             Requested size: 101.40622pt x 117.81332pt.
+ [4
 
-] [7
+ <./figs/made2.png>]
+<figs/made_nmasks.png, id=53, 1123.19624pt x 860.21375pt>
+File: figs/made_nmasks.png Graphic file (type png)
+<use figs/made_nmasks.png>
+Package pdftex.def Info: figs/made_nmasks.png  used on input line 69.
+(pdftex.def)             Requested size: 181.2999pt x 138.84457pt.
+<figs/made_results.png, id=54, 803.0pt x 804.00375pt>
+File: figs/made_results.png Graphic file (type png)
+<use figs/made_results.png>
+Package pdftex.def Info: figs/made_results.png  used on input line 69.
+(pdftex.def)             Requested size: 125.98996pt x 126.14053pt.
+ [5
 
-] [8
+ <./figs/made_nmasks.png> <./figs/made_results.png>] [6
 
-] [9
+]
+<figs/gatedpixelcnn.png, id=68, 835.12pt x 486.81876pt>
+File: figs/gatedpixelcnn.png Graphic file (type png)
+<use figs/gatedpixelcnn.png>
+Package pdftex.def Info: figs/gatedpixelcnn.png  used on input line 83.
+(pdftex.def)             Requested size: 153.64493pt x 89.56236pt.
+<figs/gated_block.png, id=69, 788.9475pt x 332.24126pt>
+File: figs/gated_block.png Graphic file (type png)
+<use figs/gated_block.png>
+Package pdftex.def Info: figs/gated_block.png  used on input line 83.
+(pdftex.def)             Requested size: 153.64493pt x 64.70313pt.
+ [7
+
+ <./figs/gatedpixelcnn.png> <./figs/gated_block.png>]
+<figs/pixelcnn_receptive_field.png, id=79, 413.545pt x 438.63875pt>
+File: figs/pixelcnn_receptive_field.png Graphic file (type png)
+<use figs/pixelcnn_receptive_field.png>
+Package pdftex.def Info: figs/pixelcnn_receptive_field.png  used on input line 
+101.
+(pdftex.def)             Requested size: 138.2795pt x 146.67213pt.
+<figs/gatedpixelcnn_receptive_field.png, id=80, 417.56pt x 443.6575pt>
+File: figs/gatedpixelcnn_receptive_field.png Graphic file (type png)
+<use figs/gatedpixelcnn_receptive_field.png>
+Package pdftex.def Info: figs/gatedpixelcnn_receptive_field.png  used on input 
+line 101.
+(pdftex.def)             Requested size: 138.2795pt x 146.9219pt.
+ [8
+
+ <./figs/pixelcnn_receptive_field.png> <./figs/gatedpixelcnn_receptive_field.pn
+g>] [9
 
 ] [10
 
 ] [11
 
+] [12
+
+] [13
+
+] [14
+
+] [15
+
 ]
-Overfull \hbox (8.7034pt too wide) detected at line 161
+Overfull \hbox (8.7034pt too wide) detected at line 221
 \OT1/mathkerncmss/m/sl/10.95 q\OT1/cmss/m/n/10.95 (\OT1/cmss/bx/n/10.95 T\OT1/c
 mss/m/n/10.95 ) = [] \OT1/mathkerncmss/m/sl/10.95 q[]\OT1/cmss/m/n/10.95 (\OT1/
 cmss/bx/n/10.95 T[]\OT1/cmss/m/n/10.95 )\OML/cmm/m/it/10.95 ;  \OT1/cmss/bx/n/1
@@ -1207,7 +1235,7 @@ cmss/bx/n/10.95 T[]\OT1/cmss/m/n/10.95 )\OML/cmm/m/it/10.95 ;  \OT1/cmss/bx/n/1
  []
 
 
-Overfull \hbox (3.6905pt too wide) detected at line 161
+Overfull \hbox (3.6905pt too wide) detected at line 221
  []$[]  \OMS/cmsy/m/n/9 L\OT1/cmss/m/n/9 (\OT1/mathkerncmss/m/sl/9 q\OT1/cmss/m
 /n/9 ) = [] \OT1/mathkerncmss/m/sl/9 q\OT1/cmss/m/n/9 (\OT1/cmss/bx/n/9 T\OT1/c
 mss/m/n/9 ) [] []\OT1/mathkerncmss/m/sl/9 d\OT1/cmss/bx/n/9 T \OT1/cmss/m/n/9 =
@@ -1216,36 +1244,36 @@ mss/m/n/9 ) [] []\OT1/mathkerncmss/m/sl/9 d\OT1/cmss/bx/n/9 T \OT1/cmss/m/n/9 =
  []
 
 
-Overfull \vbox (6.49393pt too high) detected at line 161
- []
-
-[12
-
-]
-Overfull \vbox (2.41554pt too high) detected at line 189
- []
-
-[13
-
-] [14
-
-] [15
-
-]
-Overfull \vbox (0.91432pt too high) detected at line 269
+Overfull \vbox (6.49393pt too high) detected at line 221
  []
 
 [16
 
 ]
-Overfull \hbox (3.82207pt too wide) detected at line 288
-[]
+Overfull \vbox (2.41554pt too high) detected at line 249
  []
 
 [17
 
+] [18
+
+] [19
+
 ]
-Overfull \hbox (10.69336pt too wide) detected at line 309
+Overfull \vbox (0.91432pt too high) detected at line 329
+ []
+
+[20
+
+]
+Overfull \hbox (3.82207pt too wide) detected at line 348
+[]
+ []
+
+[21
+
+]
+Overfull \hbox (10.69336pt too wide) detected at line 369
  []$[]  \OMS/cmsy/m/n/10.95 L\OT1/cmss/m/n/10.95 (\OT1/mathkerncmss/m/sl/10.95 
 q[]\OML/cmm/m/it/10.95 ; \OT1/mathkerncmss/m/sl/10.95 q[]\OT1/cmss/m/n/10.95 ) 
 = [] \OML/cmm/m/it/10.95 ^^N\OT1/cmss/m/n/10.95 ([] \OMS/cmsy/m/n/10.95 ^^@ [][
@@ -1255,120 +1283,120 @@ q[]\OML/cmm/m/it/10.95 ; \OT1/mathkerncmss/m/sl/10.95 q[]\OT1/cmss/m/n/10.95 )
  
  []
 
-[18
-
-] [19
-
-] [20
-
-]
-<figs/flows_1d.png, id=155, 685.56125pt x 245.91875pt>
-File: figs/flows_1d.png Graphic file (type png)
-<use figs/flows_1d.png>
-Package pdftex.def Info: figs/flows_1d.png  used on input line 355.
-(pdftex.def)             Requested size: 307.28987pt x 110.23088pt.
- [21
-
- <./figs/flows_1d.png>] [22
+[22
 
 ] [23
 
+] [24
+
 ]
-<figs/vae_0.png, id=174, 592.2125pt x 589.20125pt>
+<figs/flows_1d.png, id=190, 685.56125pt x 245.91875pt>
+File: figs/flows_1d.png Graphic file (type png)
+<use figs/flows_1d.png>
+Package pdftex.def Info: figs/flows_1d.png  used on input line 415.
+(pdftex.def)             Requested size: 307.28987pt x 110.23088pt.
+ [25
+
+ <./figs/flows_1d.png>] [26
+
+] [27
+
+]
+<figs/vae_0.png, id=209, 592.2125pt x 589.20125pt>
 File: figs/vae_0.png Graphic file (type png)
 <use figs/vae_0.png>
-Package pdftex.def Info: figs/vae_0.png  used on input line 407.
+Package pdftex.def Info: figs/vae_0.png  used on input line 467.
 (pdftex.def)             Requested size: 153.64493pt x 152.86505pt.
- [24
-
- <./figs/vae_0.png>]
-[25
-
-]
-<figs/IWAE_3.png, id=189, 973.6375pt x 375.4025pt>
-File: figs/IWAE_3.png Graphic file (type png)
-<use figs/IWAE_3.png>
-Package pdftex.def Info: figs/IWAE_3.png  used on input line 424.
-(pdftex.def)             Requested size: 307.28987pt x 118.48154pt.
- [26
-
- <./figs/IWAE_3.png>] [27
-
-]
-<figs/PixelVAE_1.png, id=202, 515.9275pt x 435.6275pt>
-File: figs/PixelVAE_1.png Graphic file (type png)
-<use figs/PixelVAE_1.png>
-Package pdftex.def Info: figs/PixelVAE_1.png  used on input line 439.
-(pdftex.def)             Requested size: 215.10196pt x 181.61958pt.
  [28
 
- <./figs/PixelVAE_1.png>]
-Overfull \vbox (1.78654pt too high) detected at line 465
- []
-
+ <./figs/vae_0.png>]
 [29
 
-] [30
+]
+<figs/IWAE_3.png, id=222, 973.6375pt x 375.4025pt>
+File: figs/IWAE_3.png Graphic file (type png)
+<use figs/IWAE_3.png>
+Package pdftex.def Info: figs/IWAE_3.png  used on input line 484.
+(pdftex.def)             Requested size: 307.28987pt x 118.48154pt.
+ [30
+
+ <./figs/IWAE_3.png>] [31
 
 ]
-<figs/resnet_block.png, id=222, 526.96875pt x 245.91875pt>
-File: figs/resnet_block.png Graphic file (type png)
-<use figs/resnet_block.png>
-Package pdftex.def Info: figs/resnet_block.png  used on input line 489.
-(pdftex.def)             Requested size: 122.91406pt x 57.35938pt.
- [31
-
- <./figs/resnet_block.png>]
-<figs/revnet.png, id=232, 792.9625pt x 155.58125pt>
-File: figs/revnet.png Graphic file (type png)
-<use figs/revnet.png>
-Package pdftex.def Info: figs/revnet.png  used on input line 511.
-(pdftex.def)             Requested size: 307.28987pt x 60.29185pt.
+<figs/PixelVAE_1.png, id=236, 515.9275pt x 435.6275pt>
+File: figs/PixelVAE_1.png Graphic file (type png)
+<use figs/PixelVAE_1.png>
+Package pdftex.def Info: figs/PixelVAE_1.png  used on input line 499.
+(pdftex.def)             Requested size: 215.10196pt x 181.61958pt.
  [32
 
- <./figs/revnet.png>]
-<figs/revnet_results.png, id=241, 594.22pt x 178.6675pt>
-File: figs/revnet_results.png Graphic file (type png)
-<use figs/revnet_results.png>
-Package pdftex.def Info: figs/revnet_results.png  used on input line 523.
-(pdftex.def)             Requested size: 245.83282pt x 73.91661pt.
- [33
+ <./figs/PixelVAE_1.png>]
+Overfull \vbox (1.78654pt too high) detected at line 525
+ []
 
- <./figs/revnet_results.png>] [34
+[33
 
-] [35
+] [34
 
 ]
-<figs/i-revnet.png, id=262, 862.22125pt x 278.03876pt>
-File: figs/i-revnet.png Graphic file (type png)
-<use figs/i-revnet.png>
-Package pdftex.def Info: figs/i-revnet.png  used on input line 560.
-(pdftex.def)             Requested size: 307.28987pt x 99.0884pt.
-<figs/i-revnet_block.png, id=263, 680.5425pt x 149.55875pt>
-File: figs/i-revnet_block.png Graphic file (type png)
-<use figs/i-revnet_block.png>
-Package pdftex.def Info: figs/i-revnet_block.png  used on input line 560.
-(pdftex.def)             Requested size: 276.559pt x 60.77634pt.
+<figs/resnet_block.png, id=256, 526.96875pt x 245.91875pt>
+File: figs/resnet_block.png Graphic file (type png)
+<use figs/resnet_block.png>
+Package pdftex.def Info: figs/resnet_block.png  used on input line 549.
+(pdftex.def)             Requested size: 122.91406pt x 57.35938pt.
+ [35
+
+ <./figs/resnet_block.png>]
+<figs/revnet.png, id=265, 792.9625pt x 155.58125pt>
+File: figs/revnet.png Graphic file (type png)
+<use figs/revnet.png>
+Package pdftex.def Info: figs/revnet.png  used on input line 571.
+(pdftex.def)             Requested size: 307.28987pt x 60.29185pt.
  [36
 
- <./figs/i-revnet.png> <./figs/i-revnet_block.png>] [37
+ <./figs/revnet.png>]
+<figs/revnet_results.png, id=274, 594.22pt x 178.6675pt>
+File: figs/revnet_results.png Graphic file (type png)
+<use figs/revnet_results.png>
+Package pdftex.def Info: figs/revnet_results.png  used on input line 583.
+(pdftex.def)             Requested size: 245.83282pt x 73.91661pt.
+ [37
 
-] [38
+ <./figs/revnet_results.png>] [38
+
+] [39
 
 ]
-Overfull \hbox (2.35559pt too wide) detected at line 613
+<figs/i-revnet.png, id=296, 862.22125pt x 278.03876pt>
+File: figs/i-revnet.png Graphic file (type png)
+<use figs/i-revnet.png>
+Package pdftex.def Info: figs/i-revnet.png  used on input line 620.
+(pdftex.def)             Requested size: 307.28987pt x 99.0884pt.
+<figs/i-revnet_block.png, id=297, 680.5425pt x 149.55875pt>
+File: figs/i-revnet_block.png Graphic file (type png)
+<use figs/i-revnet_block.png>
+Package pdftex.def Info: figs/i-revnet_block.png  used on input line 620.
+(pdftex.def)             Requested size: 276.559pt x 60.77634pt.
+ [40
+
+ <./figs/i-revnet.png> <./figs/i-revnet_block.png>] [41
+
+] [42
+
+]
+Overfull \hbox (2.35559pt too wide) detected at line 673
 \OMS/cmsy/m/n/10.95 L\OT1/cmss/m/n/10.95 (\OT1/mathkerncmss/m/sl/10.95 q\OML/cm
 m/m/it/10.95 ; []\OT1/cmss/m/n/10.95 ) = [] [] [] \OML/cmm/m/it/10.95 :
  []
 
 
-Overfull \vbox (4.67404pt too high) detected at line 613
+Overfull \vbox (4.67404pt too high) detected at line 673
  []
 
-[39
+[43
 
 ]
-Overfull \hbox (1.3626pt too wide) detected at line 640
+Overfull \hbox (1.3626pt too wide) detected at line 700
 \OT1/mathkerncmss/m/sl/9 q\OT1/cmss/m/n/9 (\OT1/mathkerncmss/m/sl/9 i\OML/cmm/m
 /it/9 ; \OT1/cmss/bx/n/9 z\OT1/cmss/m/n/9 ) = \OT1/mathkerncmss/m/sl/9 q\OT1/cm
 ss/m/n/9 (\OT1/mathkerncmss/m/sl/9 i\OT1/cmss/m/n/9 )\OT1/mathkerncmss/m/sl/9 q
@@ -1385,400 +1413,400 @@ mss/m/sl/9 q\OT1/cmss/m/n/9 (\OT1/cmss/bx/n/9 z\OMS/cmsy/m/n/9 j\OT1/cmss/bx/n/
 9 x[]\OT1/cmss/m/n/9 )\OML/cmm/m/it/9 :
  []
 
-[40
+[44
 
 ]
-Overfull \vbox (1.95552pt too high) detected at line 663
+Overfull \vbox (1.95552pt too high) detected at line 723
  []
 
-[41
+[45
 
-] [42
+] [46
 
 ]
-<figs/posterior_collapse_toy_1.png, id=308, 367.3725pt x 322.20375pt>
+<figs/posterior_collapse_toy_1.png, id=343, 367.3725pt x 322.20375pt>
 File: figs/posterior_collapse_toy_1.png Graphic file (type png)
 <use figs/posterior_collapse_toy_1.png>
 Package pdftex.def Info: figs/posterior_collapse_toy_1.png  used on input line 
-734.
+794.
 (pdftex.def)             Requested size: 81.12527pt x 71.15053pt.
-<figs/posterior_collapse_toy_3.png, id=309, 323.2075pt x 320.19624pt>
+<figs/posterior_collapse_toy_3.png, id=344, 323.2075pt x 320.19624pt>
 File: figs/posterior_collapse_toy_3.png Graphic file (type png)
 <use figs/posterior_collapse_toy_3.png>
 Package pdftex.def Info: figs/posterior_collapse_toy_3.png  used on input line 
-734.
+794.
 (pdftex.def)             Requested size: 76.05466pt x 75.34384pt.
-<figs/posterior_collapse_toy_5.png, id=310, 320.19624pt x 327.2225pt>
+<figs/posterior_collapse_toy_5.png, id=345, 320.19624pt x 327.2225pt>
 File: figs/posterior_collapse_toy_5.png Graphic file (type png)
 <use figs/posterior_collapse_toy_5.png>
 Package pdftex.def Info: figs/posterior_collapse_toy_5.png  used on input line 
-734.
+794.
 (pdftex.def)             Requested size: 76.05466pt x 77.72113pt.
-<figs/posterior_collapse_toy_2.png, id=311, 337.26pt x 326.21875pt>
+<figs/posterior_collapse_toy_2.png, id=346, 337.26pt x 326.21875pt>
 File: figs/posterior_collapse_toy_2.png Graphic file (type png)
 <use figs/posterior_collapse_toy_2.png>
 Package pdftex.def Info: figs/posterior_collapse_toy_2.png  used on input line 
-734.
+794.
 (pdftex.def)             Requested size: 81.12527pt x 78.4683pt.
-<figs/posterior_collapse_toy_4.png, id=312, 317.185pt x 324.21124pt>
+<figs/posterior_collapse_toy_4.png, id=347, 317.185pt x 324.21124pt>
 File: figs/posterior_collapse_toy_4.png Graphic file (type png)
 <use figs/posterior_collapse_toy_4.png>
 Package pdftex.def Info: figs/posterior_collapse_toy_4.png  used on input line 
-734.
+794.
 (pdftex.def)             Requested size: 76.05466pt x 77.73807pt.
-<figs/posterior_collapse_toy_6.png, id=313, 327.2225pt x 324.21124pt>
+<figs/posterior_collapse_toy_6.png, id=348, 327.2225pt x 324.21124pt>
 File: figs/posterior_collapse_toy_6.png Graphic file (type png)
 <use figs/posterior_collapse_toy_6.png>
 Package pdftex.def Info: figs/posterior_collapse_toy_6.png  used on input line 
-734.
+794.
 (pdftex.def)             Requested size: 76.05466pt x 75.35359pt.
- [43
+ [47
 
  <./figs/posterior_collapse_toy_1.png> <./figs/posterior_collapse_toy_3.png> <.
 /figs/posterior_collapse_toy_5.png> <./figs/posterior_collapse_toy_2.png> <./fi
-gs/posterior_collapse_toy_4.png> <./figs/posterior_collapse_toy_6.png>] [44
-
-] [45
-
-]
-<figs/VLAE_1.png, id=338, 468.75125pt x 173.64874pt>
-File: figs/VLAE_1.png Graphic file (type png)
-<use figs/VLAE_1.png>
-Package pdftex.def Info: figs/VLAE_1.png  used on input line 776.
-(pdftex.def)             Requested size: 153.64493pt x 56.9174pt.
-<figs/VLAE_2.png, id=339, 541.02126pt x 332.24126pt>
-File: figs/VLAE_2.png Graphic file (type png)
-<use figs/VLAE_2.png>
-Package pdftex.def Info: figs/VLAE_2.png  used on input line 776.
-(pdftex.def)             Requested size: 153.64493pt x 94.35007pt.
- [46
-
- <./figs/VLAE_1.png> <./figs/VLAE_2.png>] [47
-
-] [48
+gs/posterior_collapse_toy_4.png> <./figs/posterior_collapse_toy_6.png>] [48
 
 ] [49
 
 ]
-<figs/infogan_mnist.png, id=368, 1105.12875pt x 668.4975pt>
+<figs/VLAE_1.png, id=372, 468.75125pt x 173.64874pt>
+File: figs/VLAE_1.png Graphic file (type png)
+<use figs/VLAE_1.png>
+Package pdftex.def Info: figs/VLAE_1.png  used on input line 836.
+(pdftex.def)             Requested size: 153.64493pt x 56.9174pt.
+<figs/VLAE_2.png, id=373, 541.02126pt x 332.24126pt>
+File: figs/VLAE_2.png Graphic file (type png)
+<use figs/VLAE_2.png>
+Package pdftex.def Info: figs/VLAE_2.png  used on input line 836.
+(pdftex.def)             Requested size: 153.64493pt x 94.35007pt.
+ [50
+
+ <./figs/VLAE_1.png> <./figs/VLAE_2.png>] [51
+
+] [52
+
+] [53
+
+]
+<figs/infogan_mnist.png, id=401, 1105.12875pt x 668.4975pt>
 File: figs/infogan_mnist.png Graphic file (type png)
 <use figs/infogan_mnist.png>
-Package pdftex.def Info: figs/infogan_mnist.png  used on input line 838.
+Package pdftex.def Info: figs/infogan_mnist.png  used on input line 898.
 (pdftex.def)             Requested size: 307.28987pt x 185.87236pt.
 
-[50
+[54
 
  <./figs/infogan_mnist.png>]
-<figs/infogan_faces.png, id=377, 1094.0875pt x 669.50125pt>
+<figs/infogan_faces.png, id=410, 1094.0875pt x 669.50125pt>
 File: figs/infogan_faces.png Graphic file (type png)
 <use figs/infogan_faces.png>
-Package pdftex.def Info: figs/infogan_faces.png  used on input line 849.
+Package pdftex.def Info: figs/infogan_faces.png  used on input line 909.
 (pdftex.def)             Requested size: 307.28987pt x 188.04137pt.
 
-Overfull \vbox (1.7516pt too high) detected at line 849
+Overfull \vbox (1.7516pt too high) detected at line 909
  []
 
-[51
+[55
 
- <./figs/infogan_faces.png>] [52
+ <./figs/infogan_faces.png>] [56
 
 ]
-Overfull \vbox (5.70898pt too high) detected at line 876
+Overfull \vbox (5.70898pt too high) detected at line 936
  []
 
-[53
+[57
 
 ]
-<figs/betaVAE_6.png, id=398, 1079.03125pt x 460.72125pt>
+<figs/betaVAE_6.png, id=432, 1079.03125pt x 460.72125pt>
 File: figs/betaVAE_6.png Graphic file (type png)
 <use figs/betaVAE_6.png>
-Package pdftex.def Info: figs/betaVAE_6.png  used on input line 891.
+Package pdftex.def Info: figs/betaVAE_6.png  used on input line 951.
 (pdftex.def)             Requested size: 307.28987pt x 131.2085pt.
- [54
+ [58
 
  <./figs/betaVAE_6.png>]
-<figs/betaVAE_7.png, id=406, 808.01875pt x 341.275pt>
+<figs/betaVAE_7.png, id=440, 808.01875pt x 341.275pt>
 File: figs/betaVAE_7.png Graphic file (type png)
 <use figs/betaVAE_7.png>
-Package pdftex.def Info: figs/betaVAE_7.png  used on input line 907.
+Package pdftex.def Info: figs/betaVAE_7.png  used on input line 967.
 (pdftex.def)             Requested size: 276.559pt x 116.80786pt.
- [55
+ [59
 
  <./figs/betaVAE_7.png>]
-<figs/betaVAE_8.png, id=415, 826.08624pt x 497.86pt>
+<figs/betaVAE_8.png, id=448, 826.08624pt x 497.86pt>
 File: figs/betaVAE_8.png Graphic file (type png)
 <use figs/betaVAE_8.png>
-Package pdftex.def Info: figs/betaVAE_8.png  used on input line 923.
+Package pdftex.def Info: figs/betaVAE_8.png  used on input line 983.
 (pdftex.def)             Requested size: 215.10196pt x 129.63046pt.
- [56
+ [60
 
  <./figs/betaVAE_8.png>]
-<figs/betaVAE_9.png, id=423, 1051.93pt x 600.2425pt>
+<figs/betaVAE_9.png, id=456, 1051.93pt x 600.2425pt>
 File: figs/betaVAE_9.png Graphic file (type png)
 <use figs/betaVAE_9.png>
-Package pdftex.def Info: figs/betaVAE_9.png  used on input line 932.
+Package pdftex.def Info: figs/betaVAE_9.png  used on input line 992.
 (pdftex.def)             Requested size: 307.28987pt x 175.33896pt.
- [57
+ [61
 
- <./figs/betaVAE_9.png>] [58
+ <./figs/betaVAE_9.png>] [62
 
-] [59
+] [63
 
-] [60
-
-] [61
-
-]
-<figs/factorvae_1.png, id=455, 589.20125pt x 713.66624pt>
-File: figs/factorvae_1.png Graphic file (type png)
-<use figs/factorvae_1.png>
-Package pdftex.def Info: figs/factorvae_1.png  used on input line 1029.
-(pdftex.def)             Requested size: 153.64493pt x 186.10422pt.
-<figs/factorvae_2.png, id=456, 939.51pt x 644.4075pt>
-File: figs/factorvae_2.png Graphic file (type png)
-<use figs/factorvae_2.png>
-Package pdftex.def Info: figs/factorvae_2.png  used on input line 1029.
-(pdftex.def)             Requested size: 153.64493pt x 105.3787pt.
- [62
-
- <./figs/factorvae_1.png> <./figs/factorvae_2.png>] [63
-
-]
-Overfull \vbox (0.40007pt too high) detected at line 1064
- []
-
-[64
+] [64
 
 ] [65
 
-] [66
+]
+<figs/factorvae_1.png, id=489, 589.20125pt x 713.66624pt>
+File: figs/factorvae_1.png Graphic file (type png)
+<use figs/factorvae_1.png>
+Package pdftex.def Info: figs/factorvae_1.png  used on input line 1089.
+(pdftex.def)             Requested size: 153.64493pt x 186.10422pt.
+<figs/factorvae_2.png, id=490, 939.51pt x 644.4075pt>
+File: figs/factorvae_2.png Graphic file (type png)
+<use figs/factorvae_2.png>
+Package pdftex.def Info: figs/factorvae_2.png  used on input line 1089.
+(pdftex.def)             Requested size: 153.64493pt x 105.3787pt.
+ [66
+
+ <./figs/factorvae_1.png> <./figs/factorvae_2.png>] [67
 
 ]
-<figs/Vanila_gan_results.png, id=491, 527.9725pt x 385.44pt>
+Overfull \vbox (0.40007pt too high) detected at line 1124
+ []
+
+[68
+
+] [69
+
+] [70
+
+]
+<figs/Vanila_gan_results.png, id=525, 527.9725pt x 385.44pt>
 File: figs/Vanila_gan_results.png Graphic file (type png)
 <use figs/Vanila_gan_results.png>
-Package pdftex.def Info: figs/Vanila_gan_results.png  used on input line 1095.
+Package pdftex.def Info: figs/Vanila_gan_results.png  used on input line 1155.
 (pdftex.def)             Requested size: 291.92444pt x 213.11598pt.
- [67
-
- <./figs/Vanila_gan_results.png>]
-<figs/dcgan_1.png, id=500, 1108.14pt x 445.665pt>
-File: figs/dcgan_1.png Graphic file (type png)
-<use figs/dcgan_1.png>
-Package pdftex.def Info: figs/dcgan_1.png  used on input line 1117.
-(pdftex.def)             Requested size: 245.83282pt x 98.86263pt.
- [68
-
- <./figs/dcgan_1.png>]
-<figs/dcgan_results_1.png, id=509, 884.30376pt x 653.44125pt>
-File: figs/dcgan_results_1.png Graphic file (type png)
-<use figs/dcgan_results_1.png>
-Package pdftex.def Info: figs/dcgan_results_1.png  used on input line 1127.
-(pdftex.def)             Requested size: 245.83282pt x 181.64616pt.
-
-[69
-
- <./figs/dcgan_results_1.png>]
-<figs/dcgan_results_2.png, id=518, 864.73062pt x 605.76312pt>
-File: figs/dcgan_results_2.png Graphic file (type png)
-<use figs/dcgan_results_2.png>
-Package pdftex.def Info: figs/dcgan_results_2.png  used on input line 1138.
-(pdftex.def)             Requested size: 245.83282pt x 172.20985pt.
- [70
-
- <./figs/dcgan_results_2.png>]
-<figs/dcgan_results_3.png, id=527, 879.285pt x 444.66125pt>
-File: figs/dcgan_results_3.png Graphic file (type png)
-<use figs/dcgan_results_3.png>
-Package pdftex.def Info: figs/dcgan_results_3.png  used on input line 1149.
-(pdftex.def)             Requested size: 307.28987pt x 155.39629pt.
  [71
 
- <./figs/dcgan_results_3.png>] [72
+ <./figs/Vanila_gan_results.png>]
+<figs/dcgan_1.png, id=533, 1108.14pt x 445.665pt>
+File: figs/dcgan_1.png Graphic file (type png)
+<use figs/dcgan_1.png>
+Package pdftex.def Info: figs/dcgan_1.png  used on input line 1177.
+(pdftex.def)             Requested size: 245.83282pt x 98.86263pt.
+ [72
 
-] [73
+ <./figs/dcgan_1.png>]
+<figs/dcgan_results_1.png, id=542, 884.30376pt x 653.44125pt>
+File: figs/dcgan_results_1.png Graphic file (type png)
+<use figs/dcgan_results_1.png>
+Package pdftex.def Info: figs/dcgan_results_1.png  used on input line 1187.
+(pdftex.def)             Requested size: 245.83282pt x 181.64616pt.
 
-]
-<figs/virtual_batch_norm.png, id=548, 416.05438pt x 109.91063pt>
-File: figs/virtual_batch_norm.png Graphic file (type png)
-<use figs/virtual_batch_norm.png>
-Package pdftex.def Info: figs/virtual_batch_norm.png  used on input line 1185.
-(pdftex.def)             Requested size: 171.23563pt x 45.23637pt.
+[73
+
+ <./figs/dcgan_results_1.png>]
+<figs/dcgan_results_2.png, id=552, 864.73062pt x 605.76312pt>
+File: figs/dcgan_results_2.png Graphic file (type png)
+<use figs/dcgan_results_2.png>
+Package pdftex.def Info: figs/dcgan_results_2.png  used on input line 1198.
+(pdftex.def)             Requested size: 245.83282pt x 172.20985pt.
  [74
 
- <./figs/virtual_batch_norm.png>] [75
+ <./figs/dcgan_results_2.png>]
+<figs/dcgan_results_3.png, id=561, 879.285pt x 444.66125pt>
+File: figs/dcgan_results_3.png Graphic file (type png)
+<use figs/dcgan_results_3.png>
+Package pdftex.def Info: figs/dcgan_results_3.png  used on input line 1209.
+(pdftex.def)             Requested size: 307.28987pt x 155.39629pt.
+ [75
+
+ <./figs/dcgan_results_3.png>] [76
+
+] [77
 
 ]
-<figs/wgan_pseudocode.png, id=561, 819.06pt x 480.79625pt>
+<figs/virtual_batch_norm.png, id=581, 416.05438pt x 109.91063pt>
+File: figs/virtual_batch_norm.png Graphic file (type png)
+<use figs/virtual_batch_norm.png>
+Package pdftex.def Info: figs/virtual_batch_norm.png  used on input line 1245.
+(pdftex.def)             Requested size: 171.23563pt x 45.23637pt.
+ [78
+
+ <./figs/virtual_batch_norm.png>] [79
+
+]
+<figs/wgan_pseudocode.png, id=595, 819.06pt x 480.79625pt>
 File: figs/wgan_pseudocode.png Graphic file (type png)
 <use figs/wgan_pseudocode.png>
-Package pdftex.def Info: figs/wgan_pseudocode.png  used on input line 1197.
+Package pdftex.def Info: figs/wgan_pseudocode.png  used on input line 1257.
 (pdftex.def)             Requested size: 307.28987pt x 180.38617pt.
 
-[76
+[80
 
  <./figs/wgan_pseudocode.png>]
-<figs/wgan_gp_pseudocode.png, id=569, 1539.7525pt x 813.0375pt>
+<figs/wgan_gp_pseudocode.png, id=603, 1539.7525pt x 813.0375pt>
 File: figs/wgan_gp_pseudocode.png Graphic file (type png)
 <use figs/wgan_gp_pseudocode.png>
-Package pdftex.def Info: figs/wgan_gp_pseudocode.png  used on input line 1207.
+Package pdftex.def Info: figs/wgan_gp_pseudocode.png  used on input line 1267.
 (pdftex.def)             Requested size: 307.28987pt x 162.25725pt.
- [77
+ [81
 
- <./figs/wgan_gp_pseudocode.png>] [78
+ <./figs/wgan_gp_pseudocode.png>] [82
 
 ]
-<figs/stylegan_adain.png, id=582, 959.585pt x 386.44376pt>
+<figs/stylegan_adain.png, id=616, 959.585pt x 386.44376pt>
 File: figs/stylegan_adain.png Graphic file (type png)
 <use figs/stylegan_adain.png>
-Package pdftex.def Info: figs/stylegan_adain.png  used on input line 1225.
+Package pdftex.def Info: figs/stylegan_adain.png  used on input line 1285.
 (pdftex.def)             Requested size: 307.28987pt x 123.75298pt.
 
-Overfull \vbox (5.32571pt too high) detected at line 1225
+Overfull \vbox (5.32571pt too high) detected at line 1285
  []
 
-[79
+[83
 
  <./figs/stylegan_adain.png (PNG copy)>]
-<figs/stylegan_input.png, id=591, 443.6575pt x 351.3125pt>
+<figs/stylegan_input.png, id=624, 443.6575pt x 351.3125pt>
 File: figs/stylegan_input.png Graphic file (type png)
 <use figs/stylegan_input.png>
-Package pdftex.def Info: figs/stylegan_input.png  used on input line 1237.
+Package pdftex.def Info: figs/stylegan_input.png  used on input line 1297.
 (pdftex.def)             Requested size: 169.01036pt x 133.82712pt.
- [80
-
- <./figs/stylegan_input.png (PNG copy)>]
-<figs/stylegan_noise.png, id=599, 724.7075pt x 374.39874pt>
-File: figs/stylegan_noise.png Graphic file (type png)
-<use figs/stylegan_noise.png>
-Package pdftex.def Info: figs/stylegan_noise.png  used on input line 1249.
-(pdftex.def)             Requested size: 276.559pt x 142.87856pt.
-
-Overfull \vbox (1.85129pt too high) detected at line 1249
- []
-
-[81
-
- <./figs/stylegan_noise.png (PNG copy)>]
-<figs/stylegan_mix_reg.jpeg, id=607, 1304.875pt x 831.105pt>
-File: figs/stylegan_mix_reg.jpeg Graphic file (type jpg)
-<use figs/stylegan_mix_reg.jpeg>
-Package pdftex.def Info: figs/stylegan_mix_reg.jpeg  used on input line 1265.
-(pdftex.def)             Requested size: 245.83282pt x 156.56734pt.
-
-Overfull \vbox (1.55061pt too high) detected at line 1265
- []
-
-[82
-
- <./figs/stylegan_mix_reg.jpeg>]
-<figs/stylegan_scheme.png, id=615, 741.77126pt x 635.37375pt>
-File: figs/stylegan_scheme.png Graphic file (type png)
-<use figs/stylegan_scheme.png>
-Package pdftex.def Info: figs/stylegan_scheme.png  used on input line 1274.
-(pdftex.def)             Requested size: 245.83282pt x 210.56592pt.
- [83
-
- <./figs/stylegan_scheme.png>]
-<figs/stylegan_mix.png, id=625, 602.25pt x 684.5575pt>
-File: figs/stylegan_mix.png Graphic file (type png)
-<use figs/stylegan_mix.png>
-Package pdftex.def Info: figs/stylegan_mix.png  used on input line 1283.
-(pdftex.def)             Requested size: 184.3758pt x 209.57835pt.
  [84
 
- <./figs/stylegan_mix.png>] [85
+ <./figs/stylegan_input.png (PNG copy)>]
+<figs/stylegan_noise.png, id=633, 724.7075pt x 374.39874pt>
+File: figs/stylegan_noise.png Graphic file (type png)
+<use figs/stylegan_noise.png>
+Package pdftex.def Info: figs/stylegan_noise.png  used on input line 1309.
+(pdftex.def)             Requested size: 276.559pt x 142.87856pt.
 
-]
-Overfull \vbox (5.58772pt too high) detected at line 1328
+Overfull \vbox (1.85129pt too high) detected at line 1309
+ []
+
+[85
+
+ <./figs/stylegan_noise.png (PNG copy)>]
+<figs/stylegan_mix_reg.jpeg, id=642, 1304.875pt x 831.105pt>
+File: figs/stylegan_mix_reg.jpeg Graphic file (type jpg)
+<use figs/stylegan_mix_reg.jpeg>
+Package pdftex.def Info: figs/stylegan_mix_reg.jpeg  used on input line 1325.
+(pdftex.def)             Requested size: 245.83282pt x 156.56734pt.
+
+Overfull \vbox (1.55061pt too high) detected at line 1325
  []
 
 [86
 
-] [87
+ <./figs/stylegan_mix_reg.jpeg>]
+<figs/stylegan_scheme.png, id=650, 741.77126pt x 635.37375pt>
+File: figs/stylegan_scheme.png Graphic file (type png)
+<use figs/stylegan_scheme.png>
+Package pdftex.def Info: figs/stylegan_scheme.png  used on input line 1334.
+(pdftex.def)             Requested size: 245.83282pt x 210.56592pt.
+ [87
+
+ <./figs/stylegan_scheme.png>]
+<figs/stylegan_mix.png, id=659, 602.25pt x 684.5575pt>
+File: figs/stylegan_mix.png Graphic file (type png)
+<use figs/stylegan_mix.png>
+Package pdftex.def Info: figs/stylegan_mix.png  used on input line 1343.
+(pdftex.def)             Requested size: 184.3758pt x 209.57835pt.
+ [88
+
+ <./figs/stylegan_mix.png>] [89
 
 ]
-<figs/vqvae_results.png, id=652, 1375.1375pt x 353.32pt>
-File: figs/vqvae_results.png Graphic file (type png)
-<use figs/vqvae_results.png>
-Package pdftex.def Info: figs/vqvae_results.png  used on input line 1348.
-(pdftex.def)             Requested size: 307.28987pt x 78.94905pt.
-
-Overfull \vbox (4.79265pt too high) detected at line 1348
- []
-
-[88
-
- <./figs/vqvae_results.png>]
-<figs/vqvae2.png, id=660, 943.525pt x 333.245pt>
-File: figs/vqvae2.png Graphic file (type png)
-<use figs/vqvae2.png>
-Package pdftex.def Info: figs/vqvae2.png  used on input line 1362.
-(pdftex.def)             Requested size: 307.28987pt x 108.53215pt.
- [89
-
- <./figs/vqvae2.png>]
-<figs/vqvae2_pseudo.png, id=669, 1027.84pt x 510.90875pt>
-File: figs/vqvae2_pseudo.png Graphic file (type png)
-<use figs/vqvae2_pseudo.png>
-Package pdftex.def Info: figs/vqvae2_pseudo.png  used on input line 1375.
-(pdftex.def)             Requested size: 276.559pt x 137.47165pt.
-<figs/vqvae2_latents.png, id=670, 1009.7725pt x 295.1025pt>
-File: figs/vqvae2_latents.png Graphic file (type png)
-<use figs/vqvae2_latents.png>
-Package pdftex.def Info: figs/vqvae2_latents.png  used on input line 1375.
-(pdftex.def)             Requested size: 261.19826pt x 76.33308pt.
-
-Overfull \vbox (1.44116pt too high) detected at line 1375
+Overfull \vbox (5.58772pt too high) detected at line 1388
  []
 
 [90
 
- <./figs/vqvae2_pseudo.png> <./figs/vqvae2_latents.png>] [91
+] [91
 
 ]
-<figs/fqgan.png, id=686, 945.5325pt x 307.1475pt>
-File: figs/fqgan.png Graphic file (type png)
-<use figs/fqgan.png>
-Package pdftex.def Info: figs/fqgan.png  used on input line 1396.
-(pdftex.def)             Requested size: 215.10196pt x 69.87381pt.
- [92
+<figs/vqvae_results.png, id=686, 1375.1375pt x 353.32pt>
+File: figs/vqvae_results.png Graphic file (type png)
+<use figs/vqvae_results.png>
+Package pdftex.def Info: figs/vqvae_results.png  used on input line 1408.
+(pdftex.def)             Requested size: 307.28987pt x 78.94905pt.
 
- <./figs/fqgan.png>]
-<figs/fqgan_cnn.png, id=694, 1330.9725pt x 498.86375pt>
-File: figs/fqgan_cnn.png Graphic file (type png)
-<use figs/fqgan_cnn.png>
-Package pdftex.def Info: figs/fqgan_cnn.png  used on input line 1420.
-(pdftex.def)             Requested size: 199.73653pt x 74.85678pt.
-<figs/fqgan_lookup.png, id=695, 865.2325pt x 649.42625pt>
-File: figs/fqgan_lookup.png Graphic file (type png)
-<use figs/fqgan_lookup.png>
-Package pdftex.def Info: figs/fqgan_lookup.png  used on input line 1420.
-(pdftex.def)             Requested size: 96.79733pt x 72.64606pt.
-<figs/fqgan_features.png, id=696, 1374.13374pt x 297.11pt>
-File: figs/fqgan_features.png Graphic file (type png)
-<use figs/fqgan_features.png>
-Package pdftex.def Info: figs/fqgan_features.png  used on input line 1420.
-(pdftex.def)             Requested size: 307.28987pt x 66.43884pt.
+Overfull \vbox (4.79265pt too high) detected at line 1408
+ []
+
+[92
+
+ <./figs/vqvae_results.png>]
+<figs/vqvae2.png, id=694, 943.525pt x 333.245pt>
+File: figs/vqvae2.png Graphic file (type png)
+<use figs/vqvae2.png>
+Package pdftex.def Info: figs/vqvae2.png  used on input line 1422.
+(pdftex.def)             Requested size: 307.28987pt x 108.53215pt.
  [93
 
+ <./figs/vqvae2.png>]
+<figs/vqvae2_pseudo.png, id=703, 1027.84pt x 510.90875pt>
+File: figs/vqvae2_pseudo.png Graphic file (type png)
+<use figs/vqvae2_pseudo.png>
+Package pdftex.def Info: figs/vqvae2_pseudo.png  used on input line 1435.
+(pdftex.def)             Requested size: 276.559pt x 137.47165pt.
+<figs/vqvae2_latents.png, id=704, 1009.7725pt x 295.1025pt>
+File: figs/vqvae2_latents.png Graphic file (type png)
+<use figs/vqvae2_latents.png>
+Package pdftex.def Info: figs/vqvae2_latents.png  used on input line 1435.
+(pdftex.def)             Requested size: 261.19826pt x 76.33308pt.
+
+Overfull \vbox (1.44116pt too high) detected at line 1435
+ []
+
+[94
+
+ <./figs/vqvae2_pseudo.png> <./figs/vqvae2_latents.png>] [95
+
+]
+<figs/fqgan.png, id=719, 945.5325pt x 307.1475pt>
+File: figs/fqgan.png Graphic file (type png)
+<use figs/fqgan.png>
+Package pdftex.def Info: figs/fqgan.png  used on input line 1456.
+(pdftex.def)             Requested size: 215.10196pt x 69.87381pt.
+ [96
+
+ <./figs/fqgan.png>]
+<figs/fqgan_cnn.png, id=727, 1330.9725pt x 498.86375pt>
+File: figs/fqgan_cnn.png Graphic file (type png)
+<use figs/fqgan_cnn.png>
+Package pdftex.def Info: figs/fqgan_cnn.png  used on input line 1480.
+(pdftex.def)             Requested size: 199.73653pt x 74.85678pt.
+<figs/fqgan_lookup.png, id=728, 865.2325pt x 649.42625pt>
+File: figs/fqgan_lookup.png Graphic file (type png)
+<use figs/fqgan_lookup.png>
+Package pdftex.def Info: figs/fqgan_lookup.png  used on input line 1480.
+(pdftex.def)             Requested size: 96.79733pt x 72.64606pt.
+<figs/fqgan_features.png, id=729, 1374.13374pt x 297.11pt>
+File: figs/fqgan_features.png Graphic file (type png)
+<use figs/fqgan_features.png>
+Package pdftex.def Info: figs/fqgan_features.png  used on input line 1480.
+(pdftex.def)             Requested size: 307.28987pt x 66.43884pt.
+ [97
+
  <./figs/fqgan_cnn.png> <./figs/fqgan_lookup.png> <./figs/fqgan_features.png>]
-<figs/fqgan_results1.png, id=706, 700.6175pt x 305.14pt>
+<figs/fqgan_results1.png, id=740, 700.6175pt x 305.14pt>
 File: figs/fqgan_results1.png Graphic file (type png)
 <use figs/fqgan_results1.png>
-Package pdftex.def Info: figs/fqgan_results1.png  used on input line 1446.
+Package pdftex.def Info: figs/fqgan_results1.png  used on input line 1506.
 (pdftex.def)             Requested size: 138.2795pt x 60.2214pt.
-<figs/fqgan_results2.png, id=707, 596.2275pt x 148.555pt>
+<figs/fqgan_results2.png, id=741, 596.2275pt x 148.555pt>
 File: figs/fqgan_results2.png Graphic file (type png)
 <use figs/fqgan_results2.png>
-Package pdftex.def Info: figs/fqgan_results2.png  used on input line 1446.
+Package pdftex.def Info: figs/fqgan_results2.png  used on input line 1506.
 (pdftex.def)             Requested size: 138.2795pt x 34.45253pt.
-<figs/fqgan_results3.png, id=708, 523.9575pt x 378.41376pt>
+<figs/fqgan_results3.png, id=742, 523.9575pt x 378.41376pt>
 File: figs/fqgan_results3.png Graphic file (type png)
 <use figs/fqgan_results3.png>
-Package pdftex.def Info: figs/fqgan_results3.png  used on input line 1446.
+Package pdftex.def Info: figs/fqgan_results3.png  used on input line 1506.
 (pdftex.def)             Requested size: 169.01036pt x 122.05914pt.
- [94
+ [98
 
  <./figs/fqgan_results1.png> <./figs/fqgan_results2.png> <./figs/fqgan_results3
 .png>]
@@ -1791,11 +1819,11 @@ Package pdftex.def Info: figs/fqgan_results3.png  used on input line 1446.
 \tf@snm=\write9
 \openout9 = `Isachenko2021Supplementary.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1448.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1448.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1508.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1508.
  (./Isachenko2021Supplementary.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1448.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1448.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1508.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1508.
 
 Package rerunfilecheck Info: File `Isachenko2021Supplementary.out' has not chan
 ged.
@@ -1807,10 +1835,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 22164 strings out of 492616
- 428169 string characters out of 6129481
- 505642 words of memory out of 5000000
- 25301 multiletter control sequences out of 15000+600000
+ 22210 strings out of 492616
+ 428974 string characters out of 6129481
+ 506275 words of memory out of 5000000
+ 25334 multiletter control sequences out of 15000+600000
  37210 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  58i,16n,56p,846b,709s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1841,10 +1869,10 @@ al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 /texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/t
 exlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/loc
 al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Isachenko2021Supplementary.pdf (94 pages, 28681869 bytes).
+Output written on Isachenko2021Supplementary.pdf (98 pages, 30946519 bytes).
 PDF statistics:
- 849 PDF objects out of 1000 (max. 8388607)
- 609 compressed objects within 7 object streams
- 189 named destinations out of 1000 (max. 500000)
- 313 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 884 PDF objects out of 1000 (max. 8388607)
+ 630 compressed objects within 7 object streams
+ 197 named destinations out of 1000 (max. 500000)
+ 338 words of extra memory for PDF output out of 10000 (max. 10000000)
 

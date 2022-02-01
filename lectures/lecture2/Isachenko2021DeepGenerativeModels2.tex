@@ -104,23 +104,6 @@
 	 \myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
 \end{frame}
 %=======
-\begin{frame}{Char RNN}
-	Model tries to predict the next token (single letter) from previous context.
-	\begin{minipage}[t]{0.55\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/char_rnn.png}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.44\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/char_rnn_output.png}
-		\end{figure}
-	\end{minipage}
-\myfootnotewithlink{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}{image credit: http://karpathy.github.io/2015/05/21/rnn-effectiveness}
-\end{frame}
-%=======
 \begin{frame}{Autoregressive models}
 		\begin{itemize}
 			\item Convolutions could be used for autoregressive models, but they have to be \textbf{causal}. \\
@@ -136,63 +119,6 @@
 	    \myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
 \end{frame}
 %=======
-\begin{frame}{MADE}
-	\begin{itemize}
-		\item Vanila autoencoder is not a generative model.
-		\item Let mask the weight matrices to make the model generative: $\bW_M = \bW \cdot \bM$.
-		\begin{figure}
-		    \centering
-		    \includegraphics[width=0.7\linewidth]{figs/made}
-		\end{figure}
-		\item The question is how to create matrices $\bM$ which produce the autoregressive property?
-	\end{itemize}
-	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
-\end{frame}
-%=======
-\begin{frame}{MADE}
-		\begin{minipage}[t]{0.65\columnwidth}
-		    \vspace{-0.5cm}
-			\begin{block}{Masks generation}
-				\begin{itemize}
-					\item Define the ordering of input elements from 1 to $m$.
-					\item Assign the random number $k$ from 1 to $m - 1$ to each hidden unit. The number gives the
-					maximum value of input units to which the unit can be connected.
-					\item Connect each hidden unit with number $k$ with the previous layer units which has the number is \textbf{less or equal} than~$k$.
-					\item Connect each output unit with number $k$ with the previous layer units which has the number is \textbf{less} than $k$.
-				\end{itemize}
-			\end{block}
-		\end{minipage}%
-		\begin{minipage}[t]{0.33\columnwidth}
-			\vspace{2cm}
-			\begin{figure}
-				\centering
-				\includegraphics[width=1.0\linewidth]{figs/made2}
-			\end{figure}
-		\end{minipage}
-	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
-\end{frame}
-%=======
-\begin{frame}{MADE}
-	\begin{block}{Possible variations}
-		\begin{itemize}
-			\item Order agnostic training (missing values in partially observed input vectors can be imputed efficiently);
-			\item Connectivity-agnostic training (cheap ensembling).
-		\end{itemize}
-	\end{block}
-	\vspace{-0.3cm}
-	\begin{minipage}[t]{0.59\columnwidth}
-		\begin{figure}
-			  \includegraphics[width=\linewidth]{figs/made_nmasks}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.41\columnwidth}
-		\begin{figure}
-	  		\includegraphics[width=\linewidth]{figs/made_results}
-		\end{figure}
-	\end{minipage}
-	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
-\end{frame}
-%=======%=======
 \begin{frame}{WaveNet}
 	\begin{block}{Goal}
 		Efficient generation of raw audio waveforms with natural sounds.
@@ -486,15 +412,130 @@
 	\end{block}
 \end{frame}
 %=======
+
+\begin{frame}{Latent variable models (LVM)}
+	\begin{block}{MLE problem}
+		\vspace{-0.5cm}
+		\[
+		\btheta^* = \argmax_{\btheta} p(\bX | \btheta) = \argmax_{\btheta} \prod_{i=1}^n p(\bx_i | \btheta) = \argmax_{\btheta} \sum_{i=1}^n \log p(\bx_i | \btheta).
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	The distribution $p(\bx | \btheta)$ could be very complex and intractable (as well as real distribution $\pi(\bx)$).
+	\begin{block}{Extended probabilistic model}
+		Introduce latent variable $\bz$ for each sample $\bx$
+		\[
+		p(\bx, \bz | \btheta) = p(\bx | \bz, \btheta) p(\bz); \quad 
+		\log p(\bx, \bz | \btheta) = \log p(\bx | \bz, \btheta) + \log p(\bz).
+		\]
+		\[
+		p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d\bz = \int p(\bx | \bz, \btheta) p(\bz) d\bz.
+		\]
+	\end{block}
+	\vspace{-0.3cm}
+	\begin{block}{Motivation}
+		The distributions $p(\bx | \bz, \btheta)$ and $p(\bz)$ could be quite simple.
+	\end{block}
+\end{frame}
+%=======
+\begin{frame}{Latent variable models (LVM)}
+	\[
+	\log p(\bx | \btheta) = \log \int p(\bx | \bz, \btheta) p(\bz) d\bz \rightarrow \max_{\btheta}
+	\]
+	\vspace{-0.6cm}
+	\begin{block}{Examples}
+		\begin{minipage}[t]{0.45\columnwidth}
+			\textit{Mixture of gaussians} \\
+			\vspace{-0.5cm}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.75\linewidth]{figs/mixture_of_gaussians}
+			\end{figure}
+			\vspace{-0.5cm}
+			\begin{itemize}
+				\item $p(\bx | z, \btheta) = \cN(\bx | \bmu_z, \bSigma_z)$
+				\item $p(z) = \text{Categorical}(\bpi)$
+			\end{itemize}
+		\end{minipage}%
+		\begin{minipage}[t]{0.53\columnwidth}
+			\textit{PCA model} \\
+			\vspace{-0.5cm}
+			\begin{figure}
+				\centering
+				\includegraphics[width=.7\linewidth]{figs/pca}
+			\end{figure}
+			\vspace{-0.3cm}
+			\begin{itemize}
+				\item $p(\bx | \bz, \btheta) = \cN(\bx | \bW \bz + \bmu, \sigma^2 \bI)$
+				\item $p(\bz) = \cN(\bz | 0, \bI)$
+			\end{itemize}
+		\end{minipage}
+	\end{block}
+	\myfootnote{Bishop\,C. Pattern Recognition and Machine Learning, 2006}
+\end{frame}
+%=======
+\begin{frame}{Latent variable models (LVM)}
+	\[
+	\log p(\bx | \btheta) = \log \int p(\bx | \bz, \btheta) p(\bz) d\bz \rightarrow \max_{\btheta}
+	\]
+	\textbf{PCA} projects original data $\bX$ onto a low dimensional latent space while maximizing the variance of the projected data. 
+	\begin{figure}
+		\centering
+		\includegraphics[width=.7\linewidth]{figs/bayesian_pca}
+	\end{figure}
+	\vspace{-0.5cm}
+	\begin{itemize}
+		\item $p(\bx | \bz, \btheta) = \cN(\bx | \bW \bz + \bmu, \sigma^2 \bI)$
+		\item $p(\bz) = \cN(\bz | 0, \bI)$
+		\item $p(\bx) = \cN(\bx | \bmu, \bW \bW^T + \sigma^2 \bI)$
+		\item $p(\bz | \bx) = \cN \bigl(\bM^{-1} \bW^T (\bx - \bmu), \sigma^2 \bM\bigr)$, where $\bM = \bW \bW^T + \sigma^2 \bI$
+	\end{itemize}
+\end{frame}
+%=======
+\begin{frame}{Maximum likelihood estimation for LVM}
+	\begin{block}{MLE for extended problem}
+		\vspace{-0.7cm}
+		\begin{multline*}
+			\vspace{-0.5cm}
+			\btheta^* = \argmax_{\btheta} p(\bX, \bZ | \btheta) = \argmax_{\btheta} \prod_{i=1}^n p(\bx_i, \bz_i | \btheta) = \\ = \argmax_{\btheta} \sum_{i=1}^n \log p(\bx_i, \bz_i | \btheta).
+		\end{multline*}
+		\vspace{-0.5cm}
+	\end{block}
+	However, $\bZ$ is unknown.
+	\begin{block}{MLE for original problem}
+		\vspace{-0.7cm}
+		\begin{multline*}
+			\btheta^* = \argmax_{\btheta} \log p(\bX| \btheta) = \argmax_{\btheta} \sum_{i=1}^n \log p(\bx_i | \btheta) = \\ =  \argmax_{\btheta}  \sum_{i=1}^n \log \int p(\bx_i, \bz_i | \btheta) d \bz_i = \\ = \argmax_{\btheta} \log \sum_{i=1}^n \int p(\bx_i| \bz_i, \btheta) p(\bz_i) d\bz_i.
+		\end{multline*}
+	\end{block}
+	
+\end{frame}
+%=======
+\begin{frame}{Naive approach}
+	\begin{figure}
+		\includegraphics[width=.75\linewidth]{figs/lvm_diagram}
+	\end{figure}
+	\begin{block}{Monte-Carlo estimation}
+		\vspace{-0.7cm}
+		\[
+			p(\bx | \btheta) = \int p(\bx | \bz, \btheta) p(\bz) d\bz = \bbE_{p(\bz)} p(\bx | \bz, \btheta) \approx \frac{1}{K} \sum_{k=1}^{K} p(\bx | \bz_k, \btheta),
+		\]
+		\vspace{-0.5cm} \\
+		where $\bz_k \sim p(\bz)$. \\
+		\textbf{Challenge:} to cover the space properly, the number of samples grows exponentially with respect to dimensionality of $\bz$. 
+	\end{block}
+	\myfootnotewithlink{https://jmtomczak.github.io/blog/4/4\_VAE.html}{image credit: https://jmtomczak.github.io/blog/4/4\_VAE.html}
+\end{frame}
+%=======
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item MADE model is an autoregressive autoencoder with masked dense layers.
-		\vfill
 		\item WaveNet and PixelCNN models use masked causal convolutions (1D or 2D) to get autoregressize model.
 		\vfill
 		\item PixelCNN++ proposes to use discretized mixture of logistics for output distribution.
 		\vfill
 		\item Bayesian inference is a generalization of most common machine learning tasks. It allows to construct MLE, MAP and bayesian inference, to compare models complexity and many-many more cool stuff.
+		\vfill
+		\item LVM introduces latent representation of observed samples to make model more interpretable.
 	\end{itemize}
 \end{frame}
 \end{document} 
