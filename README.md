@@ -20,20 +20,34 @@ The course is accompanied by practical tasks that allow you to understand the pr
 
 | # | Date | Description | Slides |
 |---------|------|-------------|---------|
-| 1 | February, 8 | Logistics. Motivation. Divergence minimization framework. Autoregressive modelling. | TBA |
-| 2 | February, 15 | Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | TBA |
+| 1 | February, 8 | <b>Lecture:</b> Logistics. Motivation. Divergence minimization framework. Autoregressive modelling. | TBA |
+|  |  | <b>Seminar:</b> Introduction. Density estimation in 1D. MADE theory. | TBA |
+| 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | TBA |
+|  |  | <b>Seminar:</b> MADE practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | TBA |
 | 3 | February, 22 | Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 4 | March, 1 | Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tigher ELBO (IWAE). | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 5 | March, 8 | Flow models definition. Forward and reverse KL divergence. Residual flows (Planar/Sylvester flows). Linear flows (Glow). | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 6 | March, 15 | Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 7 | March, 22 | ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 8 | March, 29 | Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 9 | April, 5 | GAN theorem. Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 10 | April, 12 | Wasserstein distance. Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 11 | April, 19 | f-divergence minimization. GAN evaluation (Inception score, FID, Precision-Recall). | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 12 | April, 26 | GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 13 | May, 10 | Discrete VAE (Gumbel-Softmax trick, VQ-VAE, VQ-VAE-2, DALL-E). Diffusion models. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 | 14 | May, 17 | Diffusion models. | TBA |
+|  |  | <b>Seminar:</b> TBA | TBA |
 
 ## Homeworks 
 | Homework | Date | Deadline | Description | Link |
