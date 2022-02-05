@@ -94,6 +94,7 @@
 		     \includegraphics[width=0.75\linewidth]{figs/sequential_MLP}
 		 \end{figure}
 	\end{block}
+	\vspace{-0.3cm}
 	\begin{block}{Autoregressive RNN}
 	   	\vspace{-0.3cm}
 		\begin{figure}
@@ -104,19 +105,19 @@
 	 \myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
 \end{frame}
 %=======
-\begin{frame}{Autoregressive models}
-		\begin{itemize}
-			\item Convolutions could be used for autoregressive models, but they have to be \textbf{causal}. \\
-			\item Try to find and understand the difference between Conv A/B.
-		    \begin{figure}
-		        \centering
-		        \includegraphics[width=0.7\linewidth]{figs/sequential_CNN}
-		    \end{figure}
-		    \item Could learn long-range dependecies.
-		    \item Do not suffer from gradient issues.
-		    \item Easy to estimate probability for given input, but hard generation of new samples (the sequential process).
-	   	\end{itemize}
-	    \myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
+\begin{frame}{Recap of previous lecture: autoregressive convolutions}
+	\begin{itemize}
+		\item Convolutions could be used for autoregressive models, but they have to be \textbf{causal}. \\
+		\item Try to find and understand the difference between Conv A/B.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{figs/sequential_CNN}
+		\end{figure}
+		\item Could learn long-range dependecies.
+		\item Do not suffer from gradient issues.
+		\item Easy to estimate probability for given input, but hard generation of new samples (the sequential process).
+	\end{itemize}
+	\myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
 \end{frame}
 %=======
 \begin{frame}{WaveNet}

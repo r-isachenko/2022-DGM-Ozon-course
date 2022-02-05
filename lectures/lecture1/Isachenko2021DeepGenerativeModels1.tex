@@ -393,13 +393,28 @@ We are given i.i.d. samples $\{\bx_i\}_{i=1}^n \in \cX$ (e.g. $\cX = \bbR^m$) fr
 \myfootnotewithlink{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}{image credit: http://karpathy.github.io/2015/05/21/rnn-effectiveness}
 \end{frame}
 %=======
+\begin{frame}{Autoregressive models}
+	\begin{itemize}
+		\item Convolutions could be used for autoregressive models, but they have to be \textbf{causal}. \\
+		\item Try to find and understand the difference between Conv A/B.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{figs/sequential_CNN}
+		\end{figure}
+		\item Could learn long-range dependecies.
+		\item Do not suffer from gradient issues.
+		\item Easy to estimate probability for given input, but hard generation of new samples (the sequential process).
+	\end{itemize}
+	\myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
+ \end{frame}
+%=======
 \begin{frame}{Summary}
     \begin{itemize}
     	\item We are trying to approximate the distribution of samples for density estimation and generation of new samples.
     	\item To fit model distribution to the real data distribution one could use divergence minimization framework.
     	\item Minimization of forward KL is equivalent to the MLE problem.
-    	\item Autoregressive models decompose the distribution to the sequence of conditionals.
-        \item Sampling from autoregressive models is trivial, but sequential
+    	\item Autoregressive models decompose the distribution to the sequence of the conditionals.
+        \item Sampling from the autoregressive models is trivial, but sequential
         \begin{itemize}
             \item sample $x_1 \sim p(x_1)$;
             \item sample $x_2 \sim p(x_2 | x_1)$;
