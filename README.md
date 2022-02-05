@@ -73,5 +73,5 @@ The course is accompanied by practical tasks that allow you to understand the pr
 
 ## Author, feel free to contact :)
 
-- **telegram:** @roman_isachenko
+- **telegram:** [@roman_isachenko](https://t.me/roman_isachenko)
 - **e-mail:** roman.isachenko@phystech.edu
