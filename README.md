@@ -20,7 +20,8 @@ The course is accompanied by practical tasks that allow you to understand the pr
 
 | # | Date | Description | Slides |
 |---------|------|-------------|---------|
-| 1 | February, 8 | <b>Lecture:</b> Logistics. Motivation. Divergence minimization framework. Autoregressive modelling. | TBA |
+| 0 | February, 4 | Logistics and intro. | [slides](lectures/intro.pdf) |
+| 1 | February, 8 | <b>Lecture:</b> Motivation. Divergence minimization framework. Autoregressive modelling. | [slides](lectures/lecture1/Isachenko2021DeepGenerativeModels1.pdf) |
 |  |  | <b>Seminar:</b> Introduction. Density estimation in 1D. MADE theory. | TBA |
 | 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | TBA |
 |  |  | <b>Seminar:</b> MADE practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | TBA |
@@ -72,5 +73,5 @@ The course is accompanied by practical tasks that allow you to understand the pr
 
 ## Author, feel free to contact :)
 
-- **telegram:** @roman_isachenko
+- **telegram:** [@roman_isachenko](https://t.me/roman_isachenko)
 - **e-mail:** roman.isachenko@phystech.edu
