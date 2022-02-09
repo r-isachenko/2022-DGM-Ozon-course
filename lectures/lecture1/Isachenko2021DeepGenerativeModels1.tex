@@ -189,12 +189,12 @@ We are given i.i.d. samples $\{\bx_i\}_{i=1}^n \in \cX$ (e.g. $\cX = \bbR^m$) fr
 			\bbE_{p(\bx)} f(\bx) = \int p(\bx) f(\bx) d \bx \approx \frac{1}{n} \sum_{i=1}^n f(\bx_i), \quad 
 			\text{where } \bx_i \sim p(\bx).
 		\]
-		Expected value could be estimated using the samples.
+		Expected value could be estimated using only the samples.
 	\end{block}
 	\begin{block}{Law of the unconscious statistician (LOTUS)}
-		Let $X$ be a random variable and let $Y=g(X)$. Then
+		Let $X$ be a random variable and let $Y=f(X)$. Then
 		\[
-			\bbE_{p_Y} Y = \bbE_{p_X} g(X) = \int g(\bx) p(\bx) d \bx.
+			\bbE_{p_Y} Y = \int p(\by) \by d \by = \bbE_{p_X} f(X) = \int p(\bx) f(\bx) d \bx.
 		\]
 	\end{block}
 	\vspace{-0.5cm}
@@ -364,7 +364,7 @@ We are given i.i.d. samples $\{\bx_i\}_{i=1}^n \in \cX$ (e.g. $\cX = \bbR^m$) fr
 		\item Previous model has \textbf{limited} memory $d$. It is insufficient for many modalities (e.g. for images and text). 
 		\item Recurrent NN fixes this problem and potentially could learn long-range dependencies:
 		\[
-			p(x_j | \bx_{1:j - 1}, \btheta) = p(x_j | \bh_j, \btheta), \quad \bh_j = \text{RNN}(\bx_{j - 1}, \bh_{j - 1})
+			p(x_j | \bx_{1:j - 1}, \btheta) = p(x_j | \bh_j, \btheta), \quad \bh_j = \text{RNN}(\bx_{j-d:j - 1}, \bh_{j - 1})
 		\]
 		 \begin{figure}
 	    \centering
@@ -376,38 +376,6 @@ We are given i.i.d. samples $\{\bx_i\}_{i=1}^n \in \cX$ (e.g. $\cX = \bbR^m$) fr
 	 \myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
 \end{frame}
 %=======
-\begin{frame}{Char RNN}
-	Model tries to predict the next token (single letter) from previous context.
-	\begin{minipage}[t]{0.55\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/char_rnn.png}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.44\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/char_rnn_output.png}
-		\end{figure}
-	\end{minipage}
-\myfootnotewithlink{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}{image credit: http://karpathy.github.io/2015/05/21/rnn-effectiveness}
-\end{frame}
-%=======
-\begin{frame}{Autoregressive models}
-	\begin{itemize}
-		\item Convolutions could be used for autoregressive models, but they have to be \textbf{causal}. \\
-		\item Try to find and understand the difference between Conv A/B.
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.7\linewidth]{figs/sequential_CNN}
-		\end{figure}
-		\item Could learn long-range dependecies.
-		\item Do not suffer from gradient issues.
-		\item Easy to estimate probability for given input, but hard generation of new samples (the sequential process).
-	\end{itemize}
-	\myfootnotewithlink{https://jmtomczak.github.io/blog/2/2\_ARM.html}{image credit: https://jmtomczak.github.io/blog/2/2\_ARM.html}
- \end{frame}
-%=======
 \begin{frame}{Summary}
     \begin{itemize}
     	\item We are trying to approximate the distribution of samples for density estimation and generation of new samples.
@@ -416,8 +384,8 @@ We are given i.i.d. samples $\{\bx_i\}_{i=1}^n \in \cX$ (e.g. $\cX = \bbR^m$) fr
     	\item Autoregressive models decompose the distribution to the sequence of the conditionals.
         \item Sampling from the autoregressive models is trivial, but sequential
         \begin{itemize}
-            \item sample $x_1 \sim p(x_1)$;
-            \item sample $x_2 \sim p(x_2 | x_1)$;
+            \item sample $\hat{x}_1 \sim p(x_1)$;
+            \item sample $\hat{x}_2 \sim p(x_2 | \hat{x}_1)$;
             \item \dots.
         \end{itemize}
         \item Density estimation:
