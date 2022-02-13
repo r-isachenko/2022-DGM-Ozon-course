@@ -22,8 +22,8 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |---------|------|-------------|---------|
 | 0 | February, 4 | Logistics and intro. | [slides](lectures/intro.pdf) |
 | 1 | February, 8 | <b>Lecture:</b> Generative models overview. Problem statement. Divergence minimization framework. Autoregressive modelling. | [slides](lectures/lecture1/Isachenko2021DeepGenerativeModels1.pdf) |
-|  |  | <b>Seminar:</b> Pytorch recap. Density estimation for 1D disccrete distribution. | TBA |
-| 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | TBA |
+|  |  | <b>Seminar:</b> Pytorch recap. Density estimation for 1D discrete distribution. | TBA |
+| 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian framework. Latent variable models. | TBA |
 |  |  | <b>Seminar:</b> MADE theory and practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | TBA |
 | 3 | February, 22 | Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
