@@ -72,6 +72,18 @@
 	\end{itemize}
 \end{frame}
 %=======
+\begin{frame}{Outline}
+	\tableofcontents
+\end{frame}
+\AtBeginSection[ ]
+{
+	\begin{frame}{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+%=======
+\section{Variational autoencoder (VAE)}
+%=======
 \begin{frame}{Variational autoencoder (VAE)}
 	\begin{block}{Final algorithm}
 		\begin{itemize}
@@ -137,6 +149,29 @@
 	\myfootnotewithlink{https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html}{image credit: https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html}
 \end{frame}
 %=======
+\begin{frame}{VAE limitations}
+	\begin{itemize}
+		\item Poor generative distribution (decoder)
+		\[
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
+		\]
+		\item Loose lower bound
+		\[
+			\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
+		\]
+		\item Poor prior distribution
+		\[
+			p(\bz) = \mathcal{N}(0, \mathbf{I}).
+		\]
+		\item Poor variational posterior distribution (encoder)
+		\[
+			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
+		\]
+	\end{itemize}
+\end{frame}
+%=======
+\section{VAE as Bayesian model}
+%=======
 \begin{frame}{Bayesian framework}
 	\begin{block}{Posterior distribution}
 		\vspace{-0.2cm}
@@ -200,279 +235,369 @@
 	\end{block}
 \end{frame}
 %=======
+\section{Posterior collapse and decoder weakening techniques}
+%=======
 \begin{frame}{VAE limitations}
 	\begin{itemize}
-		\item Poor variational posterior distribution (inference model encoder)
+		\item \textbf{Poor generative distribution (decoder)}
 		\[
-		q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
-		\]
-		\item Poor prior distribution
-		\[
-		p(\bz) = \mathcal{N}(0, \mathbf{I}).
-		\]
-		\item Poor probabilistic model (generative model, decoder)
-		\[
-		p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
 		\]
 		\item Loose lower bound
 		\[
-		\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
+			\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
+		\]
+		\item Poor prior distribution
+		\[
+			p(\bz) = \mathcal{N}(0, \mathbf{I}).
+		\]
+		\item Poor variational posterior distribution (encoder)
+		\[
+			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
 		\]
 	\end{itemize}
 \end{frame}
 %=======
-\begin{frame}{Likelihood-based models so far...}
-	\begin{minipage}[t]{0.5\columnwidth}
-		\begin{block}{Autoregressive models}
-			\vspace{-0.5cm}
-			\[
-				p(\bx|\btheta) = \prod_{i=1}^m p(x_i | \bx_{1:i - 1}, \btheta)
-			\]
-			\vspace{-0.2cm}
-			\begin{itemize}
-				\item tractable likelihood, 
-				\item no inferred latent factors.
-			\end{itemize}
-		\end{block}
-	\end{minipage}%
-	\begin{minipage}[t]{0.5\columnwidth}
-		\begin{block}{Latent variable models}
-			\[
-				p(\bx| \btheta) = \int p(\bx, \bz | \btheta) d \bz
-			\]
-			\begin{itemize}
-				\item latent feature representation, 
-				\item intractable likelihood.
-			\end{itemize}
-		\end{block}
-	\end{minipage}
-	
-	\vspace{1cm } 
-	How to build model with latent variables and tractable likelihood?
-\end{frame}
-%=======
-\begin{frame}{Normalizing flows prerequisites}
-	\begin{block}{Change of variable theorem}
-		Let $\bx$ be a random variable with density function $p(\bx)$ and $f: \mathbb{R}^m \rightarrow \mathbb{R}^m$ is a differentiable, invertible function (diffeomorphism). If $\bz = f(\bx)$, $\bx = f^{-1}(\bz) = g(\bz)$, then
-		\begin{align*}
-			p(\bx) &= p(\bz) \left|\det \left(  \frac{\partial \bz}{\partial \bx} \right) \right| = p(f(\bx)) \left|\det \left(  \frac{\partial f(\bx)}{\partial \bx} \right) \right| \\
-			p(\bz) &= p(\bx) \left|\det \left(  \frac{\partial \bx}{\partial \bz} \right) \right| = p(g(\bz)) \left|\det \left(  \frac{\partial g(\bz)}{\partial \bz} \right) \right|.
-		\end{align*}
-		\vspace{-0.5cm}
-	\end{block}
-	\begin{block}{Inverse function theorem}
-		If function $f$ is invertible and Jacobian is continuous and non-singular, then
-		\[
-			\left|\det \left(  \frac{\partial f(\bx)}{\partial \bx} \right)\right| = \left|\det \left(  \frac{\partial g^{-1}(\bx)}{\partial \bx} \right)\right| = \left|\det \left(  \frac{\partial g(\bz)}{\partial \bz} \right)\right|^{-1}
-		\]
-	\end{block}
-\end{frame}
-%=======
-\begin{frame}{Jacobian-determinant}
-	\[
-		p(\bx | \btheta) = p(f(\bx, \btheta)) \left|\det \left(  \frac{\partial f(\bx,\btheta)}{\partial \bx} \right) \right| 
-	\]
-	\begin{minipage}{0.55\columnwidth}
-		\begin{itemize}
-			\item $\bx$ and $\bz$ have the same dimensionality ($\bbR^m$).
-			\vfill
-			\item $f(\bx, \btheta)$ could be parametric function.
-			\vfill
-			\item Determinant of Jacobian $\mathbf{J} =\frac{\partial f(\bx, \btheta)}{\partial \bx}$ shows how the volume changes under the transorfmation.
-		\end{itemize}
-	\end{minipage}%
-	\begin{minipage}{0.45\columnwidth}
-		\begin{figure}
-			\includegraphics[width=\linewidth]{figs/jacobian_det}
-		\end{figure}
-	\end{minipage}
-	\myfootnotewithlink{https://jmtomczak.github.io/blog/3/3\_flows.html}{https://jmtomczak.github.io/blog/3/3\_flows.html}
-\end{frame}
-%=======
-\begin{frame}{Fitting flows}
-	\begin{block}{MLE problem}
-		\vspace{-0.3cm}
-		\[
-			p(\bx|\btheta) = p(\bz) \left|\det \left(  \frac{\partial \bz}{\partial \bx} \right) \right|  = p(f(\bx, \btheta)) \left|\det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx} \right) \right|
-		\]
-		\[
-			\log p(\bx|\btheta) = \log p(f(\bx, \btheta)) + \log  \left|\det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx} \right) \right| \rightarrow \max_{\btheta}
-		\]
+\begin{frame}{Posterior collapse}
+	\begin{block}{Representation learning}
+		"Identifies and disentangles the underlying causal factors of the data, so that it becomes easier to understand the data, to classify it, or to perform other tasks".
 	\end{block}
 	\vspace{-0.2cm}
-	\begin{figure}
-		\includegraphics[width=0.85\linewidth]{figs/flows_how2}
-	\end{figure}
-	\myfootnotewithlink{https://arxiv.org/abs/1605.08803}{Dinh L., Sohl-Dickstein J., Bengio S. Density estimation using Real NVP, 2016} 
-\end{frame}
-%=======
-\begin{frame}{Composition of flows}
-	\begin{block}{Theorem}
-		Diffeomorphisms are \textbf{composable} (If $\{f_k\}_{k=1}^K$ satisfy conditions of the change of variable theorem, then $\bz = f(\bx) = f_K \circ \dots \circ f_1(\bx)$ also satisfies it).
-	\end{block}
-	\vspace{-0.5cm}
-	{ \footnotesize
-	\begin{multline*}
-		p(\bx) = p(f(\bx)) \left|\det \left(  \frac{\partial f(\bx)}{\partial \bx} \right) \right| = p(f(\bx)) \left|\det \left(\frac{\partial f_K \circ \dots \circ f_1(\bx)}{\partial \bx} \right) \right| = \\ =
-		p(f(\bx)) \left|\det \left(\frac{\partial \textbf{f}_K}{\partial \textbf{f}_{K-1}} \dots \frac{\partial \textbf{f}_1}{\partial \bx} \right) \right| = p(f(\bx)) \prod_{k=1}^K \left|\det \left(\frac{\partial \textbf{f}_{k}}{\partial \textbf{f}_{k-1}} \right) \right|
-	\end{multline*}
-	}
-	\vspace{-0.3cm}
-	\begin{figure}
-		\includegraphics[width=\linewidth]{figs/normalizing-flow}
-	\end{figure}
-	\myfootnotewithlink{https://lilianweng.github.io/lil-log/2018/10/13/flow-based-deep-generative-models.html}{https://lilianweng.github.io/lil-log/2018/10/13/flow-based-deep-generative-models.html}
-\end{frame}
-%=======
-\begin{frame}{Flows}
-	\vspace{-0.3cm}
 	\[
-		\log p(\bx|\btheta) = \log p(f(\bx, \btheta)) + \log \left|\det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx} \right) \right|
+		p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d \bz = \int p(\bx | \bz, \btheta) p(\bz) d \bz 
 	\]
-	\vspace{-0.3cm}
-	\begin{block}{Definition}
-		Normalizing flow is a \textit{differentiable, invertible} mapping from data $\bx$ to the noise $\bz$. 
+	If the decoder model $p(\bx | \bz, \btheta)$ is powerful enough to model $p(\bx | \btheta)$ the latent variables $\bz$ becomes irrelevant.
+	\[
+		\mathcal{L}(q, \btheta) = \left[ \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx) || p(\bz)) \right].
+	\]
+	Early in the training the approximate posterior $q(\bz|\bx)$ carries little information about $\bx$ and the model sets the posterior to the prior to avoid paying any cost $KL(q(\bz|\bx)||p(\bz))$.
+\end{frame}
+%=======
+\begin{frame}{PixelVAE}
+	\begin{block}{LVM}
+		\vspace{-0.3cm}
+		\[
+		    p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d \bz = \int p(\bx | \bz, \btheta) p(\bz) d \bz 
+		\]
+		\vspace{-0.3cm}
 	\end{block}
 	\begin{itemize}
-		\item \textbf{Normalizing} means that the inverse flow takes samples from $p(\bx)$ and normalizes them into samples from density $p(\bz)$.
-		\item \textbf{Flow} refers to the trajectory followed by samples from $p(\bz)$ as they are transformed by the sequence of transformations
+		\item More powerful $p(\bx | \bz, \btheta)$ leads to more powerful generative model $p(\bx | \btheta)$.
+		\item Too powerful $p(\bx | \bz, \btheta)$ could lead to posterior collapse, where variational posterior $q(\bz | \bx)$ will not carry any information about data and close to prior $p(\bz)$.
+	\end{itemize}
+	How to make the generative model $p(\bx | \bz, \btheta)$ more powerful?
+	\begin{block}{Autoregressive decoder}
+		\vspace{-0.2cm}
 		\[
-		\bz = f_K \circ \dots \circ f_1(\bx); \quad \bx = f_1^{-1} \circ \dots \circ f_K^{-1} (\bz) = g_1 \circ \dots \circ g_K(\bz) 
-		\] 
-		\begin{multline*}
-			p(\bx) = p(f_K \circ \dots \circ f_1(\bx)) \left|\det \left(\frac{\partial f_K \circ \dots \circ f_1(\bx)}{\partial \bx} \right) \right| = \\
-			= p(f_K \circ \dots \circ f_1(\bx)) \prod_{k=1}^K \left|\det \left(\frac{\partial \mathbf{f}_k}{\partial \mathbf{f}_{k-1}} \right) \right|.
-		\end{multline*}
+		    p(\bx | \bz , \btheta) = \prod_{i=1}^n p(x_i | \bx_{1:i - 1}, \bz , \btheta)
+		\]
+	\end{block}
+	
+	\myfootnotewithlink{https://arxiv.org/abs/1611.05013}{Gulrajani I. et al. PixelVAE: A Latent Variable Model for Natural Images, 2016}
+\end{frame}
+%=======
+\begin{frame}{PixelVAE}
+	\begin{block}{Autoregressive decoder}
+		\vspace{-0.3cm}
+		\[
+		p(\bx | \bz , \btheta) = \prod_{i=1}^n p(x_i | \bx_{1:i - 1}, \bz , \btheta)
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	\begin{itemize}
+		\item Global structure is captured by latent variables.
+		\item Local statistics are captured by limited receptive field autoregressive model.
+	\end{itemize}
+	\vspace{-0.1cm}
+	\begin{block}{MNIST results}
+		\vspace{-0.3cm}
+		\begin{figure}
+		    \centering
+		    \includegraphics[width=0.75\linewidth]{figs/PixelVAE_2.png}
+		\end{figure}
+	\end{block}
+		
+	\myfootnotewithlink{https://arxiv.org/abs/1611.05013}{Gulrajani I. et al. PixelVAE: A Latent Variable Model for Natural Images, 2016}
+\end{frame}
+%=======
+\begin{frame}{Decoder weakening}
+	\begin{itemize}
+		\item Powerful decoder $p(\bx | \bz, \btheta)$ makes the model expressive, but posterior collapse is possible.
+		\item PixelVAE model uses the autoregressive PixelCNN model with small number of layers to limit receptive field.
+	\end{itemize}
+	How to force the model encode information about $\bx$ into $\bz$?
+	\begin{block}{KL annealing}
+		\vspace{-0.3cm}
+		\[
+		    \mathcal{L}(q, \btheta, \beta) = \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta) - \beta \cdot KL (q(\bz | \bx) || p(\bz))
+		\]
+		Start training with $\beta = 0$, increase it until $\beta = 1$ during training.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{block}{Free bits}
+		\vspace{-0.7cm}
+		\[
+		    \mathcal{L}(q, \btheta, \lambda) = \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta) - \max(\lambda, KL (q(\bz | \bx) || p(\bz))).
+		\]
+		\vspace{-0.7cm} \\
+		It ensures the use of less than $\lambda$ bits of information and results in $KL (q(\bz | \bx) || p(\bz)) \geq \lambda$.
+	\end{block}
+	\myfootnote{\href{https://arxiv.org/abs/1511.06349}{Bowman S. R. et al. Generating Sentences from a Continuous Space, 2015} \\
+	\href{https://arxiv.org/abs/1606.04934}{Kingma D. P. et al. Improving Variational Inference with Inverse Autoregressive Flow, 2016}}
+\end{frame}
+%=======
+\section{Tighter variational bound}
+%=======
+\begin{frame}{VAE limitations}
+	\begin{itemize}
+		\item Poor generative distribution (decoder)
+		\[
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
+		\]
+		\item \textbf{Loose lower bound}
+		\[
+			\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
+		\]
+		\item Poor prior distribution
+		\[
+			p(\bz) = \mathcal{N}(0, \mathbf{I}).
+		\]
+		\item Poor variational posterior distribution (encoder)
+		\[
+			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
+		\]
 	\end{itemize}
 \end{frame}
 %=======
-\begin{frame}{Flows}
-	\begin{block}{Example of a 4-step flow}
-	\vspace{-0.2cm}
-	\begin{figure}
-			\includegraphics[width=\linewidth]{figs/flow_4_steps_example.png}
-	\end{figure}
-	\end{block}
-	\vspace{-0.5cm}
-	\begin{block}{Flow likelihood}
-		\vspace{-0.3cm}
-		\[
-		\log p(\bx|\btheta) = \log p(f(\bx, \btheta)) + \log \left|\det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx} \right) \right|
-		\]
-		\vspace{-0.3cm}
-	\end{block}
-	What is the complexity of the determinant computation?
-	\begin{block}{What we want}
-		\begin{itemize}
-			\item Efficient computation of Jacobian $\frac{\partial f(\bx, \btheta)}{\partial \bx}$;
-			\item Efficient sampling from the base distribution $p(\bz)$;
-			\item Efficient inversion of $f(\bx, \btheta)$.
-		\end{itemize}
-	\end{block}
-		\myfootnotewithlink{https://arxiv.org/abs/1912.02762}{Papamakarios G. et al. Normalizing flows for probabilistic modeling and inference, 2019} 
-\end{frame}
-%=======
-\begin{frame}{Forward KL vs Reverse KL}
-	\begin{block}{Forward KL}
+\begin{frame}{Importance Sampling}
+	\begin{block}{Generative model}
 		\vspace{-0.5cm}
 		\begin{align*}
-			KL(\pi || p) &= \int \pi (\bx) \log \frac{\pi(\bx)}{p(\bx | \btheta)} d \bx \\
-			&= - \bbE_{\pi(\bx)} \log p(\bx | \btheta) + \text{const} \rightarrow \min_{\btheta}
-		\end{align*}
-		Maximum likelihood estimation is equivalent to minimization of the Monte-Carlo estimation of forward KL.
-	\end{block}
-	\begin{block}{Forward KL for flow model}
-	    \vspace{-0.3cm}
-		\[
-			\log p(\bx|\btheta) = \log p(f(\bx, \btheta)) + \log  \left|\det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx} \right) \right|
-		\]
-		\begin{itemize}
-		\item We need to be able to compute $f(\bx, \btheta)$ and its Jacobian.
-		\item We need to be able to compute the density $p(\bz)$.
-		\item We don’t need to think about computing the function $g(\bz, \btheta) = f^{-1}(\bz, \btheta)$ until we want to sample from the flow.
-		\end{itemize}
-	\end{block}
-\end{frame}
-%=======
-\begin{frame}{Forward KL vs Reverse KL}
-	\begin{block}{Reverse KL}
-	  	\vspace{-0.5cm}
-			\begin{align*}
-				KL(p || \pi) &= \int p(\bx | \btheta) \log \frac{p(\bx | \btheta)}{\pi(\bx)} d \bx \\
-				&= \bbE_{p(\bx | \btheta)} \left[\log p(\bx | \btheta) - \log \pi(\bx)\right] \rightarrow \min_{\btheta}
-			\end{align*}
-		\vspace{-0.7cm}
-	\end{block}
-	\begin{block}{Reverse KL for flow model}
-  		\vspace{-0.3cm}
-		\[
-			\log p(\bz) = \log p(\bx | \btheta) + \log \left|\det \left( \frac{\partial g(\bz, \btheta)}{\partial \bz} \right) \right|
-		\]
-		\[
-			KL(p || \pi)  = \bbE_{p(\bz)} \left[  \log p(\bz) - \log \left|\det \left( \frac{\partial g(\bz, \btheta)}{\partial \bz} \right) \right| - \log \pi(g(\bz, \btheta)) \right]
-		\]
-		\begin{itemize}
-		\item We need to be able to compute $g(\bz, \btheta)$ and its Jacobian.
-		\item We need to be able to sample from the density $p(\bz)$ (do not need to evaluate it).
-		\item We don’t need to think about computing the function $f(\bx, \btheta)$.
-		\end{itemize}
-	\end{block}
-\end{frame}
-%=======
-\begin{frame}{Flow KL duality}
-	\begin{block}{Theorem}
-		Fitting flow model $p(\bx| \btheta)$ to the target distribution $\pi(\bx)$ using forward KL (MLE) is equivalent to fitting the induced distribution $p(\bz| \btheta)$ to the base $p(\bz)$ using reverse KL:
-		\[
-			\argmin_{\btheta} KL(\pi(\bx) || p(\bx | \btheta)) = \argmin_{\btheta} KL(p(\bz | \btheta) || p(\bz)).
-		\]
-		\vspace{-0.3cm}
-		\begin{itemize}
-			\item $p(\bz)$ is a base distribution; $\pi(\bx)$ is a data distribution;
-			\item $\bz \sim p(\bz)$, $\bx = g(\bz, \btheta)$, $\bx \sim p(\bx| \btheta)$;
-			\item $\bx \sim \pi(\bx)$, $\bz = f(\bx, \btheta)$, $\bz \sim p(\bz | \btheta)$;
-		\end{itemize}
-		\vspace{-0.3cm}
-		\begin{align*}
-			\log p(\bz | \btheta) &= \log \pi(g(\bz, \btheta)) + \log \left| \det \left( \frac{\partial g(\bz, \btheta)}{\partial \bz}\right) \right|; \\
-			\log p(\bx | \btheta) &= \log p(f(\bx, \btheta)) + \log \left| \det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx}\right) \right|.
+			p(\bx | \btheta) &= \int p(\bx, \bz | \btheta) d\bz = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} \right] q(\bz | \bx) d\bz \\
+			&= \int f(\bx, \bz) q(\bz | \bx) d\bz = \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
 		\end{align*}
 	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1912.02762}{Papamakarios G. et al. Normalizing flows for probabilistic modeling and inference, 2019} 
-\end{frame}
-%=======
-\begin{frame}{Flow KL duality}
-	\begin{block}{Theorem}
-		Fitting flow model $p(\bx| \btheta)$ to the target distribution $\pi(\bx)$ using forward KL (MLE) is equivalent to fitting the induced distribution $p(\bz| \btheta)$ to the base $p(\bz)$ using reverse KL:
-		\[
-			\argmin_{\btheta} KL(\pi(\bx) || p(\bx | \btheta)) = \argmin_{\btheta} KL(p(\bz | \btheta) || p(\bz)).
-		\]
-		\vspace{-0.7cm}
-	\end{block}
-	\begin{block}{Proof}
-		\vspace{-0.7cm}
+	Here $f(\bx, \bz) = \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$.
+	\begin{block}{ELBO}
+		\vspace{-0.5cm}
 		\begin{multline*}
-			KL\left(p(\bz | \btheta) || \pi(\bz) \right) = \mathbb{E}_{p(\bz | \btheta)} \bigl[ \log p(\bz | \btheta) - \log p(\bz) \bigr] = \\ 
-			= \mathbb{E}_{p(\bz | \btheta)} \left[ \log \pi(g(\bz, \btheta)) + \log \left| \det \left( \frac{\partial g(\bz, \btheta)}{\partial \bz}\right) \right| - \log p(\bz) \right] = \\
-			= \mathbb{E}_{\pi(\bx)} \left[ \log \pi(\bx) - \log \left| \det \left( \frac{\partial f(\bx, \btheta)}{\partial \bx}\right) \right| - \log p(f(\bx, \btheta)) \right] = \\
-			= \mathbb{E}_{\pi(\bx)} \bigl[ \log \pi(\bx) - \log p(\bx | \btheta) \bigr] = KL (\pi(\bx) || p(\bx | \btheta)).
+			\log p(\bx | \btheta) = \log \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
+			\geq \mathbb{E}_{\bz \sim q(\bz | \bx)} \log f(\bx, \bz) = \\
+			= \mathbb{E}_{\bz \sim q(\bz | \bx)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} = \mathcal{L}(q, \btheta).
 		\end{multline*}
 	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1705.07057}{Papamakarios G., Pavlakou T., Murray I. Masked Autoregressive Flow for Density Estimation, 2017} 
+	Could we choose better $f(\bx, \bz)$? 
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+		\[
+			p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d\bz = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} \right] q(\bz | \bx) d\bz = \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
+		\]
+	Let define
+	\[
+	f(\bx, \bz_1, \dots, \bz_K) = \frac{1}{K} \sum_{k=1}^K \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx)}
+	\]
+	\[
+		\mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} f(\bx, \bz_1, \dots, \bz_K) = p(\bx | \btheta)
+	\]
+	\vspace{-0.3cm}
+	\begin{block}{ELBO}
+		\vspace{-0.5cm}
+		\begin{multline*}
+			\log p(\bx | \btheta) = \log \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} f(\bx, \bz, \dots, \bz_K) \geq \\
+			\geq \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log f(\bx, \bz, \dots, \bz_K) = \\
+			= \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log \left[\frac{1}{K} \sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx)} \right] = \mathcal{L}_K(q, \btheta).
+		\end{multline*}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{VAE objective}
+		\vspace{-0.2cm}
+		\[
+		\log p(\bx | \btheta) \geq \mathcal{L} (q, \btheta)  = \mathbb{E}_{q(\bz | \bx)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz| \bx)} \rightarrow \max_{q, \btheta}
+		\]
+		\[
+		\mathcal{L} (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \left( \frac{1}{K} \sum_{k=1}^K \log \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right) \rightarrow \max_{q, \btheta}.
+		\]
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{block}{IWAE objective}
+		\vspace{-0.2cm}
+		\[
+		\mathcal{L}_K (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right) \rightarrow \max_{q, \btheta}.
+		\]
+	\end{block}
+	If $K=1$, these objectives coincide.
+
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Theorem}
+		\begin{enumerate}
+			\item $\log p(\bx | \btheta) \geq \mathcal{L}_K (q, \btheta) \geq \mathcal{L}_M (q, \btheta), \quad \text{for } K \geq M$;
+			\item $\log p(\bx | \btheta) = \lim_{K \rightarrow \infty} \mathcal{L}_K (q, \btheta)$ if $\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$ is bounded.
+		\end{enumerate}
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{block}{Proof of 1.}
+		{ \footnotesize
+			\vspace{-0.6cm}
+			\begin{align*}
+				\mathcal{L}_K (q, \btheta) &= \mathbb{E}_{\bz_1, \dots, \bz_K} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right) = \\
+				&= \mathbb{E}_{\bz_1, \dots, \bz_K} \log \mathbb{E}_{k_1, \dots, k_M} \left( \frac{1}{M}\sum_{m=1}^M\frac{p(\bx, \bz_{k_M} | \btheta)}{q(\bz_{k_m}| \bx)} \right) \geq \\
+				&\geq \mathbb{E}_{\bz_1, \dots, \bz_K} \mathbb{E}_{k_1, \dots, k_m} \log \left( \frac{1}{M}\sum_{m=1}^M\frac{p(\bx, \bz_{k_m} | \btheta)}{q(\bz_{k_m}| \bx)} \right) = \\
+				&= \mathbb{E}_{\bz_1, \dots, \bz_M} \log \left( \frac{1}{M}\sum_{m=1}^M\frac{p(\bx, \bz_m | \btheta)}{q(\bz_m| \bx)} \right) = \mathcal{L}_M (q, \btheta)
+			\end{align*}
+			\[
+			\frac{a_1 + \dots + a_K}{K} = \mathbb{E}_{k_1, \dots, k_M} \frac{a_{k_1} + \dots + a_{k_M}}{M}, \quad k_1, \dots, k_M \sim U[1, K]
+			\]
+		}
+	\end{block}
+	
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Theorem}
+		\begin{enumerate}
+			\item $\log p(\bx | \btheta) \geq \mathcal{L}_K (q, \btheta) \geq \mathcal{L}_M (q, \btheta), \quad \text{for} K \geq M$;
+			\item $\log p(\bx | \btheta) = \lim_{K \rightarrow \infty} \mathcal{L}_K (q, \btheta)$ if $\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$ is bounded.
+		\end{enumerate}
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{block}{Proof of 2.}
+		\vspace{0.2cm}
+		Consider r.v. $\xi_K = \frac{1}{K}\sum_{k=1}^K \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx)}$. \\
+		\vspace{0.2cm}
+		If summands are bounded, then (from the strong law of large numbers)
+		\[
+		\xi_K \xrightarrow[K \rightarrow \infty]{a.s.} \mathbb{E}_{q(\bz | \bx)} \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} = p(\bx | \btheta).
+		\]
+		Hence $\mathcal{L}_K (q, \btheta) = \mathbb{E} \log \xi_K$ converges to $\log p(\bx | \btheta)$ as $K \rightarrow \infty$.
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\[
+	\log p(\bx | \btheta) \geq \mathcal{L}_K(q, \btheta) \geq \mathcal{L}(q, \btheta)
+	\]
+	If $K > 1$ the bound could be tighter.
+	\begin{align*}
+		\mathcal{L} (q, \btheta) &= \mathbb{E}_{q(\bz | \bx)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz| \bx)}; \\
+		\mathcal{L}_K (q, \btheta) &= \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right).
+	\end{align*}
+	\vspace{-0.2cm}
+	\begin{itemize}
+		\item $\mathcal{L}_1(q, \btheta) = \mathcal{L}(q, \btheta)$;
+		\item $\mathcal{L}_{\infty}(q, \btheta) = \log p(\bx | \btheta)$.
+		\item Which $q^*(\bz | \bx)$ gives $\mathcal{L}(q^*, \btheta) = \log p(\bx | \btheta)$? 
+		\item Which $q^*(\bz | \bx)$ gives $\mathcal{L}(q^*, \btheta) = \mathcal{L}_K(q, \btheta)$?
+	\end{itemize}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Theorem}
+		$\mathcal{L}(q^*, \btheta) = \mathcal{L}_K(q, \btheta)$
+		for the following variational distribution
+		\[
+		q^*(\bz | \bx) = \mathbb{E}_{\bz_2, \dots, \bz_K \sim q(\bz | \bx)} q_{IW}(\bz | \bx, \bz_{2:K}),
+		\]
+		where
+		\vspace{-0.4cm}
+		\[
+			q_{IW}(\bz | \bx, \bz_{2:K}) = \frac{\frac{p(\bx, \bz)}{q(\bz | \bx)}}{\frac{1}{K} \sum_{k=1}^K \frac{p(\bx, \bz_k)}{q(\bz_k | \bx)}} q(\bz | \bx) = \frac{p(\bx, \bz)}{\frac{1}{K}\left( \frac{p(\bx, \bz)}{q(\bz | \bx)} + \sum_{k=2}^K \frac{p(\bx, \bz_k)}{q(\bz_k | \bx)}\right)}.
+		\]
+	\end{block}
+	\vspace{-0.5cm}
+	\begin{block}{IWAE posterior}
+		\vspace{-0.3cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\linewidth]{figs/IWAE_1.png}
+		\end{figure}
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1704.02916}{Cremer C., Morris Q., Duvenaud D. Reinterpreting Importance-Weighted Autoencoders, 2017}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Objective}
+		\vspace{-0.5cm}
+		\[
+		\mathcal{L}_K (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx, \bphi)} \right) \rightarrow \max_{\bphi, \btheta}.
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	\begin{block}{Gradient}
+		\vspace{-0.3cm}
+		\[
+		\Delta_K = \nabla_{\btheta, \bphi} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx, \bphi)} \right), \quad \bz_k \sim q(\bz | \bx, \bphi).
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	\begin{block}{Theorem}
+		\vspace{-0.4cm}
+		\[
+			\text{SNR}_K = \frac{\bbE [\Delta_K]}{\sigma(\Delta_K)}; \quad
+			\text{SNR}_K(\btheta) = O(\sqrt{K}); \quad 
+			\text{SNR}_K(\bphi) = O\left(\sqrt{\frac{1}{K}}\right).
+		\]
+		Hence, increasing $K$ vanishes gradient signal of inference network $q(\bz | \bx, \bphi)$.
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1802.04537}{Rainforth T. et al. Tighter variational bounds are not necessarily better, 2018}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Theorem}
+		\vspace{-0.5cm}
+		\[
+			\text{SNR}_K = \frac{\bbE [\Delta_K]}{\sigma(\Delta_K)}; \quad
+			\text{SNR}_K(\btheta) = O(\sqrt{K}); \quad 
+			\text{SNR}_K(\bphi) = O\left(\sqrt{\frac{1}{K}}\right).
+		\]
+		\vspace{-0.8cm}
+	\end{block}
+		\begin{minipage}[t]{0.5\columnwidth}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=1.\linewidth]{figs/IWAE_SNR_1.png}
+			\end{figure}
+		\end{minipage}%
+		\begin{minipage}[t]{0.5\columnwidth}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=1.\linewidth]{figs/IWAE_SNR_2.png}
+			\end{figure}
+		\end{minipage}
+	\begin{itemize}
+		\item IWAE makes the variational bound tighter and extends the class of variational distributions.
+		\item Gradient signal becomes really small, training is complicated.
+		\item IWAE is very popular technique as a quality measure for VAE models.
+	\end{itemize}
+	\myfootnotewithlink{https://arxiv.org/abs/1802.04537}{Rainforth T. et al. Tighter variational bounds are not necessarily better, 2018}
 \end{frame}
 %=======
 \begin{frame}{Summary}
 	\begin{itemize}
-	\item The VAE model is an LVM with two neural network: stochastic encoder $q(\bz | \bx, \bphi)$ and stochastic decoder $p(\bx | \bz, \btheta)$.
-	\vfill
-	\item VAE is not a "true" bayesian model since parameters $\btheta$ do not have a prior distribution.
-	\vfill
-	\item Standart VAE has several limitations that we will address later in the course.
-	\vfill
-	\item Flow models transform a simple base distribution to a complex one via a sequence of invertible transformations.
-	\vfill
-	\item Flow models have a tractable likelihood that is given by the change of variable theorem.
-	\vfill
-	\item Flows could be fitted using forward and reverse KL minimization. We will consider each of the scenarios later in the course.
+		\item The VAE model is an LVM with two neural network: stochastic encoder $q(\bz | \bx, \bphi)$ and stochastic decoder $p(\bx | \bz, \btheta)$.
+		\vfill
+		\item VAE is not a "true" bayesian model since parameters $\btheta$ do not have a prior distribution.
+		\vfill
+		\item Standart VAE has several limitations that we will address later in the course.
+		\vfill
+		\item More powerful decoder in VAE leads to more expressive generative model. However, too expressive decoder could lead to the posterior collapse.
+		\vfill
+		\item The decoder weakening is a set of techniques to avoid the posterior collapse.
+		\vfill
+		\item The IWAE could get the tighter lower bound to the likelihood, but the training of such model becomes more difficult.
 	\end{itemize}
 \end{frame}
 \end{document} 
