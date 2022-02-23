@@ -25,29 +25,29 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> Introduction. Density estimation in 1D. MADE theory. | [notebook](seminars/seminar1/1D_histogram.ipynb) |
 | 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | [slides](lectures/lecture2/Isachenko2022DeepGenerativeModels2.pdf) |
 |  |  | <b>Seminar:</b> MADE practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | [notebook](seminars/seminar2/MADE.ipynb) |
-| 3 | February, 22 | Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | [slides](lectures/lecture3/Isachenko2022DeepGenerativeModels3.pdf) |
+| 3 | February, 22 | <b>Lecture:</b> Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | [slides](lectures/lecture3/Isachenko2022DeepGenerativeModels3.pdf) |
 |  |  | <b>Seminar:</b> Mean field approximation. | TBA |
-| 4 | March, 1 | Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tigher ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
+| 4 | March, 1 | <b>Lecture:</b> Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tigher ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 5 | March, 8 | Flow models definition. Forward and reverse KL divergence. Residual flows (Planar/Sylvester flows). Linear flows (Glow). | TBA |
+| 5 | March, 8 | <b>Lecture:</b> Flow models definition. Forward and reverse KL divergence. Residual flows (Planar/Sylvester flows). Linear flows (Glow). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 6 | March, 15 | Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | TBA |
+| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 7 | March, 22 | ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
+| 7 | March, 22 | <b>Lecture:</b> ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 8 | March, 29 | Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | TBA |
+| 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 9 | April, 5 | GAN theorem. Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. | TBA |
+| 9 | April, 5 | <b>Lecture:</b> GAN theorem. Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 10 | April, 12 | Wasserstein distance. Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. | TBA |
+| 10 | April, 12 | <b>Lecture:</b> Wasserstein distance. Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 11 | April, 19 | f-divergence minimization. GAN evaluation (Inception score, FID, Precision-Recall). | TBA |
+| 11 | April, 19 | <b>Lecture:</b> f-divergence minimization. GAN evaluation (Inception score, FID, Precision-Recall). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 12 | April, 26 | GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
+| 12 | April, 26 | <b>Lecture:</b> GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 13 | May, 10 | Discrete VAE (Gumbel-Softmax trick, VQ-VAE, VQ-VAE-2, DALL-E). Diffusion models. | TBA |
+| 13 | May, 3 | <b>Lecture:</b> Discrete VAE (Gumbel-Softmax trick, VQ-VAE, VQ-VAE-2, DALL-E). Diffusion models. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 14 | May, 17 | Diffusion models. | TBA |
+| 14 | May, 17 | <b>Lecture:</b> Diffusion models. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
 
 ## Homeworks 
