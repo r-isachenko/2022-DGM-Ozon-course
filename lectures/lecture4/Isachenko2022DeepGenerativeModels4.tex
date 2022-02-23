@@ -76,6 +76,42 @@
 	\end{itemize}
 \end{frame}
 %=======
+\begin{frame}{Recap of previous lecture}
+	\vspace{-0.3cm}
+	\[
+		 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) - \log \frac{q(\bz | \bx, \bphi)}{p(\bz)} \right] \rightarrow \max_{\bphi, \btheta}.
+	\]	
+	\vspace{-0.3cm}
+	\begin{block}{M-step: $\nabla_{\btheta} \mathcal{L}(\bphi, \btheta)$, Monte Carlo estimation}
+		\vspace{-0.8cm}
+		\begin{multline*}
+			\nabla_{\btheta} \mathcal{L} (\bphi, \btheta)
+			= \int q(\bz|\bx, \bphi) \nabla_{\btheta}\log p(\bx|\bz, \btheta) d \bz \approx  \\
+			\approx \nabla_{\btheta}\log p(\bx|\bz^*, \btheta), \quad \bz^* \sim q(\bz|\bx, \bphi).
+		\end{multline*}
+		\vspace{-0.7cm}
+	\end{block}
+	\begin{block}{E-step: $\nabla_{\bphi} \mathcal{L}(\bphi, \btheta)$, reparametrization trick}
+		\vspace{-0.8cm}
+		\begin{multline*}
+			\nabla_{\bphi} \mathcal{L} (\bphi, \btheta) = \int r(\bepsilon) \nabla_{\bphi} \log p(\bx | g(\bx, \bepsilon, \bphi), \btheta) d\bepsilon  - \nabla_{\bphi} \text{KL}
+			\\ \approx \nabla_{\bphi} \log p(\bx | g(\bx, \bepsilon^*, \bphi), \btheta)  - \nabla_{\bphi} \text{KL}
+		\end{multline*}
+		\vspace{-0.5cm}
+	\end{block}
+	\vspace{-0.5cm}
+	
+	\begin{block}{Variational assumption}
+		\vspace{-0.3cm}
+		\[
+			r(\bepsilon) = \mathcal{N}(0, \bI); \quad  q(\bz| \bx, \bphi) = \mathcal{N} (\bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
+		\]
+		\[
+			\bz = g(\bx, \bepsilon, \bphi) = \bsigma_{\bphi}(\bx) \cdot \bepsilon + \bmu_{\bphi}(\bx).
+		\]
+	\end{block}
+\end{frame}
+%=======
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
@@ -223,37 +259,6 @@
 	\end{itemize}
 \end{frame}
 %=======
-\section{VAE as Bayesian model}
-%=======
-\begin{frame}{Bayesian framework}
-	\begin{block}{Posterior distribution}
-		\vspace{-0.2cm}
-		\[
-			p(\btheta | \bX) = \frac{p(\bX | \btheta) p(\btheta)}{p(\bX)} = \frac{p(\bX | \btheta) p(\btheta)}{\int p(\bX | \btheta) p(\btheta) d \btheta} 
-		\]
-		\vspace{-0.2cm}
-	\end{block}
-	\begin{block}{Bayesian inference}
-		\vspace{-0.3cm}
-		\[
-			p(\bx | \bX) = \int p(\bx | \btheta) p(\btheta | \bX) d \btheta
-		\]
-	\end{block}
-    \begin{block}{Maximum a posteriori (MAP) estimation}
-	    \vspace{-0.3cm}
-	    \[
-	        \btheta^* = \argmax_{\btheta} \log p(\btheta | \bX) = \argmax_{\btheta} \bigl(\log p(\bX | \btheta) + \log p(\btheta) \bigr)
-	    \]
-        \vspace{-0.3cm}
-    \end{block}
-	\begin{block}{MAP inference}
-		\vspace{-0.4cm}
-		\[
-			p(\bx | \bX) = \int p(\bx| \btheta) p(\btheta | \bX ) d \btheta =  \int p(\bx| \btheta) \delta (\btheta - \btheta^* ) d \btheta \approx p(\bx | \btheta^*).
-		\]
-	\end{block}
-\end{frame}
-%=======
 \begin{frame}{VAE as Bayesian model}
 	\begin{block}{Posterior distribution}
 		\vspace{-0.2cm}
@@ -312,48 +317,31 @@
 \end{frame}
 %=======
 \begin{frame}{Posterior collapse}
-	\begin{block}{Representation learning}
-		"Identifies and disentangles the underlying causal factors of the data, so that it becomes easier to understand the data, to classify it, or to perform other tasks".
-	\end{block}
-	\vspace{-0.2cm}
-	\[
-		p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d \bz = \int p(\bx | \bz, \btheta) p(\bz) d \bz 
-	\]
-	If the decoder model $p(\bx | \bz, \btheta)$ is powerful enough to model $p(\bx | \btheta)$ the latent variables $\bz$ becomes irrelevant.
-	\[
-		\mathcal{L}(q, \btheta) = \left[ \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx) || p(\bz)) \right].
-	\]
-	Early in the training the approximate posterior $q(\bz|\bx)$ carries little information about $\bx$ and the model sets the posterior to the prior to avoid paying any cost $KL(q(\bz|\bx)||p(\bz))$.
-\end{frame}
-%=======
-\begin{frame}{PixelVAE}
 	\begin{block}{LVM}
 		\vspace{-0.3cm}
 		\[
-		    p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d \bz = \int p(\bx | \bz, \btheta) p(\bz) d \bz 
+   			p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d \bz = \int p(\bx | \bz, \btheta) p(\bz) d \bz 
 		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{ELBO objective}
 		\vspace{-0.3cm}
+		\[
+			\mathcal{L}(\bphi, \btheta) = \left[ \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz)) \right].
+		\]
 	\end{block}
 	\begin{itemize}
 		\item More powerful $p(\bx | \bz, \btheta)$ leads to more powerful generative model $p(\bx | \btheta)$.
-		\item Too powerful $p(\bx | \bz, \btheta)$ could lead to posterior collapse, where variational posterior $q(\bz | \bx)$ will not carry any information about data and close to prior $p(\bz)$.
+		\item If the decoder $p(\bx | \bz, \btheta)$ is too powerful (it could  model $p(\bx | \btheta)$), then the latent variables $\bz$ becomes irrelevant. ELBO avoids paying any cost $KL(q(\bz| \bx, \bphi)||p(\bz))$ ($q(\bz| \bx, \bphi) \approx p(\bz)$), the variational posterior $q(\bz | \bx, \bphi)$ will not carry any information about $\bx$ .
 	\end{itemize}
 	How to make the generative model $p(\bx | \bz, \btheta)$ more powerful?
-	\begin{block}{Autoregressive decoder}
-		\vspace{-0.2cm}
-		\[
-		    p(\bx | \bz , \btheta) = \prod_{i=1}^n p(x_i | \bx_{1:i - 1}, \bz , \btheta)
-		\]
-	\end{block}
-	
-	\myfootnotewithlink{https://arxiv.org/abs/1611.05013}{Gulrajani I. et al. PixelVAE: A Latent Variable Model for Natural Images, 2016}
 \end{frame}
 %=======
 \begin{frame}{PixelVAE}
 	\begin{block}{Autoregressive decoder}
 		\vspace{-0.3cm}
 		\[
-		p(\bx | \bz , \btheta) = \prod_{i=1}^n p(x_i | \bx_{1:i - 1}, \bz , \btheta)
+		p(\bx | \bz , \btheta) = \prod_{j=1}^m p(x_j | \bx_{1:j - 1}, \bz , \btheta)
 		\]
 		\vspace{-0.3cm}
 	\end{block}
@@ -374,26 +362,27 @@
 \end{frame}
 %=======
 \begin{frame}{Decoder weakening}
+	\vspace{-0.3cm}
 	\begin{itemize}
 		\item Powerful decoder $p(\bx | \bz, \btheta)$ makes the model expressive, but posterior collapse is possible.
 		\item PixelVAE model uses the autoregressive PixelCNN model with small number of layers to limit receptive field.
 	\end{itemize}
 	How to force the model encode information about $\bx$ into $\bz$?
 	\begin{block}{KL annealing}
-		\vspace{-0.3cm}
+		\vspace{-0.7cm}
 		\[
-		    \mathcal{L}(q, \btheta, \beta) = \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta) - \beta \cdot KL (q(\bz | \bx) || p(\bz))
+		    \mathcal{L}(\bphi, \btheta, \beta) = \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - \beta \cdot KL (q(\bz | \bx, \bphi) || p(\bz))
 		\]
+		\vspace{-0.7cm} \\
 		Start training with $\beta = 0$, increase it until $\beta = 1$ during training.
 	\end{block}
-	\vspace{-0.2cm}
 	\begin{block}{Free bits}
 		\vspace{-0.7cm}
 		\[
-		    \mathcal{L}(q, \btheta, \lambda) = \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta) - \max(\lambda, KL (q(\bz | \bx) || p(\bz))).
+		    \mathcal{L}(\bphi, \btheta, \lambda) = \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - \max(\lambda, KL (q(\bz | \bx, \bphi) || p(\bz))).
 		\]
 		\vspace{-0.7cm} \\
-		It ensures the use of less than $\lambda$ bits of information and results in $KL (q(\bz | \bx) || p(\bz)) \geq \lambda$.
+		It ensures the use of less than $\lambda$ bits of information and results in $KL (q(\bz | \bx, \bphi) || p(\bz)) \geq \lambda$.
 	\end{block}
 	\myfootnote{\href{https://arxiv.org/abs/1511.06349}{Bowman S. R. et al. Generating Sentences from a Continuous Space, 2015} \\
 	\href{https://arxiv.org/abs/1606.04934}{Kingma D. P. et al. Improving Variational Inference with Inverse Autoregressive Flow, 2016}}
@@ -423,7 +412,7 @@
 \end{frame}
 %=======
 \begin{frame}{Importance Sampling}
-	\begin{block}{Generative model}
+	\begin{block}{LVM}
 		\vspace{-0.5cm}
 		\begin{align*}
 			p(\bx | \btheta) &= \int p(\bx, \bz | \btheta) d\bz = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} \right] q(\bz | \bx) d\bz \\
@@ -431,7 +420,7 @@
 		\end{align*}
 	\end{block}
 	Here $f(\bx, \bz) = \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$.
-	\begin{block}{ELBO}
+	\begin{block}{ELBO: derivation 1}
 		\vspace{-0.5cm}
 		\begin{multline*}
 			\log p(\bx | \btheta) = \log \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
