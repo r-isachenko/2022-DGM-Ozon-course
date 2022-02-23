@@ -8,8 +8,18 @@
 \titlepage
 \end{frame}
 %=======
-\begin{frame}{MADE}
+\begin{frame}[allowframebreaks]{Outline}
+	\tableofcontents
 \end{frame}
+\AtBeginSection[ ]
+{
+	\begin{frame}[shrink]{Outline}
+		\tableofcontents[currentsection,hideothersubsections]
+	\end{frame}
+}
+%=======
+\section{Autoregressive models}
+\subsection{Masked Autoencoder (MADE)}
 %=======
 \begin{frame}{MADE}
 	\begin{itemize}
@@ -68,8 +78,7 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1502.03509}{Germain M. et al. Made: Masked autoencoder for distribution estimation, 2015}
 \end{frame}
 %=======
-\begin{frame}{GatedPixelCNN}
-\end{frame}
+\subsection{GatedPixelCNN}
 %=======
 \begin{frame}{GatedPixelCNN (2016)}
 \begin{figure}
@@ -111,8 +120,7 @@
 \end{itemize}
 \end{frame}
 %=======
-\begin{frame}{ELBO gradient, Log derivative trick}
-\end{frame}
+\section{ELBO gradient, Log derivative trick}
 %=======
 \begin{frame}{ELBO gradient (E-step, $\nabla_{\bphi} \mathcal{L}(\bphi, \btheta)$)}
 \vspace{-0.3cm}
@@ -156,8 +164,7 @@
 	\end{block}
 \end{frame}
 %=======
-\begin{frame}{Mean field approximation}
-\end{frame}
+\section{Mean field approximation}
 %=======
 \begin{frame}{Bayesian framework}
 	\begin{block}{Bayes theorem}
@@ -392,8 +399,7 @@
 	\end{block}
 \end{frame}
 %=======
-\begin{frame}{Flows intuition}
-\end{frame}
+\section{Flows intuition}
 %=======
 \begin{frame}{Flows intuition}
 	Let $\xi$ be a random variable with density $p(\xi)$. Then
@@ -429,34 +435,6 @@
 	\end{itemize}
 \end{frame}
 %=======
-\begin{frame}{ELBO interpretations}
-	\[
-		\log p(\bx | \btheta) = \cL (q, \btheta) + KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)).
-	\]
-	\[
-		\cL (q, \btheta) = \int q(\bz | \bx, \bphi) \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} d \bz.
-	\]
-	\begin{itemize}
-	    \item Evidence minus posterior KL
-	    \vspace{-0.1cm}
-	    \[
-	        \mathcal{L}(q, \btheta) = \log p(\bx | \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)).
-	    \]
-	    \item Average negative energy plus entropy
-	    \vspace{-0.1cm}
-	    \begin{align*}
-	        \mathcal{L}(q, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx, \bz | \btheta) - \log q(\bz | \bx, \bphi)  \right] \\
-	        &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx, \bz | \btheta) + \mathbb{H} \left[q(\bz | \bx, \bphi) \right].
-	    \end{align*}
-	    \item Average reconstruction minus KL to prior
-	    \vspace{-0.1cm}
-	    \begin{align*}
-	        \mathcal{L}(q, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz | \bx, \bphi) \right] \\
-	        &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz)).
-	    \end{align*}
-	\end{itemize}
-\end{frame}
-%=======
 \begin{frame}{Variational Autoencoder}
 	Generated images for latent objects $\bz$ sampled from prior $\mathcal{N}(0, \mathbf{I})$
 	\begin{figure}[h]
@@ -466,7 +444,54 @@
 	\myfootnotewithlink{https://habr.com/ru/post/331664}{image credit: https://habr.com/ru/post/331664}
 \end{frame}
 %=======
-\begin{frame}{IWAE, active units, posterior collapse}
+\section{IWAE}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Theorem}
+		\begin{enumerate}
+			\item $\log p(\bx | \btheta) \geq \mathcal{L}_K (q, \btheta) \geq \mathcal{L}_M (q, \btheta), \quad \text{for } K \geq M$;
+			\item $\log p(\bx | \btheta) = \lim_{K \rightarrow \infty} \mathcal{L}_K (q, \btheta)$ if $\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$ is bounded.
+		\end{enumerate}
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{block}{Proof of 1.}
+		{ \footnotesize
+			\vspace{-0.6cm}
+			\begin{align*}
+				\mathcal{L}_K (q, \btheta) &= \mathbb{E}_{\bz_1, \dots, \bz_K} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right) = \\
+				&= \mathbb{E}_{\bz_1, \dots, \bz_K} \log \mathbb{E}_{k_1, \dots, k_M} \left( \frac{1}{M}\sum_{m=1}^M\frac{p(\bx, \bz_{k_M} | \btheta)}{q(\bz_{k_m}| \bx)} \right) \geq \\
+				&\geq \mathbb{E}_{\bz_1, \dots, \bz_K} \mathbb{E}_{k_1, \dots, k_m} \log \left( \frac{1}{M}\sum_{m=1}^M\frac{p(\bx, \bz_{k_m} | \btheta)}{q(\bz_{k_m}| \bx)} \right) = \\
+				&= \mathbb{E}_{\bz_1, \dots, \bz_M} \log \left( \frac{1}{M}\sum_{m=1}^M\frac{p(\bx, \bz_m | \btheta)}{q(\bz_m| \bx)} \right) = \mathcal{L}_M (q, \btheta)
+			\end{align*}
+			\[
+			\frac{a_1 + \dots + a_K}{K} = \mathbb{E}_{k_1, \dots, k_M} \frac{a_{k_1} + \dots + a_{k_M}}{M}, \quad k_1, \dots, k_M \sim U[1, K]
+			\]
+		}
+	\end{block}
+	
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
+\end{frame}
+%=======
+\begin{frame}{IWAE}
+	\begin{block}{Theorem}
+		\begin{enumerate}
+			\item $\log p(\bx | \btheta) \geq \mathcal{L}_K (q, \btheta) \geq \mathcal{L}_M (q, \btheta), \quad \text{for} K \geq M$;
+			\item $\log p(\bx | \btheta) = \lim_{K \rightarrow \infty} \mathcal{L}_K (q, \btheta)$ if $\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$ is bounded.
+		\end{enumerate}
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{block}{Proof of 2.}
+		\vspace{0.2cm}
+		Consider r.v. $\xi_K = \frac{1}{K}\sum_{k=1}^K \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx)}$. \\
+		\vspace{0.2cm}
+		If summands are bounded, then (from the strong law of large numbers)
+		\[
+		\xi_K \xrightarrow[K \rightarrow \infty]{a.s.} \mathbb{E}_{q(\bz | \bx)} \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} = p(\bx | \btheta).
+		\]
+		Hence $\mathcal{L}_K (q, \btheta) = \mathbb{E} \log \xi_K$ converges to $\log p(\bx | \btheta)$ as $K \rightarrow \infty$.
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
 \end{frame}
 %=======
 \begin{frame}{IWAE, 2015}
@@ -483,8 +508,7 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 {\scriptsize \href{https://arxiv.org/pdf/1509.00519.pdf}{https://arxiv.org/pdf/1509.00519.pdf}}
 \end{frame}
 %=======
-\begin{frame}{PixelVAE, Hierarchical VAE}
-\end{frame}
+\section{PixelVAE, Hierarchical VAE}
 %=======
 \begin{frame}{PixelVAE, 2016}
 	\begin{block}{Hierarchical VAE}
@@ -524,8 +548,7 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 	{\scriptsize \href{https://arxiv.org/pdf/1611.05013.pdf}{https://arxiv.org/pdf/1611.05013.pdf}}
 \end{frame}
 %=======
-\begin{frame}{RevNet, i-RevNet}
-\end{frame}
+\section{RevNet, i-RevNet}
 %=======
 \begin{frame}{RevNets, 2017}
 	\begin{minipage}[t]{0.6\columnwidth}
@@ -619,8 +642,7 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
 \end{frame}
 %=======
-\begin{frame}{Posterior collapse, toy example}
-\end{frame}
+\section{Posterior collapse}
 %=======
 \begin{frame}{Posterior collapse: toy example}
 	Let define latent variable model in the following way:
@@ -641,7 +663,7 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 	What is the difference?
 \end{frame}
 %=======
-\begin{frame}{Posterior collapse: toy example}
+\begin{frame}{Posterior collapse: toy example + VLAE}
 	\begin{block}{Multivariate ($\bSigma$ is non-diagonal)}
 		\vspace{-0.5cm}
 		\begin{minipage}[t]{0.33\columnwidth}
@@ -687,6 +709,75 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 		\end{minipage}
 		Latent variables are not used, since the decoder could model the data without the encoder.
 	\end{block}
+\end{frame}
+%=======
+\begin{frame}{Variational Lossy AutoEncoder}
+	\begin{block}{Lossy code via explicit information placement}
+		\[
+		p(\bx | \bz, \btheta) = \prod_{i=1}^m p(x_i | \bz, \bx_{\text{WindowAround}(i)}, \btheta).
+		\]
+		\begin{itemize}
+			\item WindowAround($i$) restricts the receptive field (it forbids to represent arbitrarily complex distribution over $\bx$ without dependence on $\bz$). 
+			\item Local statistics of 2D images (texture) will be modeled by a small local window.
+			\item Global structural information (shapes) is long-range dependency that can only be communicated through latent code $\bz$. 
+		\end{itemize}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1611.02731}{Chen X. et al. Variational Lossy Autoencoder, 2016}
+\end{frame}
+%=======
+\begin{frame}{Variational Lossy AutoEncoder}
+	\begin{itemize}
+		\item Can VLAE learn lossy codes that encode global statistics?
+		\item Does using AF priors improves upon using IAF posteriors as predicted by theory?
+		\item Does using autoregressive decoding distributions improve density estimation performance?
+	\end{itemize}
+	\begin{minipage}[t]{0.5\columnwidth}
+		\vspace{1cm}
+		MNIST
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=1.\linewidth]{figs/VLAE_1.png}
+		\end{figure}
+	\end{minipage}%
+	\begin{minipage}[t]{0.5\columnwidth}
+		CIFAR10
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=1.\linewidth]{figs/VLAE_2.png}
+		\end{figure}
+	\end{minipage}
+	
+	\myfootnotewithlink{https://arxiv.org/abs/1611.02731}{Chen X. et al. Variational Lossy Autoencoder, 2016}
+\end{frame}
+%=======
+\section{ELBO surgery}
+%=======
+\begin{frame}{ELBO interpretations}
+	\[
+		\log p(\bx | \btheta) = \cL (q, \btheta) + KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)).
+	\]
+	\[
+		\cL (q, \btheta) = \int q(\bz | \bx, \bphi) \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} d \bz.
+	\]
+	\begin{itemize}
+	    \item Evidence minus posterior KL
+	    \vspace{-0.1cm}
+	    \[
+	        \mathcal{L}(q, \btheta) = \log p(\bx | \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)).
+	    \]
+	    \item Average negative energy plus entropy
+	    \vspace{-0.1cm}
+	    \begin{align*}
+	        \mathcal{L}(q, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx, \bz | \btheta) - \log q(\bz | \bx, \bphi)  \right] \\
+	        &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx, \bz | \btheta) + \mathbb{H} \left[q(\bz | \bx, \bphi) \right].
+	    \end{align*}
+	    \item Average reconstruction minus KL to prior
+	    \vspace{-0.1cm}
+	    \begin{align*}
+	        \mathcal{L}(q, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz | \bx, \bphi) \right] \\
+	        &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz)).
+	    \end{align*}
+	\end{itemize}
 \end{frame}
 %=======
 \begin{frame}{ELBO surgery, 2016}
@@ -791,50 +882,9 @@ where $i$ is treated as random variable:
 {\scriptsize \href{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}}
 \end{frame}
 %=======
-\begin{frame}{Posterior collapse, VLAE}
-\end{frame}
+\section{Disentanglement}
 %=======
-\begin{frame}{Variational Lossy AutoEncoder}
-	\begin{block}{Lossy code via explicit information placement}
-		\[
-		p(\bx | \bz, \btheta) = \prod_{i=1}^m p(x_i | \bz, \bx_{\text{WindowAround}(i)}, \btheta).
-		\]
-		\begin{itemize}
-			\item WindowAround($i$) restricts the receptive field (it forbids to represent arbitrarily complex distribution over $\bx$ without dependence on $\bz$). 
-			\item Local statistics of 2D images (texture) will be modeled by a small local window.
-			\item Global structural information (shapes) is long-range dependency that can only be communicated through latent code $\bz$. 
-		\end{itemize}
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1611.02731}{Chen X. et al. Variational Lossy Autoencoder, 2016}
-\end{frame}
-%=======
-\begin{frame}{Variational Lossy AutoEncoder}
-	\begin{itemize}
-		\item Can VLAE learn lossy codes that encode global statistics?
-		\item Does using AF priors improves upon using IAF posteriors as predicted by theory?
-		\item Does using autoregressive decoding distributions improve density estimation performance?
-	\end{itemize}
-	\begin{minipage}[t]{0.5\columnwidth}
-		\vspace{1cm}
-		MNIST
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=1.\linewidth]{figs/VLAE_1.png}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.5\columnwidth}
-		CIFAR10
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=1.\linewidth]{figs/VLAE_2.png}
-		\end{figure}
-	\end{minipage}
-	
-	\myfootnotewithlink{https://arxiv.org/abs/1611.02731}{Chen X. et al. Variational Lossy Autoencoder, 2016}
-\end{frame}
-%=======
-\begin{frame}{Disentanglement, InfoGAN}
-\end{frame}
+\subsection{InfoGAN}
 %=======
 \begin{frame}{InfoGAN}
 	\begin{block}{GAN objective}
@@ -906,8 +956,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1606.03657}{Chen X. et al. InfoGAN: Interpretable Representation Learning by Information Maximizing Generative Adversarial Nets, 2016}
 \end{frame}
 %=======
-\begin{frame}{$\beta$-VAE, Disentanglement metric}
-\end{frame}
+\subsection{$\beta$-VAE, Disentanglement metric}
 %=======
 \begin{frame}{$\beta$-VAE}
 	\begin{block}{Disentangling metric}
@@ -989,8 +1038,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1804.03599}{Burgess C. P. et al. Understanding disentangling in $\beta$-VAE, 2018}
 \end{frame}
 %=======
-\begin{frame}{FactorVAE}
-\end{frame}
+\subsection{FactorVAE}
 %=======
 \begin{frame}{FactorVAE}
 	\begin{block}{Disentangled aggregated variational posterior}
@@ -1086,8 +1134,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1802.05983}{Kim H., Mnih A. Disentangling by Factorising, 2018}
 \end{frame}
 %=======
-\begin{frame}{Challenging Disentanglement Assumptions}
-\end{frame}
+\subsection{Challenging Disentanglement Assumptions}
 %=======
 \begin{frame}{Challenging Disentanglement Assumptions}
 \begin{block}{Proof (1)}
@@ -1141,8 +1188,9 @@ where $i$ is treated as random variable:
 \myfootnotewithlink{https://arxiv.org/abs/1811.12359}{Locatello F. et al. Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations, 2018}
 \end{frame}
 %=======
-\begin{frame}{DCGAN}
-\end{frame}
+\section{GANs}
+%=======
+\subsection{DCGAN}
 %=======
 \begin{frame}{Vanilla GAN results}
 	\begin{figure}
@@ -1206,8 +1254,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1511.06434}{Radford A., Metz L., Chintala S. Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks, 2015}
 \end{frame}
 %=======
-\begin{frame}{Improved techniques for training GANs}
-\end{frame}
+\subsection{Improved techniques for training GANs}
 %=======
 \begin{frame}{Improved techniques for training GANs}
 	\begin{itemize}
@@ -1242,8 +1289,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1606.03498}{Salimans T. et al. Improved Techniques for Training GANs, 2016}
 \end{frame}
 %=======
-\begin{frame}{WGAN}
-\end{frame}
+\subsection{WGAN}
 %=======
 \begin{frame}{Wasserstein GAN}
 	\begin{figure}
@@ -1264,8 +1310,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1704.00028}{Gulrajani I. et al. Improved Training of Wasserstein GANs, 2017}
 \end{frame}
 %=======
-\begin{frame}{StyleGAN}
-\end{frame}
+\subsection{StyleGAN}
 %=======
 \begin{frame}{StyleGAN}
 	\begin{block}{Step 2: Style modulation}
@@ -1340,8 +1385,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1812.04948}{Karras T., Laine S., Aila T. A Style-Based Generator Architecture for Generative Adversarial Networks, 2018}
 \end{frame}
 %=======
-\begin{frame}{FFJORD}
-\end{frame}
+\section{FFJORD}
 %=======
 \begin{frame}{Continuous Normalizing Flows}
 	\begin{block}{Forward transform + log-density}
@@ -1385,8 +1429,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
 \end{frame}
 %=======
-\begin{frame}{Vector Quantized VAE-2}
-\end{frame}
+\section{Vector Quantized VAE-2}
 %=======
 \begin{frame}{Vector Quantized VAE}
 	\begin{itemize}
@@ -1432,8 +1475,7 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1906.00446}{Razavi A., Oord A., Vinyals O. Generating Diverse High-Fidelity Images with VQ-VAE-2, 2019} 
 \end{frame}
 %=======
-\begin{frame}{Feature Quantized GAN}
-\end{frame}
+\section{Feature Quantized GAN}
 %=======
 \begin{frame}{Feature Quantized GAN}
 	\begin{itemize}
