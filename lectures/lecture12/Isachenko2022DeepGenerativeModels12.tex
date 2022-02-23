@@ -284,112 +284,155 @@ s\end{frame}
 	\myfootnotewithlink{https://arxiv.org/abs/1812.04948}{Karras T., Laine S., Aila T. A Style-Based Generator Architecture for Generative Adversarial Networks, 2018}
 \end{frame}
 %=======
-\begin{frame}{VAE recap}
-	\vspace{-0.3cm}
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=\linewidth]{figs/vae-gaussian.png}
-	\end{figure}
-	\vspace{-0.5cm}
-	\begin{itemize}
-		\item Encoder $q(\bz | \bx, \bphi) = \cN(\bz | \bmu_{\bphi}(\bx), \bsigma_{\bphi}(\bx))$.
-		\item Variational posterior $q(\bz | \bx, \bphi)$ originally approximates the true posterior $p(\bz | \bx, \btheta)$.
-		\item Which methods are you already familiar with to make the posterior is more flexible?
-	\end{itemize}
-	\myfootnotewithlink{https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html}{image credit: https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html}
-\end{frame}
-%=======
-\begin{frame}{Adversarial Variational Bayes}
-	\begin{block}{ELBO objective}
-		\vspace{-0.5cm}
-		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz| \bx, \bphi) \right] \rightarrow \max_{\bphi, \btheta}.
-		\]	
-		\vspace{-0.5cm}
-	\end{block}
-	What is the problem to make the variational posterior model an implicit model?
-	\begin{itemize}
-	\item The first term is reconstruction loss that needs only samples from $q(\bz | \bx, \bphi)$ to evaluate.
-	\item Reparametrization trick allows to get gradients of reconstruction loss
-		\vspace{-0.4cm}
-		\begin{multline*}
-			\nabla_{\bphi}\int q(\bz|\bx, \bphi) f(\bz) d\bz = \nabla_{\bphi}\int r(\bepsilon)  f(\bz) d\bepsilon \\ = \int r(\bepsilon) \nabla_{\bphi} f(g(\bx, \bepsilon, \bphi)) d\bepsilon \approx \nabla_{\bphi} f(g(\bx, \bepsilon^*, \bphi)),
-		\end{multline*}
-		\vspace{-0.6cm} \\
-		where $\bepsilon^* \sim r(\bepsilon), \quad \bz = g(\bx, \bepsilon, \bphi), \quad \bz \sim q(\bz | \bx, \bphi)$.
-	\end{itemize}
-	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
-\end{frame}
-%=======
-\begin{frame}{Adversarial Variational Bayes}
-	\begin{block}{ELBO objective}
-		\vspace{-0.5cm}
-		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz| \bx, \bphi) \right] \rightarrow \max_{\bphi, \btheta}.
-		\]	
-		\vspace{-0.5cm}
-	\end{block}
-	What is the problem to make the variational posterior model an implicit model?
-	\begin{itemize}
-	\item The third term requires the explicit the value of $q(\bz | \bx, \bphi)$.
-	\item We could join second and third terms:
-		\vspace{-0.2cm}
-		\[
-			\mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{p(\bz)}{q(\bz| \bx, \bphi)} = \mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{p(\bz) \pi(\bx)}{q(\bz| \bx, \bphi) \pi (\bx)}.
-		\]
-		\vspace{-0.5cm}
-	\item We have to estimate density ratio 
-		\vspace{-0.2cm}
-		\[
-			r(\bx, \bz) = \frac{q_1(\bx, \bz)}{q_2(\bx, \bz)} = \frac{p(\bz) \pi(\bx)}{q(\bz| \bx, \bphi) \pi (\bx)}.
-		\] 
-	\end{itemize}
-	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
-\end{frame}
-%=======
-\begin{frame}{Density ratio trick}
-	Consider two distributions $q_1(\bx)$, $q_2(\bx)$ and probabilistic model
-	\[
-		p(\bx | y) = \begin{cases}
-			q_1(\bx), \text{ if } y = 1, \\
-			q_2(\bx), \text{ if } y = 0,
-		\end{cases}
-		\quad 
-		y \sim \text{Bern}(0.5).
-	\]
-	\vspace{-0.3cm}
-	\begin{block}{Density ratio}
-		\vspace{-0.7cm}
-		{\small
-		\begin{multline*}
-			\frac{q_1(\bx)}{q_2(\bx)} = \frac{p(\bx | y = 1)}{p(\bx | y = 0)} = \frac{p(y = 1 | \bx) p(\bx)}{p(y=1)} \bigg/ \frac{p(y = 0 | \bx) p(\bx)}{p(y=0)} = \\
-			= \frac{p(y = 1 | \bx)}{p(y = 0 | \bx)} = \frac{p(y = 1 | \bx)}{1 - p(y = 1 | \bx)} = \frac{D(\bx)}{1 - D(\bx)}
-		\end{multline*}
-		}
-		Here $D(\bx)$ is a discriminator model the output of which is a probability that $\bx$ is a sample
-		from $q_1(\bx)$ rather than from $q_2(\bx)$.
-	\end{block}
-	\begin{block}{Adversarial Variational Bayes}
+\begin{frame}{Neural ODE}
+	Consider Ordinary Differential Equation    
+	\begin{align*}
+	    \frac{d \bz(t)}{dt} &= f(\bz(t), \btheta); \quad \text{with initial condition }\bz(t_0) = \bz_0. \\
+	    \bz(t_1) &= \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 = \text{ODESolve}(\bz(t_0), f, t_0,t_1, \btheta).
+	\end{align*}
+	\vspace{-0.4cm}
+	\begin{block}{Euler update step}
 		\vspace{-0.6cm}
 		\[
-			\max_D \left[ \bbE_{\pi(\bx)} \bbE_{q(\bz | \bx, \bphi)} \log D(\bx, \bz) + \bbE_{\pi(\bx)} \bbE_{p(\bz)} \log (1 - D(\bx, \bz)) \right]
+		    \frac{\bz(t + \Delta t) - \bz(t)}{\Delta t} = f(\bz(t), \btheta) \quad \Rightarrow \quad \bz(t + \Delta t) = \bz(t) + \Delta t f(\bz(t), \btheta).
 		\]
+		\vspace{-0.7cm}
 	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
+	\begin{block}{Residual block}
+		\begin{minipage}[t]{0.7\columnwidth}
+			\vspace{-0.4cm}
+			\[
+				\bz_{t + 1} = \bz_t + f(\bz_t, \btheta)
+			\]
+			\vspace{-0.6cm}
+			\begin{itemize}
+				 \item It is equavalent to Euler update step for solving ODE with $\Delta t = 1$!
+				 \item Euler update step is unstable and trivial. There are more sophisticated methods.
+			\end{itemize}
+		\end{minipage}%
+		\begin{minipage}[t]{0.3\columnwidth}
+			\vspace{-0.2cm}
+			\begin{figure}
+			    \centering
+			    \includegraphics[width=\linewidth]{figs/resnet_1.png}
+			\end{figure}
+		\end{minipage}
+		\vspace{-0.4cm}
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
 \end{frame}
 %=======
-\begin{frame}{Adversarial Variational Bayes}
-	\begin{block}{ELBO objective}
+\begin{frame}{Neural ODE}
+	\begin{block}{Residual block}
+	\vspace{-0.4cm}
+	\[
+	    \bz_{t+1} = \bz_t + f(\bz_t, \btheta).
+	\]
+	\vspace{-0.4cm}
+	\end{block}
+	In the limit of adding more layers and taking smaller steps, we parameterize the continuous dynamics of hidden units using an ODE specified by a neural network: 
+	\[
+	    \frac{d \bz(t)}{dt} = f(\bz(t), t, \btheta); \quad \bz(t_0) = \bx; \quad \bz(t_1) = \by.
+	\]
+	\begin{minipage}[t]{0.4\columnwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{figs/euler}
+		\end{figure}
+	\end{minipage}%
+	\begin{minipage}[t]{0.6\columnwidth}
+		\vspace{-0.4cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\linewidth]{figs/resnet_vs_neural_ode.png}
+		\end{figure}
+	\end{minipage}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
+\end{frame}
+%=======
+
+\begin{frame}{Neural ODE}
+	\begin{block}{Forward pass (loss function)}
+		\vspace{-0.8cm}
+		\begin{align*}
+			L(\by) = L(\bz(t_1)) &= L\left( \bz(t_0) + \int_{t_0}^{t_1} f(\bz(t), \btheta) dt \right) \\ &= L\bigl(\text{ODESolve}(\bz(t_0), f, t_0,t_1, \btheta) \bigr)
+		\end{align*}
+	\vspace{-0.5cm}
+	\end{block}
+	\textbf{Note:} ODESolve could be any method (Euler step, Runge-Kutta methods).
+	\begin{block}{Backward pass (gradients computation)}
+		For fitting parameters we need gradients:
+		\[
+			\ba_{\bz}(t) = \frac{\partial L(\by)}{\partial \bz(t)}; \quad \ba_{\btheta}(t) = \frac{\partial L(\by)}{\partial \btheta(t)}.
+		\]
+		In theory of optimal control these functions called \textbf{adjoint} functions. 
+		They show how the gradient of the loss depends on the hidden state~$\bz(t)$ and parameters $\btheta$.
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}     
+\end{frame}
+%=======
+\begin{frame}{Neural ODE}
+	\begin{block}{Adjoint functions}
+		\vspace{-0.3cm}
+		\[
+			\ba_{\bz}(t) = \frac{\partial L(\by)}{\partial \bz(t)}; \quad \ba_{\btheta}(t) = \frac{\partial L(\by)}{\partial \btheta(t)}.
+		\]
+		\vspace{-0.6cm}
+	\end{block}
+	\begin{block}{Theorem (Pontryagin)}
+	\vspace{-0.6cm}
+	\[
+	     \frac{d \ba_{\bz}(t)}{dt} = - \ba_{\bz}(t)^T \cdot \frac{\partial f(\bz(t), \btheta)}{\partial \bz}; \quad \frac{d \ba_{\btheta}(t)}{dt} = - \ba_{\bz}(t)^T \cdot \frac{\partial f(\bz(t), \btheta)}{\partial \btheta}.
+	\]
+	Do we know any initilal condition?
+	\end{block}
+	\begin{block}{Solution for adjoint function}
+		\vspace{-0.8cm}
+		\begin{align*}
+			 \frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0\\
+			 \frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)}\\
+		\end{align*}
+		\vspace{-1.5cm}
+	\end{block}
+	\textbf{Note:} These equations are solved back in time.
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
+\end{frame}
+%=======
+\begin{frame}{Neural ODE}
+	\vspace{-0.2cm}
+	\begin{block}{Forward pass}
 		\vspace{-0.5cm}
 		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log \frac{p(\bz)}{q(\bz| \bx, \bphi)} \right] \rightarrow \max_{\bphi, \btheta}.
-		\]	
-		\vspace{-0.5cm}
+			\bz(t_1) = \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 \quad \Rightarrow \quad \text{ODE Solver}
+		\]
+		\vspace{-0.6cm}
 	\end{block}
+	\begin{block}{Backward pass}
+		\vspace{-0.8cm}
+		\begin{equation*}
+			\left.
+				{\footnotesize 
+				\begin{aligned}
+					\frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0 \\
+					\frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)} \\
+					\bz(t_0) &= - \int^{t_0}_{t_1} f(\bz(t), \btheta) d t  + \bz_1.
+				\end{aligned}
+				}
+			\right\rbrace
+			 \Rightarrow
+			\text{ODE Solver}
+		\end{equation*}
+		\vspace{-0.4cm} 
+	\end{block}
+	\textbf{Note:} These scary formulas are the standard backprop in the discrete case.
 	\begin{figure}
-		\includegraphics[width=0.7\linewidth]{figs/avb_scheme}
+		\centering
+		\includegraphics[width=\linewidth]{figs/neural_ode}
 	\end{figure}
-	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
 \end{frame}
 %=======
 \begin{frame}{Summary}
@@ -402,7 +445,9 @@ s\end{frame}
 		\vfill
 		\item StyleGAN introduces mapping network to get more disentangled latent representation.
 		\vfill
-		\item Adversarial Variational Bayes uses density ratio trick to get more powerful variational posterior.
+		\item Residual networks could be interpreted as solution of ODE with Euler method.
+		\vfill
+		\item Adjoint method generalizes backpropagation procedure and allows to train Neural ODE solving ODE for adjoint function back in time.
 	\end{itemize}
 \end{frame}
 %=======

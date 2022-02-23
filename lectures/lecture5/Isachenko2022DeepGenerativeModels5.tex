@@ -48,7 +48,7 @@
 	\begin{block}{Autoregressive decoder}
 		\vspace{-0.2cm}
 		\[
-		    p(\bx | \bz , \btheta) = \prod_{i=1}^n p(x_i | \bx_{1:i - 1}, \bz , \btheta)
+		    p(\bx | \bz , \btheta) = \prod_{j=1}^m p(x_i | \bx_{1:j - 1}, \bz , \btheta)
 		\]
 	\end{block}
 	\begin{itemize}
@@ -117,6 +117,8 @@
 		\tableofcontents[currentsection]
 	\end{frame}
 }
+%=======
+\section{Normalizing flows}
 %=======
 \begin{frame}{Likelihood-based models so far...}
 	\begin{minipage}[t]{0.5\columnwidth}
@@ -198,7 +200,7 @@
 \end{frame}
 %=======
 \begin{frame}{Normalizing flows prerequisites}
-	\begin{block}{Change of variable theorem}
+	\begin{block}{Change of variable theorem (CoV)}
 		Let $\bx$ be a random variable with density function $p(\bx)$ and $f: \mathbb{R}^m \rightarrow \mathbb{R}^m$ is a differentiable, invertible function (diffeomorphism). If $\bz = f(\bx)$, $\bx = f^{-1}(\bz) = g(\bz)$, then
 		\begin{align*}
 			p(\bx) &= p(\bz) \left|\det \left(  \frac{\partial \bz}{\partial \bx} \right) \right| = p(f(\bx)) \left|\det \left(  \frac{\partial f(\bx)}{\partial \bx} \right) \right| \\
@@ -318,6 +320,8 @@
 		\myfootnotewithlink{https://arxiv.org/abs/1912.02762}{Papamakarios G. et al. Normalizing flows for probabilistic modeling and inference, 2019} 
 \end{frame}
 %=======
+\section{Forward and Reverse KL for Normalizing flows}
+%=======
 \begin{frame}{Forward KL vs Reverse KL}
 	\begin{block}{Forward KL}
 		\vspace{-0.5cm}
@@ -405,6 +409,8 @@
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1705.07057}{Papamakarios G., Pavlakou T., Murray I. Masked Autoregressive Flow for Density Estimation, 2017} 
 \end{frame}
+%=======
+\section{Residual and Linear flows}
 %=======
 \begin{frame}{Jacobian structure}
 	\begin{block}{Flow log-likelihood}
@@ -525,9 +531,8 @@
 		\end{itemize}
 	\end{block}
 
-	\myfootnote{
-		\href{https://arxiv.org/abs/1807.03039}{Kingma D. P., Dhariwal P. Glow: Generative Flow with Invertible 1x1 Convolutions, 2018}  \\
-		\href{https://arxiv.org/abs/1901.11137}{Hoogeboom E., Van Den Berg R., and Welling M. Emerging convolutions for generative normalizing flows, 2019}
+	\myfootnote{\href{https://arxiv.org/abs/1807.03039}{Kingma D. P., Dhariwal P. Glow: Generative Flow with Invertible 1x1 Convolutions, 2018}  \\
+	\href{https://arxiv.org/abs/1901.11137}{Hoogeboom E., Van Den Berg R., and Welling M. Emerging convolutions for generative normalizing flows, 2019}
 	}
 \end{frame}
 %=======

@@ -17,30 +17,8 @@
 		\item \textbf{Self-Attention GAN} allows to make huge receptive field and reduce convolution inductive bias.
 		\item \textbf{BigGAN} shows that large batch size increase model quality gradually.
 		\item \textbf{Progressive Growing GAN} starts from a low resolution, adds new layers that model fine details as training progresses.
-		\item \textbf{StyleGAN}  introduces mapping network to get more disentangled latent representation.
+		\item \textbf{StyleGAN} introduces mapping network to get more disentangled latent representation.
 	\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{Recap of previous lecture}
-	\begin{block}{ELBO objective}
-		\vspace{-0.5cm}
-		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz| \bx, \bphi) \right] \rightarrow \max_{\bphi, \btheta}.
-		\]	
-		\vspace{-0.5cm}
-	\end{block}
-	What is the problem to make the variational posterior model an \textbf{implicit} model? \\
-	 We have to estimate density ratio 
-	\[
-		r(\bx, \bz) = \frac{q_1(\bx, \bz)}{q_2(\bx, \bz)} = \frac{p(\bz) \pi(\bx)}{q(\bz| \bx, \bphi) \pi (\bx)}.
-	\] 
-	\begin{block}{Adversarial Variational Bayes}
-		\vspace{-0.6cm}
-		\[
-			\max_D \left[ \bbE_{\pi(\bx)} \bbE_{q(\bz | \bx, \bphi)} \log D(\bx, \bz) + \bbE_{\pi(\bx)} \bbE_{p(\bz)} \log (1 - D(\bx, \bz)) \right]
-		\]
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
 \end{frame}
 %=======
 \begin{frame}{Outline}
@@ -52,157 +30,6 @@
 		\tableofcontents[currentsection]
 	\end{frame}
 }
-%=======
-\begin{frame}{Neural ODE}
-	Consider Ordinary Differential Equation    
-	\begin{align*}
-	    \frac{d \bz(t)}{dt} &= f(\bz(t), \btheta); \quad \text{with initial condition }\bz(t_0) = \bz_0. \\
-	    \bz(t_1) &= \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 = \text{ODESolve}(\bz(t_0), f, t_0,t_1, \btheta).
-	\end{align*}
-	\vspace{-0.4cm}
-	\begin{block}{Euler update step}
-		\vspace{-0.6cm}
-		\[
-		    \frac{\bz(t + \Delta t) - \bz(t)}{\Delta t} = f(\bz(t), \btheta) \quad \Rightarrow \quad \bz(t + \Delta t) = \bz(t) + \Delta t f(\bz(t), \btheta).
-		\]
-		\vspace{-0.7cm}
-	\end{block}
-	\begin{block}{Residual block}
-		\begin{minipage}[t]{0.7\columnwidth}
-			\vspace{-0.4cm}
-			\[
-				\bz_{t + 1} = \bz_t + f(\bz_t, \btheta)
-			\]
-			\vspace{-0.6cm}
-			\begin{itemize}
-				 \item It is equavalent to Euler update step for solving ODE with $\Delta t = 1$!
-				 \item Euler update step is unstable and trivial. There are more sophisticated methods.
-			\end{itemize}
-		\end{minipage}%
-		\begin{minipage}[t]{0.3\columnwidth}
-			\vspace{-0.2cm}
-			\begin{figure}
-			    \centering
-			    \includegraphics[width=\linewidth]{figs/resnet_1.png}
-			\end{figure}
-		\end{minipage}
-		\vspace{-0.4cm}
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-\begin{frame}{Neural ODE}
-	\begin{block}{Residual block}
-	\vspace{-0.4cm}
-	\[
-	    \bz_{t+1} = \bz_t + f(\bz_t, \btheta).
-	\]
-	\vspace{-0.4cm}
-	\end{block}
-	In the limit of adding more layers and taking smaller steps, we parameterize the continuous dynamics of hidden units using an ODE specified by a neural network: 
-	\[
-	    \frac{d \bz(t)}{dt} = f(\bz(t), t, \btheta); \quad \bz(t_0) = \bx; \quad \bz(t_1) = \by.
-	\]
-	\begin{minipage}[t]{0.4\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\linewidth]{figs/euler}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.6\columnwidth}
-		\vspace{-0.4cm}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.9\linewidth]{figs/resnet_vs_neural_ode.png}
-		\end{figure}
-	\end{minipage}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-
-\begin{frame}{Neural ODE}
-	\begin{block}{Forward pass (loss function)}
-		\vspace{-0.8cm}
-		\begin{align*}
-			L(\by) = L(\bz(t_1)) &= L\left( \bz(t_0) + \int_{t_0}^{t_1} f(\bz(t), \btheta) dt \right) \\ &= L\bigl(\text{ODESolve}(\bz(t_0), f, t_0,t_1, \btheta) \bigr)
-		\end{align*}
-	\vspace{-0.5cm}
-	\end{block}
-	\textbf{Note:} ODESolve could be any method (Euler step, Runge-Kutta methods).
-	\begin{block}{Backward pass (gradients computation)}
-		For fitting parameters we need gradients:
-		\[
-			\ba_{\bz}(t) = \frac{\partial L(\by)}{\partial \bz(t)}; \quad \ba_{\btheta}(t) = \frac{\partial L(\by)}{\partial \btheta(t)}.
-		\]
-		In theory of optimal control these functions called \textbf{adjoint} functions. 
-		They show how the gradient of the loss depends on the hidden state~$\bz(t)$ and parameters $\btheta$.
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}     
-\end{frame}
-%=======
-\begin{frame}{Neural ODE}
-	\begin{block}{Adjoint functions}
-		\vspace{-0.3cm}
-		\[
-			\ba_{\bz}(t) = \frac{\partial L(\by)}{\partial \bz(t)}; \quad \ba_{\btheta}(t) = \frac{\partial L(\by)}{\partial \btheta(t)}.
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{block}{Theorem (Pontryagin)}
-	\vspace{-0.6cm}
-	\[
-	     \frac{d \ba_{\bz}(t)}{dt} = - \ba_{\bz}(t)^T \cdot \frac{\partial f(\bz(t), \btheta)}{\partial \bz}; \quad \frac{d \ba_{\btheta}(t)}{dt} = - \ba_{\bz}(t)^T \cdot \frac{\partial f(\bz(t), \btheta)}{\partial \btheta}.
-	\]
-	Do we know any initilal condition?
-	\end{block}
-	\begin{block}{Solution for adjoint function}
-		\vspace{-0.8cm}
-		\begin{align*}
-			 \frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0\\
-			 \frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)}\\
-		\end{align*}
-		\vspace{-1.5cm}
-	\end{block}
-	\textbf{Note:} These equations are solved back in time.
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-\begin{frame}{Neural ODE}
-	\vspace{-0.2cm}
-	\begin{block}{Forward pass}
-		\vspace{-0.5cm}
-		\[
-			\bz(t_1) = \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 \quad \Rightarrow \quad \text{ODE Solver}
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{block}{Backward pass}
-		\vspace{-0.8cm}
-		\begin{equation*}
-			\left.
-				{\footnotesize 
-				\begin{aligned}
-					\frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0 \\
-					\frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)} \\
-					\bz(t_0) &= - \int^{t_0}_{t_1} f(\bz(t), \btheta) d t  + \bz_1.
-				\end{aligned}
-				}
-			\right\rbrace
-			 \Rightarrow
-			\text{ODE Solver}
-		\end{equation*}
-		\vspace{-0.4cm} 
-	\end{block}
-	\textbf{Note:} These scary formulas are the standard backprop in the discrete case.
-	\begin{figure}
-		\centering
-		\includegraphics[width=\linewidth]{figs/neural_ode}
-	\end{figure}
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
 %=======
 \begin{frame}{Continuous Normalizing Flows}
 	\begin{block}{Discrete Normalizing Flows}
@@ -499,10 +326,6 @@
 %=======
 \begin{frame}{Summary}
 	\begin{itemize}
-	\item Residual networks could be interpreted as solution of ODE with Euler method.
-	\vfill
-	\item Adjoint method generalizes backpropagation procedure and allows to train Neural ODE solving ODE for adjoint function back in time.
-	\vfill
 	\item Fokker-Planck theorem allows to construct continuous-in-time normalizing flow with less functional restrictions.
 	\vfill
 	\item FFJORD model makes such kind of flows scalable.

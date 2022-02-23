@@ -56,6 +56,28 @@
 	 \myfootnotewithlink{https://arxiv.org/abs/1406.2661}{Goodfellow I. J. et al. Generative Adversarial Networks, 2014}
 \end{frame}
 %=======
+\begin{frame}{Recap of previous lecture}
+	\begin{block}{ELBO objective}
+		\vspace{-0.5cm}
+		\[
+			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz| \bx, \bphi) \right] \rightarrow \max_{\bphi, \btheta}.
+		\]	
+		\vspace{-0.5cm}
+	\end{block}
+	What is the problem to make the variational posterior model an \textbf{implicit} model? \\
+	 We have to estimate density ratio 
+	\[
+		r(\bx, \bz) = \frac{q_1(\bx, \bz)}{q_2(\bx, \bz)} = \frac{p(\bz) \pi(\bx)}{q(\bz| \bx, \bphi) \pi (\bx)}.
+	\] 
+	\begin{block}{Adversarial Variational Bayes}
+		\vspace{-0.6cm}
+		\[
+			\max_D \left[ \bbE_{\pi(\bx)} \bbE_{q(\bz | \bx, \bphi)} \log D(\bx, \bz) + \bbE_{\pi(\bx)} \bbE_{p(\bz)} \log (1 - D(\bx, \bz)) \right]
+		\]
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
+\end{frame}
+%=======
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
