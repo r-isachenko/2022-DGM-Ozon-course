@@ -12,14 +12,14 @@
 	\begin{block}{MLE problem for autoregressive model}
 		\vspace{-0.7cm}
 		\[
-		\btheta^* = \argmax_{\btheta} p(\bX | \btheta) = \argmax_{\btheta} \sum_{i=1}^n \sum_{j=1}^m \log p(x_{ij} | \bx_{i, 1:j - 1}\btheta).
+		\btheta^* = \argmax_{\btheta} p(\bX | \btheta) = \argmax_{\btheta} \sum_{i=1}^n \sum_{j=1}^m \log p(x_{ij} | \bx_{i, 1:j - 1}, \btheta).
 		\]
 		\vspace{-0.7cm}
 	\end{block}
 	\begin{block}{Sampling}
 		\vspace{-0.5cm}
 		\[
-			\hat{x}_1 \sim p(x_1 | \btheta), \quad \hat{x}_2 \sim p(x_2 | \hat{x}_1, \btheta), \dots, \quad \hat{x}_m \sim p(x_m | \hat{\bx}_{1:m-1}, \btheta)
+			\hat{x}_1 \sim p(x_1 | \btheta), \quad \hat{x}_2 \sim p(x_2 | \hat{x}_1, \btheta), \quad \dots, \quad \hat{x}_m \sim p(x_m | \hat{\bx}_{1:m-1}, \btheta)
 		\]
 		New generated object is $\hat{\bx} = (\hat{x}_1, \hat{x}_2, \dots, \hat{x}_m)$.
 	\end{block}
@@ -233,12 +233,12 @@
 		\vspace{-0.5cm}
 	\end{block}
 	\begin{itemize}
-		\item E-step
+		\item \textbf{E-step}
 		\[
 		\bphi_k = \bphi_{k-1} + \left.\eta \nabla_{\bphi} \mathcal{L}(\bphi, \btheta_{k-1})\right|_{\bphi=\bphi_{k-1}},
 		\]
-		where $\bphi$~-- parameters of variational distribution $q(\bz | \bx, \bphi)$.
-		\item M-step
+		where $\bphi$~-- parameters of variational posterior distribution $q(\bz | \bx, \bphi)$.
+		\item \textbf{M-step}
 		\[
 		\btheta_k = \btheta_{k-1} + \left.\eta \nabla_{\btheta} \mathcal{L}(\bphi_k, \btheta)\right|_{\btheta=\btheta_{k-1}},
 		\]
@@ -328,7 +328,7 @@
 		\vfill
 		\item The general variational EM algorithm maximizes ELBO objective.
 		\vfill
-		\item Amortized inference allows to efficiently compute the stochastic gradients for ELBO using Monte-Carlo estimation.
+		\item Amortized variational inference allows to efficiently compute the stochastic gradients for ELBO using Monte-Carlo estimation.
 		\vfill
 		\item The reparametrization trick gets unbiased gradients w.r.t to the variational posterior distribution.
 	\end{itemize}
