@@ -26,7 +26,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | [slides](lectures/lecture2/Isachenko2022DeepGenerativeModels2.pdf) |
 |  |  | <b>Seminar:</b> MADE practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | [notebook](seminars/seminar2/MADE.ipynb) |
 | 3 | February, 22 | Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | [slides](lectures/lecture3/Isachenko2022DeepGenerativeModels3.pdf) |
-|  |  | <b>Seminar:</b> PixelCNN practice. Mean field approximation. | TBA |
+|  |  | <b>Seminar:</b> Mean field approximation. | TBA |
 | 4 | March, 1 | Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tigher ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 5 | March, 8 | Flow models definition. Forward and reverse KL divergence. Residual flows (Planar/Sylvester flows). Linear flows (Glow). | TBA |
