@@ -166,6 +166,42 @@
 	\end{frame}
 }
 %=======
+\begin{frame}{Linear flows}
+	
+	\begin{block}{RealNVP}
+		\vspace{-0.5cm}
+		\begin{equation*}
+			\begin{cases} \bz_{1:d} = \bx_{1:d}; \\ \bz_{d:m} = \tau (\bx_{d:m}, c(\bx_{1:d}));\end{cases} 
+			\quad \Leftrightarrow \quad 
+			\begin{cases} \bx_{1:d} = \bz_{1:d}; \\ \bx_{d:m} = \tau^{-1} (\bz_{d:m}, c(\bz_{1:d})).\end{cases}
+		\end{equation*}
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{itemize}
+	\item First step is a \textbf{split} operator which decouples a variable into 2 subparts: $\bx_1$ and $\bx_2$ (usualy channel-wise).
+	\item We should \textbf{permute} components between different layers.
+	\end{itemize}
+	\[
+		\bz = \bW \bx, \quad \bW \in \bbR^{m \times m}
+	\]
+	In general, we need $O(m^3)$ to invert matrix.
+	\begin{block}{Invertibility}
+		\begin{itemize}
+			\item Diagonal matrix $O(m)$.
+			\item Triangular matrix $O(m^2)$.
+			\item It is impossible to parametrize all invertible matrices.
+		\end{itemize}
+	\end{block}
+\end{frame}
+%=======
+\begin{frame}{Glow samples}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/glow_faces.png}
+	\end{figure}
+	\myfootnotewithlink{https://arxiv.org/abs/1807.03039}{Kingma D. P., Dhariwal P. Glow: Generative Flow with Invertible 1x1 Convolutions, 2018}
+\end{frame}
+%=======
 \begin{frame}{Autoregressive flows}
 	\vspace{-0.3cm}
 	\[
