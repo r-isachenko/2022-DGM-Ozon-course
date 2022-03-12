@@ -16,9 +16,9 @@
 	\begin{frame}[shrink]{Outline}
 		\tableofcontents[currentsection,hideothersubsections]
 	\end{frame}
-}
-%=======
+}c
 \section{Autoregressive models}
+%=======
 \subsection{Masked Autoencoder (MADE)}
 %=======
 \begin{frame}{MADE}
@@ -162,6 +162,15 @@
 	\begin{block}{Solution}
 	    Reparametrization trick
 	\end{block}
+\end{frame}
+%=======
+\begin{frame}{Variational Autoencoder}
+	Generated images for latent objects $\bz$ sampled from prior $\mathcal{N}(0, \mathbf{I})$
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.5\linewidth]{figs/vae_0.png}
+	\end{figure}
+	\myfootnotewithlink{https://habr.com/ru/post/331664}{image credit: https://habr.com/ru/post/331664}
 \end{frame}
 %=======
 \section{Mean field approximation}
@@ -399,51 +408,6 @@
 	\end{block}
 \end{frame}
 %=======
-\section{Flows intuition}
-%=======
-\begin{frame}{Flows intuition}
-	Let $\xi$ be a random variable with density $p(\xi)$. Then
-	\[
-	\eta = F(\xi) = \int_{-\infty}^\xi p(t)dt \sim U[0, 1].
-	\]
-	\[
-	P(\eta < y) = P(F(\xi) < y) = P(\xi < F^{-1}(y)) = F(F^{-1}(y)) = y
-	\]
-	Hence
-	\[
-	\eta \sim U[0, 1]; \quad \xi = F^{-1}(\eta) \quad \Rightarrow \quad \xi \sim p(\xi).
-	\]
-	\begin{figure}
-		\includegraphics[width=\linewidth]{figs/flows_1d}
-	\end{figure}
-	\myfootnotewithlink{https://sites.google.com/view/berkeley-cs294-158-sp19/home}{image credit: https://sites.google.com/view/berkeley-cs294-158-sp19/home}
-	
-\end{frame}
-%=======
-\begin{frame}{Flows intuition}
-	\begin{itemize}
-		\item Let $z \sim p(z)$ is a random variable with base distribution $p(z) = U[0, 1]$. 
-		\item Let $x \sim p(x)$ is a random variable with complex distribution $p(x)$ and cdf $F(x)$. 
-		\item Then noise variable $z$ can be transformed to $x$ using inverse cdf~$F^{-1}$ ($x = F^{-1}(z)$).
-	\end{itemize}
-	How to transform random variable $z$  which has a distribution different from uniform to $x$?
-	\begin{itemize}
-		\item Let $z \sim p(z)$ is a random variable with base distribution $p(z)$ and cdf $G(z)$.
-		\item Then $z_0 = G(z)$ has base distribution $p(z_0) = U[0, 1]$.
-		\item Let $x \sim p(x)$ is a random variable with complex distribution $p(x)$ and cdf $F(x)$. 
-		\item Then noise variable $z$ can be transformed to $x$ using cdf $G$ and inverse cdf~$F^{-1}$ ($x = F^{-1}(z_0) = F^{-1}(G(z))$).
-	\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{Variational Autoencoder}
-	Generated images for latent objects $\bz$ sampled from prior $\mathcal{N}(0, \mathbf{I})$
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=.5\linewidth]{figs/vae_0.png}
-	\end{figure}
-	\myfootnotewithlink{https://habr.com/ru/post/331664}{image credit: https://habr.com/ru/post/331664}
-\end{frame}
-%=======
 \section{IWAE}
 %=======
 \begin{frame}{IWAE}
@@ -597,100 +561,6 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 	{\scriptsize \href{https://arxiv.org/pdf/1611.05013.pdf}{https://arxiv.org/pdf/1611.05013.pdf}}
 \end{frame}
 %=======
-\section{RevNet, i-RevNet}
-%=======
-\begin{frame}{RevNets, 2017}
-	\begin{minipage}[t]{0.6\columnwidth}
-		\begin{itemize}
-			\item Modern neural networks are trained via backpropagation.
-			\item Residual networks are state of the art in image classification.
-			\item Backpropagation requires storing the network activations.
-		\end{itemize}
-	\end{minipage}%
-	\begin{minipage}[t]{0.4\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=\linewidth]{figs/resnet_block.png}
-		\end{figure}
-	\end{minipage}
-	\vspace{0.1cm}
-	\begin{block}{Problem}
-		Storing the activations imposes an increasing memory burden. GPUs have limited memory capacity, leading to constraints often exceeded by state-of-the-art architectures (with thousand layers).
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1707.04585}{Gomez A. N. et al. The Reversible Residual Network: Backpropagation Without Storing Activations, 2017}
-\end{frame}
-%=======
-\begin{frame}{RevNets, 2017}
-	\begin{block}{NICE}
-		\vspace{-0.2cm}
-		\begin{equation*}
-			\begin{cases} \bz_1 = \bx_1; \\ \bz_2 = \bx_2 + \mathcal{F}(\bx_1, \btheta);\end{cases}  \quad \Leftrightarrow \quad 
-			\begin{cases} \bx_1 = \bz_1; \\ \bx_2 = \bz_2 - \mathcal{F}(\bz_1, \btheta).\end{cases} 
-		\end{equation*}
-		\vspace{-0.2cm}
-	\end{block}
-	\begin{block}{RevNet}
-		\begin{equation*}
-			\begin{cases} \by_1 = \bx_1 + \mathcal{F}(\bx_2, \btheta); \\ \by_2 = \bx_2 + \mathcal{G}(\by_1, \btheta);\end{cases} \quad \Leftrightarrow \quad 
-			\begin{cases} \bx_2 = \by_2 - \mathcal{F}(\by_1, \btheta); \\ \bx_1 = \by_1 - \mathcal{G}(\bx_2, \btheta).\end{cases} 
-		\end{equation*}
-	\end{block}
-	\begin{figure}
-		\centering
-		\includegraphics[width=\linewidth]{figs/revnet.png}
-	\end{figure}
-	\myfootnotewithlink{https://arxiv.org/abs/1707.04585}{Gomez A. N. et al. The Reversible Residual Network: Backpropagation Without Storing Activations, 2017}
-\end{frame}
-%=======
-\begin{frame}{RevNets, 2017}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.8\linewidth]{figs/revnet_results.png}
-	\end{figure}
-	\begin{itemize}
-		\item If the network contains non-reversible blocks (poolings, strides), activations for these blocks should be stored.
-		\item To avoid storing activations in the modern frameworks, the backward pass should be manually redefined.
-	\end{itemize}
-	\myfootnotewithlink{https://arxiv.org/abs/1707.04585}{Gomez A. N. et al. The Reversible Residual Network: Backpropagation Without Storing Activations, 2017}
-\end{frame}
-%=======
-\begin{frame}{i-RevNet, 2018}
-	\begin{block}{Hypothesis}
-		The success of deep convolutional networks is based on progressively discarding uninformative variability about the input with respect to the problem at hand. 
-	\end{block}
-	\begin{itemize}
-		\item It is difficult to recover images from their hidden representations. 
-		\item Information bottleneck principle: an optimal representation must reduce the MI between an input and its representation to reduce uninformative variability + maximize the MI between the output and its representation to preserve each class from collapsing onto other classes.
-	\end{itemize}
-	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
-\end{frame}
-%=======
-\begin{frame}{i-RevNet, 2018}
-	\begin{block}{Hypothesis}
-		The success of deep convolutional networks is based on progressively discarding uninformative variability about the input with respect to the problem at hand. 
-	\end{block}
-	
-	\begin{block}{Idea}
-		Build a cascade of homeomorphic layers (i-RevNet), a network that can be fully inverted up to the final projection onto the classes, i.e. no information is discarded.
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
-\end{frame}
-%=======
-\begin{frame}{i-RevNet, 2018}
-	
-	\begin{figure}
-		\centering
-		\includegraphics[width=\linewidth]{figs/i-revnet.png}
-	\end{figure}
-	
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.9\linewidth]{figs/i-revnet_block.png}
-	\end{figure}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
-\end{frame}
-%=======
 \section{Posterior collapse}
 %=======
 \begin{frame}{Posterior collapse: toy example}
@@ -797,6 +667,203 @@ A_{i} = \text{cov}_\bx \left( \mathbb{E}_{q(z_i | \bx)} [z_i] \right) > 0.01 \qu
 	\end{minipage}
 	
 	\myfootnotewithlink{https://arxiv.org/abs/1611.02731}{Chen X. et al. Variational Lossy Autoencoder, 2016}
+\end{frame}
+%=======
+\section{Flows intuition}
+%=======
+\begin{frame}{Flows intuition}
+	Let $\xi$ be a random variable with density $p(\xi)$. Then
+	\[
+	\eta = F(\xi) = \int_{-\infty}^\xi p(t)dt \sim U[0, 1].
+	\]
+	\[
+	P(\eta < y) = P(F(\xi) < y) = P(\xi < F^{-1}(y)) = F(F^{-1}(y)) = y
+	\]
+	Hence
+	\[
+	\eta \sim U[0, 1]; \quad \xi = F^{-1}(\eta) \quad \Rightarrow \quad \xi \sim p(\xi).
+	\]
+	\begin{figure}
+		\includegraphics[width=\linewidth]{figs/flows_1d}
+	\end{figure}
+	\myfootnotewithlink{https://sites.google.com/view/berkeley-cs294-158-sp19/home}{image credit: https://sites.google.com/view/berkeley-cs294-158-sp19/home}
+	
+\end{frame}
+%=======
+\begin{frame}{Flows intuition}
+	\begin{itemize}
+		\item Let $z \sim p(z)$ is a random variable with base distribution $p(z) = U[0, 1]$. 
+		\item Let $x \sim p(x)$ is a random variable with complex distribution $p(x)$ and cdf $F(x)$. 
+		\item Then noise variable $z$ can be transformed to $x$ using inverse cdf~$F^{-1}$ ($x = F^{-1}(z)$).
+	\end{itemize}
+	How to transform random variable $z$  which has a distribution different from uniform to $x$?
+	\begin{itemize}
+		\item Let $z \sim p(z)$ is a random variable with base distribution $p(z)$ and cdf $G(z)$.
+		\item Then $z_0 = G(z)$ has base distribution $p(z_0) = U[0, 1]$.
+		\item Let $x \sim p(x)$ is a random variable with complex distribution $p(x)$ and cdf $F(x)$. 
+		\item Then noise variable $z$ can be transformed to $x$ using cdf $G$ and inverse cdf~$F^{-1}$ ($x = F^{-1}(z_0) = F^{-1}(G(z))$).
+	\end{itemize}
+\end{frame}
+%=======
+\section{Parallel WaveNet}
+%=======
+\begin{frame}{MAF/IAF pros and cons}
+	\begin{minipage}{0.50\columnwidth}
+		\begin{block}{MAF}
+			\begin{itemize}
+				\item Sampling is slow.
+				\item Likelihood evaluation is fast.
+			\end{itemize}
+		\end{block}
+	\end{minipage}%
+	\begin{minipage}{0.51\columnwidth}
+		\begin{block}{IAF}
+			\begin{itemize}
+				\item Sampling is fast.
+				\item Likelihood evaluation is slow.
+			\end{itemize}
+		\end{block}
+	\end{minipage}
+	How to take the best of both worlds?
+	\begin{block}{WaveNet}
+		Autoregressive model with caused dilated convolutions for raw audio waveforms generation.
+		\vspace{-0.5cm}
+		\[
+			p(\bx| \btheta) = \prod_{t=1}^T p(x_t|\bx_{1:t-1}, \btheta).
+		\]
+		\vspace{-0.7cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.85\linewidth]{figs/wavenet2.png}
+		\end{figure}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1609.03499}{Oord A. et al. Wavenet: A generative model for raw audio, 2016}
+\end{frame}
+%=======
+\begin{frame}{Parallel WaveNet}
+	\begin{itemize}
+		\item 24kHz instead of 16kHz using increased dilated convolution filter size from 2 to 3.
+		\item 16-bit signals with mixture of logistics instead of 8-bit signal with 256-way categorical distribution.
+	\end{itemize}
+	\begin{block}{Probability density distillation}
+		\begin{enumerate}
+			\item Train usual WaveNet (MAF) via MLE (teacher network).
+			\item Train IAF WaveNet (student network), which attempts to match the probability of its own samples under the distribution learned by the teacher.
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.3cm}
+	\begin{block}{Student objective}
+		\vspace{-0.3cm}
+		\[
+			KL(p_s || p_t) = H(p_s, p_t) - H(p_s).
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	More than 1000x speed-up relative to original WaveNet!
+	\myfootnotewithlink{https://arxiv.org/abs/1711.10433}{Oord A. et al. Parallel WaveNet: Fast High-Fidelity Speech Synthesis, 2017}
+\end{frame}
+%=======
+\begin{frame}{Parallel WaveNet}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/parallel_wavenet.png}
+	\end{figure}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1711.10433}{Oord A. et al. Parallel WaveNet: Fast High-Fidelity Speech Synthesis, 2017}
+\end{frame}
+%=======
+\section{RevNet, i-RevNet}
+%=======
+\begin{frame}{RevNets, 2017}
+	\begin{minipage}[t]{0.6\columnwidth}
+		\begin{itemize}
+			\item Modern neural networks are trained via backpropagation.
+			\item Residual networks are state of the art in image classification.
+			\item Backpropagation requires storing the network activations.
+		\end{itemize}
+	\end{minipage}%
+	\begin{minipage}[t]{0.4\columnwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\linewidth]{figs/resnet_block.png}
+		\end{figure}
+	\end{minipage}
+	\vspace{0.1cm}
+	\begin{block}{Problem}
+		Storing the activations imposes an increasing memory burden. GPUs have limited memory capacity, leading to constraints often exceeded by state-of-the-art architectures (with thousand layers).
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1707.04585}{Gomez A. N. et al. The Reversible Residual Network: Backpropagation Without Storing Activations, 2017}
+\end{frame}
+%=======
+\begin{frame}{RevNets, 2017}
+	\begin{block}{NICE}
+		\vspace{-0.2cm}
+		\begin{equation*}
+			\begin{cases} \bz_1 = \bx_1; \\ \bz_2 = \bx_2 + \mathcal{F}(\bx_1, \btheta);\end{cases}  \quad \Leftrightarrow \quad 
+			\begin{cases} \bx_1 = \bz_1; \\ \bx_2 = \bz_2 - \mathcal{F}(\bz_1, \btheta).\end{cases} 
+		\end{equation*}
+		\vspace{-0.2cm}
+	\end{block}
+	\begin{block}{RevNet}
+		\begin{equation*}
+			\begin{cases} \by_1 = \bx_1 + \mathcal{F}(\bx_2, \btheta); \\ \by_2 = \bx_2 + \mathcal{G}(\by_1, \btheta);\end{cases} \quad \Leftrightarrow \quad 
+			\begin{cases} \bx_2 = \by_2 - \mathcal{F}(\by_1, \btheta); \\ \bx_1 = \by_1 - \mathcal{G}(\bx_2, \btheta).\end{cases} 
+		\end{equation*}
+	\end{block}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/revnet.png}
+	\end{figure}
+	\myfootnotewithlink{https://arxiv.org/abs/1707.04585}{Gomez A. N. et al. The Reversible Residual Network: Backpropagation Without Storing Activations, 2017}
+\end{frame}
+%=======
+\begin{frame}{RevNets, 2017}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\linewidth]{figs/revnet_results.png}
+	\end{figure}
+	\begin{itemize}
+		\item If the network contains non-reversible blocks (poolings, strides), activations for these blocks should be stored.
+		\item To avoid storing activations in the modern frameworks, the backward pass should be manually redefined.
+	\end{itemize}
+	\myfootnotewithlink{https://arxiv.org/abs/1707.04585}{Gomez A. N. et al. The Reversible Residual Network: Backpropagation Without Storing Activations, 2017}
+\end{frame}
+%=======
+\begin{frame}{i-RevNet, 2018}
+	\begin{block}{Hypothesis}
+		The success of deep convolutional networks is based on progressively discarding uninformative variability about the input with respect to the problem at hand. 
+	\end{block}
+	\begin{itemize}
+		\item It is difficult to recover images from their hidden representations. 
+		\item Information bottleneck principle: an optimal representation must reduce the MI between an input and its representation to reduce uninformative variability + maximize the MI between the output and its representation to preserve each class from collapsing onto other classes.
+	\end{itemize}
+	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
+\end{frame}
+%=======
+\begin{frame}{i-RevNet, 2018}
+	\begin{block}{Hypothesis}
+		The success of deep convolutional networks is based on progressively discarding uninformative variability about the input with respect to the problem at hand. 
+	\end{block}
+	
+	\begin{block}{Idea}
+		Build a cascade of homeomorphic layers (i-RevNet), a network that can be fully inverted up to the final projection onto the classes, i.e. no information is discarded.
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
+\end{frame}
+%=======
+\begin{frame}{i-RevNet, 2018}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/i-revnet.png}
+	\end{figure}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{figs/i-revnet_block.png}
+	\end{figure}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1802.07088}{Jacobsen J. H., Smeulders A., Oyallon E. i-RevNet: Deep Invertible Networks, 2018}
 \end{frame}
 %=======
 \section{ELBO surgery}
