@@ -30,7 +30,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 4 | March, 1 | <b>Lecture:</b> Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tighter ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
 |  |  | <b>Seminar:</b> EM-algorithm. VAE theory. Automatic differentiation through random graph. | --- |
 | 5 | March, 8 | <b>Lecture:</b> Flow models definition. Forward and reverse KL divergence. Linear flows (Glow). Residual flows (Planar/Sylvester flows). | [slides](lectures/lecture5/Isachenko2022DeepGenerativeModels5.pdf) |
-|  |  | <b>Seminar:</b> TBA | TBA |
+|  |  | <b>Seminar:</b> IWAE theory. IWAE variational posterior. VAE vs Normalizing flows. | --- |
 | 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 7 | March, 22 | <b>Lecture:</b> ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
