@@ -164,7 +164,7 @@
 		\]
 		\vspace{-0.3cm}
 	\end{block}
-	We have got an invertibale and differentiable transform (it is an autoregressive flow with base distribution $\bz = \cN(0, 1)$!).
+	We have got an invertible and differentiable transform (it is an autoregressive flow with base distribution $\bz = \cN(0, 1)$!).
 	\myfootnotewithlink{https://arxiv.org/abs/1606.04934}{Kingma D. P. et al. Improving Variational Inference with Inverse Autoregressive Flow, 2016} 
 \end{frame}
 %=======
@@ -219,7 +219,7 @@
 	\]
 	\vspace{-0.3cm}
 	\begin{itemize}
-		\item $\tau (\cdot, \cdot)$ -- coupling law (invertible by first argument).
+		\item $\tau (\cdot, \cdot)$ -- coupling law (invertible by first argument, differentiable).
 		\item $c(\cdot)$ -- coupling function (do not need to be invertible, could be neural network).
 	\end{itemize}
 	\begin{block}{Coupling law $\tau(\cdot, \cdot)$}
@@ -394,18 +394,19 @@
 			\includegraphics[width=0.65\linewidth]{figs/realnvp_masking.png}
 		\end{figure}
 	\end{block}
-	Masked convolutions are used to define ordering.
+	\vspace{-0.5cm}
 	
+	Checkerboard ordering uses masking, channelwise ordering uses splitting.
 	\myfootnotewithlink{https://arxiv.org/abs/1410.8516}{Dinh L., Krueger D., Bengio Y. NICE: Non-linear Independent Components Estimation, 2014}
 \end{frame}
 %=======
 \begin{frame}{RealNVP}
 	\begin{block}{Affine coupling law}
 		\[
-			\begin{cases} \bz_{1:d} = \bx_{1:d}; \\ \bz_{d:m} = \bx_{d:m} \odot \exp \left(c_1(\bx_{1:d}, \btheta)\right) + c_2(\bx_{1:d}, \btheta).\end{cases} 
+			\begin{cases} \bz_{1:d} = \bx_{1:d}; \\ \bz_{d:m} = \bx_{d:m} \odot c_1(\bx_{1:d}, \btheta) + c_2(\bx_{1:d}, \btheta).\end{cases} 
 		\]
 		\[
-			\begin{cases} \bx_{1:d} = \bz_{1:d}; \\ \bx_{d:m} = \left(\bz_{d:m} - c_2(\bz_{1:d}, \btheta) \right) \odot \exp(-c_1(\bz_{1:d}, \btheta)).\end{cases}
+			\begin{cases} \bx_{1:d} = \bz_{1:d}; \\ \bx_{d:m} = \left(\bz_{d:m} - c_2(\bz_{1:d}, \btheta) \right) \cdot \frac{1}{c_1(\bz_{1:d}, \btheta)}.\end{cases}
 		\]
 	\end{block}
 	\begin{block}{Jacobian}
@@ -415,9 +416,9 @@
 		\begin{pmatrix}
 			\bI_d & 0_{d \times m - d} \\
 			\frac{\partial \bz_{d:m}}{\partial \bx_{1:d}} & \frac{\partial \bz_{d:m}}{\partial \bx_{d:m}}
-		\end{pmatrix} = \prod_{j=1}^{m - d} \exp (c_1(\bx_{1:d}, \btheta)_j).
+		\end{pmatrix} = \prod_{j=1}^{m - d} c_1(\bx_{1:d}, \btheta)_j.
 		\]
-		Non-Volume Preserving (the determinant of Jacobian $\neq 0$).
+		Non-Volume Preserving (the determinant of Jacobian $\neq 1$).
 	\end{block}
 	
 	\myfootnotewithlink{https://arxiv.org/abs/1605.08803}{Dinh L., Sohl-Dickstein J., Bengio S. Density estimation using Real NVP, 2016} 
@@ -443,7 +444,7 @@
 		\[
 			\begin{cases}
 				\bx_{1:d} &= \bz_{1:d}; \\ 
-				\bx_{d:m} &= \bz_{d:m} \odot \exp \left(c_1(\bz_{1:d}, \btheta)\right) + c_2(\bz_{1:d}, \btheta).
+				\bx_{d:m} &= \bz_{d:m} \odot c_1(\bz_{1:d}, \btheta) + c_2(\bz_{1:d}, \btheta).
 			\end{cases}
 		\]
 		\vspace{-0.5cm}
@@ -458,7 +459,7 @@
 		\[
 			\begin{cases}
 				\bx_{1:d} &= \bz_{1:d}; \\ 
-				\bx_{d:m} &= \bz_{d:m} \odot \exp \left(c_1(\bz_{1:d}, \btheta)\right) + c_2(\bz_{1:d}, \btheta).
+				\bx_{d:m} &= \bz_{d:m} \odot c_1(\bz_{1:d}, \btheta) + c_2(\bz_{1:d}, \btheta).
 			\end{cases}
 		\]
 		\vspace{-0.3cm}
@@ -534,145 +535,15 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1807.03039}{Kingma D. P., Dhariwal P. Glow: Generative Flow with Invertible 1x1 Convolutions, 2018}
 \end{frame}
 %=======
-\section{ELBO surgery}
-%=======
-\begin{frame}{Likelihood-based models}
-\begin{block}{Exact likelihood evaluation}
-	\begin{itemize}
-		\item Autoregressive models (WaveNet, PixelCNN, PixelCNN++);
-		\item Flow models (RealNVP, IAF, Glow).
-	\end{itemize}
-\end{block}
-\begin{block}{Approximate likelihood evaluation}
-	\begin{itemize}
-		\item Latent variable models (VAE).
-	\end{itemize}
-\end{block}
-What are the pros and cons of each of them? \\
-\vspace{0.2cm}
-\end{frame}
-%=======
-\begin{frame}{VAE limitations}
-	\begin{itemize}
-		\item Poor generative distribution (decoder)
-		\[
-			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)) \quad \text{or } = \text{Softmax}(\bpi_{\btheta}(\bz)).
-		\]
-		\item Loose lower bound
-		\[
-			\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
-		\]
-		\item \textbf{Poor prior distribution}
-		\[
-			p(\bz) = \mathcal{N}(0, \mathbf{I}).
-		\]
-		\item Poor variational posterior distribution (encoder)
-		\[
-			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
-		\]
-	\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{ELBO interpretations}
-	\[
-		\log p(\bx | \btheta) = \cL (\bphi, \btheta) + KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)) \geq  \cL (\bphi, \btheta).
-	\]
-	\[
-		\cL (\bphi, \btheta) = \int q(\bz | \bx, \bphi) \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} d \bz.
-	\]
-	\begin{itemize}
-	    \item Evidence minus posterior KL
-	    \[
-	        \mathcal{L}(\bphi, \btheta) = \log p(\bx | \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)).
-	    \]
-	    \item Average reconstruction loss with regularizer (prior KL)
-	    \begin{align*}
-	        \mathcal{L}(\bphi, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz | \bx, \bphi) \right] \\
-	        &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz)).
-	    \end{align*}
-	\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{ELBO surgery}
-	\vspace{-0.3cm}
-	\[
-	    \frac{1}{n} \sum_{i=1}^n \mathcal{L}_i(q, \btheta) = \frac{1}{n} \sum_{i=1}^n \left[ \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta) - KL(q(\bz | \bx_i) || p(\bz)) \right].
-	\]
-	\vspace{-0.3cm}
-	\begin{block}{Theorem}
-		\[
-		    \frac{1}{n} \sum_{i=1}^n KL(q(\bz | \bx_i) || p(\bz)) = KL(q_{\text{agg}}(\bz) || p(\bz)) + \bbI_{q} [\bx, \bz],
-		\]
-		\begin{itemize}
-			\item $q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx_i)$ -- \textbf{aggregated} posterior distribution.
-			\item $\bbI_{q} [\bx, \bz]$ -- mutual information between $\bx$ and $\bz$ under empirical data distribution and distribution $q(\bz | \bx)$.
-			\item First term pushes $q_{\text{agg}}(\bz)$ towards the prior $p(\bz)$.
-			\item Second term reduces the amount of	information about $\bx$ stored in $\bz$. 
-		\end{itemize}
-	\end{block}
-	\myfootnotewithlink{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}{Hoffman M. D., Johnson M. J. ELBO surgery: yet another way to carve up the variational evidence lower bound, 2016}
-\end{frame}
-%=======
-\begin{frame}{ELBO surgery}
-	\begin{block}{Theorem}
-		\vspace{-0.3cm}
-		\[
-		    \frac{1}{n} \sum_{i=1}^n KL(q(\bz | \bx_i) || p(\bz)) = KL(q_{\text{agg}}(\bz) || p(\bz)) + \bbI_q [\bx, \bz].
-		\]
-		\vspace{-0.4cm}
-	\end{block}
-	\begin{block}{Proof}
-		\vspace{-0.5cm}
-		{\footnotesize
-		\begin{multline*}
-		    \frac{1}{n} \sum_{i=1}^n KL(q(\bz | \bx_i) || p(\bz)) = \frac{1}{n} \sum_{i=1}^n \int q(\bz | \bx_i) \log \frac{q(\bz | \bx_i)}{p(\bz)} d \bz = \\
-		    = \frac{1}{n} \sum_{i=1}^n \int q(\bz | \bx_i) \log \frac{q_{\text{agg}}(\bz) q(\bz | \bx_i)}{p(\bz)q_{\text{agg}}(\bz)} d \bz 
-		    = \int \frac{1}{n} \sum_{i=1}^n  q(\bz | \bx_i) \log \frac{q_{\text{agg}}(\bz)}{p(\bz)} d \bz + \\ 
-		    + \frac{1}{n}\sum_{i=1}^n \int q(\bz | \bx_i) \log \frac{q(\bz | \bx_i)}{q_{\text{agg}}(\bz)} d \bz = 
-		     KL (q_{\text{agg}}(\bz) || p(\bz)) + \frac{1}{n}\sum_{i=1}^n KL(q(\bz | \bx_i) || q_{\text{agg}}(\bz))
-		\end{multline*}
-		}
-		Without proof:
-		\vspace{-0.4cm}
-		\[
-			\bbI_{q} [\bx, \bz] = \frac{1}{n}\sum_{i=1}^n KL(q(\bz | \bx_i) || q_{\text{agg}}(\bz)) \in [0, \log n].
-		\]
-	\end{block}
-
-	\myfootnotewithlink{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}{Hoffman M. D., Johnson M. J. ELBO surgery: yet another way to carve up the variational evidence lower bound, 2016}
-\end{frame}
-%=======
-\begin{frame}{ELBO surgery}
-	\begin{block}{ELBO revisiting}
-		\vspace{-0.7cm}
-		\begin{multline*}
-		    \frac{1}{n}\sum_{i=1}^n \cL_i(q, \btheta) = \frac{1}{n} \sum_{i=1}^n \left[ \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta) - KL(q(\bz | \bx_i) || p(\bz)) \right] = \\
-		    = \underbrace{\frac{1}{n} \sum_{i=1}^n \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta)}_{\text{Reconstruction loss}} - \underbrace{\vphantom{ \sum_{i=1}^n} \bbI_q [\bx, \bz]}_{\text{MI}} - \underbrace{\vphantom{ \sum_{i=1}^n} KL(q_{\text{agg}}(\bz) || p(\bz))}_{\text{Marginal KL}}
-		\end{multline*}
-		\vspace{-0.3cm}
-	\end{block}
-	Prior distribution $p(\bz)$ is only in the last term.
-	\begin{block}{Optimal VAE prior}
-		\vspace{-0.7cm}
-		\[
-	  		KL(q_{\text{agg}}(\bz) || p(\bz)) = 0 \quad \Leftrightarrow \quad p (\bz) = q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx_i).
-		\]
-		\vspace{-0.4cm} \\
-		The optimal prior $p(\bz)$ is the aggregated posterior $q_{\text{agg}}(\bz)$.
-	\end{block}
-	
-	\myfootnotewithlink{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}{Hoffman M. D., Johnson M. J. ELBO surgery: yet another way to carve up the variational evidence lower bound, 2016}
-\end{frame}
-%=======
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item Autoregressive flows use autoregressive transformation to make the Jacobian triangular.
+		\item Gaussian autoregressive model is an autoregressive flow with triangular Jacobian.
+		\vfill
+		\item Inverse autoregressive flow is able to sample fast, but the inference is slow.
 		\vfill
 		\item MAF/IAF is a special case of autoregressive flows.
 		\vfill
 		\item The RealNVP is an effective type of flow (special case of AR flows) that uses coupling layer.
-		\vfill
-		\item The ELBO surgery reveals insights about a prior distribution in VAE. The optimal prior is the aggregated posterior.
 	\end{itemize}
 \end{frame}
 %=======
