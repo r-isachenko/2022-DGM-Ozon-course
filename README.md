@@ -26,13 +26,13 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | [slides](lectures/lecture2/Isachenko2022DeepGenerativeModels2.pdf) |
 |  |  | <b>Seminar:</b> MADE practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | [notebook](seminars/seminar2/MADE.ipynb) |
 | 3 | February, 22 | <b>Lecture:</b> Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | [slides](lectures/lecture3/Isachenko2022DeepGenerativeModels3.pdf) |
-|  |  | <b>Seminar:</b> Mean field approximation. | --- |
+|  |  | <b>Seminar:</b> Mean field approximation. | [notebook](seminars/seminar3/Variational_inference.ipynb) |
 | 4 | March, 1 | <b>Lecture:</b> Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tighter ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
 |  |  | <b>Seminar:</b> EM-algorithm. VAE theory. Automatic differentiation through random graph. | --- |
 | 5 | March, 8 | <b>Lecture:</b> Flow models definition. Forward and reverse KL divergence. Linear flows (Glow). Residual flows (Planar/Sylvester flows). | [slides](lectures/lecture5/Isachenko2022DeepGenerativeModels5.pdf) |
 |  |  | <b>Seminar:</b> IWAE theory. IWAE variational posterior. VAE vs Normalizing flows. | --- |
-| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | TBA |
-|  |  | <b>Seminar:</b> TBA | TBA |
+| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | [slides](lectures/lecture6/Isachenko2022DeepGenerativeModels6.pdf) |
+|  |  | <b>Seminar:</b> Planar flows. Forward vs Reverse KL. | TBA |
 | 7 | March, 22 | <b>Lecture:</b> ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | TBA |
