@@ -998,6 +998,61 @@ where $i$ is treated as random variable:
 {\scriptsize \href{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}{http://approximateinference.org/accepted/HoffmanJohnson2016.pdf}}
 \end{frame}
 %=======
+\begin{frame}{Learnable VAE prior}
+	\begin{block}{Optimal prior}
+		\vspace{-0.7cm}
+		\[
+			KL(q_{\text{agg}}(\bz) || p(\bz)) = 0 \quad \Leftrightarrow \quad p (\bz) = q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx_i).
+		\]
+		\vspace{-0.6cm}
+	\end{block}
+	\begin{block}{Mixture of Gaussians}
+		\vspace{-0.3cm}
+		\[
+			p(\bz | \blambda) = \sum_{k=1}^K w_k \cN(\bz | \bmu_k, \bsigma_k^2), \quad \blambda = \{w_k, \bmu_k, \bsigma_k\}_{k=1}^K.
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{Variational Mixture of posteriors (VampPrior)}
+		\vspace{-0.3cm}
+		\[
+		p(\bz | \blambda) = \frac{1}{K} \sum_{k=1}^K q(\bz | \bu_k),
+		\]
+		where $\blambda = \{\bu_1, \dots, \bu_K\}$ are trainable pseudo-inputs.
+	\end{block}
+	\begin{itemize}
+		\item Multimodal $\Rightarrow$ prevents over-regularization;.
+		\item $K \ll n$ $\Rightarrow$ prevents from potential overfitting + less expensive to train.
+	\end{itemize}
+	\myfootnotewithlink{https://arxiv.org/abs/1705.07120}{Tomczak J. M., Welling M. VAE with a VampPrior, 2017}
+\end{frame}
+%=======
+\begin{frame}{VampPrior}
+	\begin{itemize}
+	\item Do we really need the multimodal prior?
+	\item Is it beneficial to couple the prior with the variational posterior or the MoG prior is enough?
+	\end{itemize}
+	\begin{block}{Results}
+		\vspace{-0.3cm}
+		\begin{minipage}[t]{0.55\columnwidth}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=1.0\linewidth]{figs/VampPrior_1.png}
+			\end{figure}
+		\end{minipage}%
+		\begin{minipage}[t]{0.45\columnwidth}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=1.0\linewidth]{figs/VampPrior_2.png}
+			\end{figure}
+		\end{minipage}
+	\end{block}
+	\textbf{Top row:} generated images by PixelHVAE + VampPrior for chosen pseudo-input in the left top corner. \\
+	\vspace{0.1cm}
+	\textbf{Bottom row:} pseudo-inputs for different datasets.
+	\myfootnotewithlink{https://arxiv.org/abs/1705.07120}{Tomczak J. M., Welling M. VAE with a VampPrior, 2017}
+\end{frame}
+%=======
 \section{Disentanglement}
 %=======
 \subsection{InfoGAN}

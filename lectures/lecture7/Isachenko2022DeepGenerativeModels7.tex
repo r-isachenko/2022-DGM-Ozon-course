@@ -60,6 +60,145 @@
 	\end{frame}
 }
 %=======
+\section{Data dequantization}
+%=======
+\begin{frame}{Dequantization}
+	\begin{itemize}
+		\item Images are discrete data, pixels lie in the \{0, 255\} integer domain (the model is $P(\bx | \btheta) = \text{Categorical}(\bpi(\btheta))$).
+		\item Flow is a continuous model (it works with continuous data $\bx$).
+	\end{itemize}
+	By fitting a continuous density model to discrete data, one can produce a degenerate solution with all probability mass on discrete values. \\
+	How to convert a discrete data distribution to a continuous one?
+	
+	\begin{minipage}[t]{0.5\columnwidth}
+		\begin{block}{Uniform dequantization}
+		\vspace{-0.5cm}
+			\begin{align*}
+				\bx &\sim \text{Categorical}(\bpi) \\
+				 \bu &\sim U[0, 1]
+			\end{align*}
+			\[
+			\by = \bx + \bu \sim \text{Continuous} 
+			\]
+		\end{block}
+	\end{minipage}%
+	\begin{minipage}[t]{0.5\columnwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.0\linewidth]{figs/uniform_dequantization.png}
+		\end{figure}
+	\end{minipage}
+	\myfootnotewithlink{https://arxiv.org/abs/1511.01844}{Theis L., Oord A., Bethge M. A note on the evaluation of generative models. 2015}
+\end{frame}
+%=======
+\begin{frame}{Uniform dequantization}
+	\begin{block}{Statement}
+		Fitting continuous model $p(\by | \btheta)$ on uniformly dequantized data $\by = \bx + \bu, \, \bu \sim U[0, 1]$ is equivalent to maximization of a lower bound on log-likelihood for a discrete model:
+		\vspace{-0.2cm}
+		\[
+		P(\bx | \btheta) = \int_{U[0, 1]} p(\bx + \bu | \btheta) d \bu
+		\]
+		\vspace{-0.5cm} 
+	\end{block}
+	\begin{block}{Proof}
+		\vspace{-0.8cm}
+		\begin{multline*}
+			\bbE_{\pi} \log p(\by | \btheta) = \int \pi(\by) \log p(\by | \btheta) d \by = \\ 
+			= \sum \pi(\bx) \int_{U[0,1]} \log p(\bx + \bu | \btheta) d \bu \leq \\
+			 \leq \sum \pi(\bx) \log \int_{U[0,1]}  p(\bx + \bu | \btheta) d \bu = \\
+			 = \sum \pi(\bx) \log P(\bx | \btheta) = \bbE_{\pi} \log P(\bx | \btheta).
+		\end{multline*}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1511.01844}{Theis L., Oord A., Bethge M. A note on the evaluation of generative models. 2015}
+\end{frame}
+%=======
+\begin{frame}{Variational dequantization}
+	\begin{minipage}[t]{0.5\columnwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=1.0\linewidth]{figs/uniform_dequantization.png}
+			\end{figure}
+	\end{minipage}%
+	\begin{minipage}[t]{0.5\columnwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.0\linewidth]{figs/variational_dequantization.png}
+		\end{figure}
+	\end{minipage}
+	\begin{itemize}
+		\item $p(\by | \btheta)$ assign unifrom density to unit hypercubes $\bx + U[0, 1]$ (left fig).
+		\item Neural network density models are smooth function approximators (right fig).
+		\item Smooth dequantization is more natural.
+	\end{itemize}
+	How to perform the smooth dequantization? \\
+\end{frame}
+%=======
+\begin{frame}{Flow++}
+	\vspace{-0.3cm}
+	\begin{block}{Variational dequantization}
+		Introduce variational dequantization noise distribution $q(\bu | \bx)$ and treat it as an approximate posterior. 
+	\end{block}
+	\vspace{-0.3cm}
+	\begin{block}{Variational lower bound}
+		\vspace{-0.7cm}
+		\begin{multline*}
+		 \log P(\bx | \btheta) = \left[ \log \int q(\bu | \bx) \frac{p(\bx + \bu | \btheta)}{q(\bu | \bx)} d \bu \right] \geq \\ 
+			\geq  \int q(\bu | \bx) \log \frac{p(\bx + \bu | \btheta)}{q(\bu | \bx)} d \bu = \mathcal{L}(q, \btheta).
+		\end{multline*}
+	\end{block}
+	\vspace{-0.6cm}
+	\begin{block}{Uniform dequantization bound}
+		\vspace{-0.6cm}
+		\[
+		 \log P(\bx | \btheta) = \log \int_{U[0, 1]} p(\bx + \bu | \btheta) d \bu \geq \int_{U[0, 1]} \log p(\bx + \bu | \btheta) d \bu.
+		\]
+		\vspace{-0.4cm}
+	\end{block}
+	Uniform dequantization is a special case of variational dequantization ($q(\bu | \bx) = U[0, 1]$).
+	\myfootnotewithlink{https://arxiv.org/abs/1902.00275}{Ho J. et al. Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, 2019}
+\end{frame}
+%=======
+\begin{frame}{Flow++}
+	\vspace{-0.3cm}
+	\begin{block}{Variational lower bound}
+		\vspace{-0.3cm}
+		\[
+			\mathcal{L}(q, \btheta) = \int q(\bu | \bx) \log \frac{p(\bx + \bu | \btheta)}{q(\bu | \bx)} d \bu.
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	Let $\bu = h(\bepsilon, \bphi)$ is a flow model with base distribution $\bepsilon \sim p(\bepsilon) = \mathcal{N}(0, \mathbf{I})$:
+	\vspace{-0.3cm}
+	\[
+		q(\bu | \bx) = p(h^{-1}(\bu, \bphi)) \cdot \left| \det \frac{\partial h^{-1}(\bu, \bphi)}{\partial \bu}\right|.
+	\]
+	\vspace{-0.7cm}
+	\begin{block}{Flow-based variational dequantization}
+		\vspace{-0.8cm}
+		\[
+			\log P(\bx | \btheta) \geq \cL(\bphi, \btheta) = \int p(\bepsilon) \log \left( \frac{p(\bx + h(\bepsilon, \bphi) | \btheta)}{p(\bepsilon) \cdot \left| \det \frac{\partial h(\bepsilon, \bphi)}{\partial \bepsilon}\right|^{-1}} \right) d\bepsilon.
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	If $p(\bx + \bu | \btheta)$ is also a flow model, it is straightforward to calculate stochastic gradient of this ELBO.
+	\myfootnotewithlink{https://arxiv.org/abs/1902.00275}{Ho J. et al. Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, 2019}
+\end{frame}
+%=======
+\begin{frame}{Flow++}
+	\begin{block}{Flow-based variational dequantization}
+	\vspace{-0.3cm}
+	\[
+		\log P(\bx | \btheta) \geq \int p(\bepsilon)\log \left( \frac{p(\bx + h(\bepsilon, \bphi))}{p(\bepsilon) \cdot \left| \det \frac{\partial h(\bepsilon, \bphi)}{\partial \bepsilon}\right|^{-1}} \right) d\bepsilon.
+	\]
+	\end{block}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/flow++1.png}
+	\end{figure}
+	\vspace{-0.1cm}
+	\myfootnotewithlink{https://arxiv.org/abs/1902.00275}{Ho J. et al. Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, 2019}
+\end{frame}
+%=======
 \section{ELBO surgery}
 %=======
 \begin{frame}{Likelihood-based models}
@@ -96,26 +235,6 @@ What are the pros and cons of each of them? \\
 		\[
 			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
 		\]
-	\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{ELBO interpretations}
-	\[
-		\log p(\bx | \btheta) = \cL (\bphi, \btheta) + KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)) \geq  \cL (\bphi, \btheta).
-	\]
-	\[
-		\cL (\bphi, \btheta) = \int q(\bz | \bx, \bphi) \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} d \bz.
-	\]
-	\begin{itemize}
-	    \item Evidence minus posterior KL
-	    \[
-	        \mathcal{L}(\bphi, \btheta) = \log p(\bx | \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz | \bx, \btheta)).
-	    \]
-	    \item Average reconstruction loss with regularizer (prior KL)
-	    \begin{align*}
-	        \mathcal{L}(\bphi, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz | \bx, \bphi) \right] \\
-	        &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - KL(q(\bz | \bx, \bphi) || p(\bz)).
-	    \end{align*}
 	\end{itemize}
 \end{frame}
 %=======
@@ -218,69 +337,14 @@ What are the pros and cons of each of them? \\
 	\myfootnotewithlink{https://jmtomczak.github.io/blog/7/7\_priors.html}{image credit: https://jmtomczak.github.io/blog/7/7\_priors.html}
 \end{frame}
 %=======
-\begin{frame}{Learnable VAE prior}
-	\begin{block}{Optimal prior}
-		\vspace{-0.7cm}
-		\[
-			KL(q_{\text{agg}}(\bz) || p(\bz)) = 0 \quad \Leftrightarrow \quad p (\bz) = q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx_i).
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{block}{Mixture of Gaussians}
-		\vspace{-0.3cm}
-		\[
-			p(\bz | \blambda) = \sum_{k=1}^K w_k \cN(\bz | \bmu_k, \bsigma_k^2), \quad \blambda = \{w_k, \bmu_k, \bsigma_k\}_{k=1}^K.
-		\]
-		\vspace{-0.5cm}
-	\end{block}
-	\begin{block}{Variational Mixture of posteriors (VampPrior)}
-		\vspace{-0.3cm}
-		\[
-		p(\bz | \blambda) = \frac{1}{K} \sum_{k=1}^K q(\bz | \bu_k),
-		\]
-		where $\blambda = \{\bu_1, \dots, \bu_K\}$ are trainable pseudo-inputs.
-	\end{block}
-	\begin{itemize}
-		\item Multimodal $\Rightarrow$ prevents over-regularization;.
-		\item $K \ll n$ $\Rightarrow$ prevents from potential overfitting + less expensive to train.
-	\end{itemize}
-	\myfootnotewithlink{https://arxiv.org/abs/1705.07120}{Tomczak J. M., Welling M. VAE with a VampPrior, 2017}
-\end{frame}
-%=======
-\begin{frame}{VampPrior}
-	\begin{itemize}
-	\item Do we really need the multimodal prior?
-	\item Is it beneficial to couple the prior with the variational posterior or the MoG prior is enough?
-	\end{itemize}
-	\begin{block}{Results}
-		\vspace{-0.3cm}
-		\begin{minipage}[t]{0.55\columnwidth}
-			\begin{figure}[h]
-				\centering
-				\includegraphics[width=1.0\linewidth]{figs/VampPrior_1.png}
-			\end{figure}
-		\end{minipage}%
-		\begin{minipage}[t]{0.45\columnwidth}
-			\begin{figure}[h]
-				\centering
-				\includegraphics[width=1.0\linewidth]{figs/VampPrior_2.png}
-			\end{figure}
-		\end{minipage}
-	\end{block}
-	\textbf{Top row:} generated images by PixelHVAE + VampPrior for chosen pseudo-input in the left top corner. \\
-	\vspace{0.1cm}
-	\textbf{Bottom row:} pseudo-inputs for different datasets.
-	\myfootnotewithlink{https://arxiv.org/abs/1705.07120}{Tomczak J. M., Welling M. VAE with a VampPrior, 2017}
-\end{frame}
-%=======
 \begin{frame}{Flows-based VAE prior}
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.5cm}
 		\[
-			\log p(\bz | \blambda) = \log p(\bepsilon) + \log \det \left | \frac{d \bepsilon}{d\bz}\right| = \log p(\bepsilon) + \log \det \left | \frac{\partial f(\bz, \blambda)}{\partial \bz}\right| 
+			\log p(\bz | \blambda) = \log p(\bz^*) + \log \det \left | \frac{d \bz^*}{d\bz}\right| = \log p(\bepsilon) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right| 
 		\]
 		\[
-			\bz = g(\bepsilon, \blambda) = f^{-1}(\bepsilon, \blambda)
+			\bz = f(\bz^*, \blambda) = g^{-1}(\bz^*, \blambda)
 		\]
 	\end{block}
 	\vspace{-0.3cm}
@@ -291,10 +355,10 @@ What are the pros and cons of each of them? \\
 	Why it is not a good idea to use IAF for VAE prior?
 	\begin{block}{ELBO with flow-based VAE prior}
 		\vspace{-0.5cm}
-		{\footnotesize
+		{
 		\begin{multline*}
 			\mathcal{L}(\bphi, \btheta) = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) +  \log p(\bz | \blambda) - \log q(\bz | \bx, \bphi) \right] \\
-				= \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) + \underbrace{ \Bigl( \log p(f(\bz, \blambda)) + \log \left| \det \frac{\partial f(\bz, \blambda)}{\partial \bz} \right| \Bigr) }_{\text{flow-based prior}} - \log q(\bz | \bx, \bphi) \right] 
+				= \mathbb{E}_{q(\bz | \bx, \bphi)} \Bigl[ \log p(\bx | \bz, \btheta) + \underbrace{ \Bigl( \log p(g(\bz, \blambda)) + \log \left| \det \bJ_g \right| \Bigr) }_{\text{flow-based prior}} - \log q(\bz | \bx, \bphi) \Bigr] 
 		\end{multline*}
 		}
 	\end{block}
@@ -341,20 +405,20 @@ What are the pros and cons of each of them? \\
 \begin{frame}{Flows in VAE posterior}
 	Apply a sequence of transformations to the random variable
 	\[
-	\bz_0 \sim q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
+	\bz \sim q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
 	\]
 	Let $q(\bz | \bx, \bphi)$ (VAE encoder) be a base distribution for a flow model.
 	
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.3cm}
 		\[
-			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial f(\bz, \blambda)}{\partial \bz}\right|
+			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right|
 		\]
 		\[
-			\bz^* = f(\bz, \blambda) = g^{-1}(\bz, \blambda)
+			\bz^* = g(\bz, \blambda) = f^{-1}(\bz, \blambda)
 		\]
 	\end{block}
-	Here $f(\bz, \blambda)$ is a flow model (e.g. stack of planar/coupling layers) parameterized by $\blambda$.
+	Here $g(\bz, \blambda)$ is a flow model (e.g. stack of planar/coupling/AR layers) parameterized by $\blambda$.
 	
 	
 	Let use $q(\bz^* | \bx, \bphi, \blambda)$ as a variational distribution. Here $\bphi$~-- encoder parameters, $\blambda$~-- flow parameters.
@@ -365,14 +429,14 @@ What are the pros and cons of each of them? \\
 \begin{frame}{Flows-based VAE posterior}
 	\begin{itemize}
 		\item Encoder outputs base distribution $q(\bz | \bx, \bphi)$.
-		\item Flow model $\bz^* = f(\bz, \blambda)$ transforms the base distribution $q(\bz | \bx, \bphi)$ to the distribution $q(\bz^* | \bx, \bphi, \blambda)$.
+		\item Flow model $\bz^* = g(\bz, \blambda)$ transforms the base distribution $q(\bz | \bx, \bphi)$ to the distribution $q(\bz^* | \bx, \bphi, \blambda)$.
 		\item Distribution $q(\bz^* | \bx, \bphi, \blambda)$ is used as a variational distribution for ELBO maximization.
 	\end{itemize}
 	
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.3cm}
 		\[
-			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial f(\bz, \blambda)}{\partial \bz}\right|
+			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right|
 		\]
 		\vspace{-0.3cm}
 	\end{block}
@@ -395,7 +459,7 @@ What are the pros and cons of each of them? \\
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.3cm}
 		\[
-			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial f(\bz, \blambda)}{\partial \bz}\right|
+			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right|
 		\]
 		\vspace{-0.3cm}
 	\end{block}
@@ -404,13 +468,13 @@ What are the pros and cons of each of them? \\
 		\begin{multline*}
 			\mathcal{L} (\bphi, \btheta, \blambda)  
 			= \mathbb{E}_{q(\bz^* | \bx, \bphi, \blambda)} \bigl[\log p(\bx, \bz^* | \btheta) - \log q(\bz^*| \bx, \bphi, \blambda) \bigr] = \\
-			= \mathbb{E}_{q(\bz | \bx, \bphi)} \left. \bigl[\log p(\bx, \bz^* | \btheta) - \log q(\bz^*| \bx, \bphi, \blambda) \bigr]\right|_{\bz^* = f(\bz, \blambda)} = \\
-			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, \bz^* | \btheta) -  \log q(\bz | \bx, \bphi ) + \log \left| \det \left( \frac{\partial f(\bz, \blambda)}{\partial \bz} \right) \right| \bigg].
+			= \mathbb{E}_{q(\bz | \bx, \bphi)} \left. \bigl[\log p(\bx, \bz^* | \btheta) - \log q(\bz^*| \bx, \bphi, \blambda) \bigr]\right|_{\bz^* = g(\bz, \blambda)} = \\
+			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, \bz^* | \btheta) -  \log q(\bz | \bx, \bphi ) - \log \left| \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz} \right) \right| \bigg].
 		\end{multline*}
 	\end{block}
 	\begin{itemize}
 		\item Obtain samples $\bz$ from the encoder $q(\bz | \bx, \bphi)$.
-		\item Apply flow model $\bz^* = f(\bz, \blambda)$.
+		\item Apply flow model $\bz^* = g(\bz, \blambda)$.
 		\item Compute likelihood for $\bz^*$ using the decoder, base distribution for $\bz^*$ and the Jacobian.
 	\end{itemize}
 	\myfootnotewithlink{https://arxiv.org/abs/1505.05770}{Rezende D. J., Mohamed S. Variational Inference with Normalizing Flows, 2015} 
@@ -470,7 +534,7 @@ What are the pros and cons of each of them? \\
 		{\small
 		\[
 			\mathcal{L} (\bphi, \btheta, \blambda) 
-			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, \bz^* | \btheta) -  \log q(\bz | \bx, \bphi ) +   \log \left| \det \left( \frac{\partial f(\bz, \blambda)}{\partial \bz} \right) \right| \bigg].
+			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, \bz^* | \btheta) -  \log q(\bz | \bx, \bphi ) -  \log \left| \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz} \right) \right| \bigg].
 		\]
 		}
 	\end{block}
@@ -480,7 +544,7 @@ What are the pros and cons of each of them? \\
 \begin{frame}{Flows-based VAE prior vs posterior}
 	\begin{itemize}
 		\item IAF posterior decoder path: $p(\bx|\bz, \btheta)$, $\bz \sim p(\bz)$.
-		\item AF prior decoder path: $p(\bx|\bz, \btheta)$, $\bz = g(\bepsilon, \blambda)$, $\bepsilon \sim p(\bepsilon)$. 
+		\item AF prior decoder path: $p(\bx|\bz, \btheta)$, $\bz = f(\bz^*, \blambda)$, $\bepsilon \sim p(\bz^*)$. 
 	\end{itemize}
 	The AF prior and the IAF posterior have the same computation cost, so using the AF prior makes the model more expressive at no training time cost.
 
@@ -491,32 +555,35 @@ What are the pros and cons of each of them? \\
 	\myfootnotewithlink{https://courses.cs.washington.edu/courses/cse599i/20au/slides/L09_flow.pdf}{image credit: https://courses.cs.washington.edu/courses/cse599i/20au}
 \end{frame}
 %=======
+%=======
 \begin{frame}{VAE limitations}
 	\begin{itemize}
-		\item Poor variational posterior distribution (encoder)
+		\item Poor generative distribution (decoder)
 		\[
-			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)) \quad \text{or } = \text{Softmax}(\bpi_{\btheta}(\bz)).
+		\]
+		\item Loose lower bound
+		\[
+			\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
 		\]
 		\item Poor prior distribution
 		\[
 			p(\bz) = \mathcal{N}(0, \mathbf{I}).
 		\]
-		\item Poor probabilistic model (decoder)
+		\item Poor variational posterior distribution (encoder)
 		\[
-			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
-		\]
-		\item Loose lower bound
-		\[
-			\log p(\bx | \btheta) - \mathcal{L}(q, \btheta) = (?).
+			q(\bz | \bx, \bphi) = \mathcal{N}(\bz| \bmu_{\bphi}(\bx), \bsigma^2_{\bphi}(\bx)).
 		\]
 	\end{itemize}
 \end{frame}
 %=======
 \begin{frame}{Summary}
 	\begin{itemize}
-		\item The ELBO surgery reveals insights about a prior distribution in VAE. The optimal prior is the aggregated posterior.
+		\item Dequantization allows to fit discrete data using continuous model.
 		\vfill
-		\item VampPrior proposes to use a variational mixture of posteriors as the prior to approximate the aggregated posterior.
+		\item Uniform dequantization is the simplest form of dequantization. Variational dequantization is a more natural type that was proposed in Flow++ model.
+		\vfill
+		\item The ELBO surgery reveals insights about a prior distribution in VAE. The optimal prior is the aggregated posterior.
 		\vfill
 		\item We could use flow-based prior in VAE (moreover, autoregressive).
 		\vfill
