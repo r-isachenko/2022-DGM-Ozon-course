@@ -174,7 +174,7 @@
 \end{frame}
 %=======
 \begin{frame}{Variational autoencoder (VAE)}
-	\begin{block}{Final algorithm}
+	\begin{block}{Final EM-algorithm}
 		\begin{itemize}
 			\item pick random sample $\bx_i, i \sim U[1, n]$.
 			\item compute the objective:
@@ -218,9 +218,13 @@
 \end{frame}
 %=======
 \begin{frame}{Variational Autoencoder}
+	\[
+		 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) - \log \frac{q(\bz | \bx, \bphi)}{p(\bz)} \right] \rightarrow \max_{\bphi, \btheta}.
+	\]	
+	\vspace{-0.3cm}
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=.7\linewidth]{figs/VAE.png}
+		\includegraphics[width=.65\linewidth]{figs/VAE.png}
 	\end{figure}
 	\myfootnotewithlink{http://ijdykeman.github.io/ml/2016/12/21/cvae.html}{image credit: http://ijdykeman.github.io/ml/2016/12/21/cvae.html}
 \end{frame}
@@ -242,7 +246,7 @@
 	\begin{itemize}
 		\item Poor generative distribution (decoder)
 		\[
-			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)) \quad \text{or } = \text{Softmax}(\bpi_{\btheta}(\bz)).
 		\]
 		\item Loose lower bound
 		\[
@@ -299,7 +303,7 @@
 	\begin{itemize}
 		\item \textbf{Poor generative distribution (decoder)}
 		\[
-			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)) \quad \text{or } = \text{Softmax}(\bpi_{\btheta}(\bz)).
 		\]
 		\item Loose lower bound
 		\[
@@ -361,7 +365,7 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1611.05013}{Gulrajani I. et al. PixelVAE: A Latent Variable Model for Natural Images, 2016}
 \end{frame}
 %=======
-\begin{frame}{Decoder weakening}
+\begin{frame}{Decoder weakening techniques}
 	\vspace{-0.3cm}
 	\begin{itemize}
 		\item Powerful decoder $p(\bx | \bz, \btheta)$ makes the model expressive, but posterior collapse is possible.
@@ -394,7 +398,7 @@
 	\begin{itemize}
 		\item Poor generative distribution (decoder)
 		\[
-			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)).
+			p(\bx | \bz, \btheta) = \mathcal{N}(\bx| \bmu_{\btheta}(\bz), \bsigma^2_{\btheta}(\bz)) \quad \text{or } = \text{Softmax}(\bpi_{\btheta}(\bz)).
 		\]
 		\item \textbf{Loose lower bound}
 		\[
@@ -411,64 +415,64 @@
 	\end{itemize}
 \end{frame}
 %=======
-\begin{frame}{Importance Sampling}
+\begin{frame}{Importance sampling}
 	\begin{block}{LVM}
 		\vspace{-0.5cm}
 		\begin{align*}
-			p(\bx | \btheta) &= \int p(\bx, \bz | \btheta) d\bz = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} \right] q(\bz | \bx) d\bz \\
-			&= \int f(\bx, \bz) q(\bz | \bx) d\bz = \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
+			p(\bx | \btheta) &= \int p(\bx, \bz | \btheta) d\bz = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} \right] q(\bz | \bx, \bphi) d\bz \\
+			&= \int f(\bx, \bz) q(\bz | \bx, \bphi) d\bz = \mathbb{E}_{\bz \sim q(\bz | \bx, \bphi)} f(\bx, \bz)
 		\end{align*}
 	\end{block}
-	Here $f(\bx, \bz) = \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$.
+	Here $f(\bx, \bz) = \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)}$.
 	\begin{block}{ELBO: derivation 1}
 		\vspace{-0.5cm}
 		\begin{multline*}
-			\log p(\bx | \btheta) = \log \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
-			\geq \mathbb{E}_{\bz \sim q(\bz | \bx)} \log f(\bx, \bz) = \\
-			= \mathbb{E}_{\bz \sim q(\bz | \bx)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} = \mathcal{L}(q, \btheta).
+			\log p(\bx | \btheta) = \log \mathbb{E}_{\bz \sim q(\bz | \bx, \bphi)} f(\bx, \bz)
+			\geq \mathbb{E}_{\bz \sim q(\bz | \bx, \bphi)} \log f(\bx, \bz) = \\
+			= \mathbb{E}_{\bz \sim q(\bz | \bx, \bphi)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} = \mathcal{L}(q, \btheta).
 		\end{multline*}
 	\end{block}
 	Could we choose better $f(\bx, \bz)$? 
 \end{frame}
 %=======
-\begin{frame}{IWAE}
+\begin{frame}{Importance Weighted Autoencoders (IWAE)}
 		\[
-			p(\bx | \btheta) = \int p(\bx, \bz | \btheta) d\bz = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)} \right] q(\bz | \bx) d\bz = \mathbb{E}_{\bz \sim q(\bz | \bx)} f(\bx, \bz)
+			p(\bx | \btheta) = \int \left[\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)} \right] q(\bz | \bx, \bphi) d\bz = \mathbb{E}_{\bz \sim q(\bz | \bx, \bphi)} f(\bx, \bz)
 		\]
 	Let define
 	\[
-	f(\bx, \bz_1, \dots, \bz_K) = \frac{1}{K} \sum_{k=1}^K \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx)}
+	f(\bx, \bz_1, \dots, \bz_K) = \frac{1}{K} \sum_{k=1}^K \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx, \bphi)}
 	\]
 	\[
-		\mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} f(\bx, \bz_1, \dots, \bz_K) = p(\bx | \btheta)
+		\mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} f(\bx, \bz_1, \dots, \bz_K) = p(\bx | \btheta)
 	\]
 	\vspace{-0.3cm}
 	\begin{block}{ELBO}
 		\vspace{-0.5cm}
 		\begin{multline*}
 			\log p(\bx | \btheta) = \log \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} f(\bx, \bz, \dots, \bz_K) \geq \\
-			\geq \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log f(\bx, \bz, \dots, \bz_K) = \\
-			= \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log \left[\frac{1}{K} \sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx)} \right] = \mathcal{L}_K(q, \btheta).
+			\geq \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} \log f(\bx, \bz, \dots, \bz_K) = \\
+			= \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} \log \left[\frac{1}{K} \sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k | \bx, \bphi)} \right] = \mathcal{L}_K(q, \btheta).
 		\end{multline*}
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
 \end{frame}
 %=======
-\begin{frame}{IWAE}
+\begin{frame}{Importance Weighted Autoencoders (IWAE)}
 	\begin{block}{VAE objective}
 		\vspace{-0.2cm}
 		\[
-		\log p(\bx | \btheta) \geq \mathcal{L} (q, \btheta)  = \mathbb{E}_{q(\bz | \bx)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz| \bx)} \rightarrow \max_{q, \btheta}
+		\log p(\bx | \btheta) \geq \mathcal{L} (q, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz| \bx, \bphi)} \rightarrow \max_{q, \btheta}
 		\]
 		\[
-		\mathcal{L} (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \left( \frac{1}{K} \sum_{k=1}^K \log \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right) \rightarrow \max_{q, \btheta}.
+		\mathcal{L} (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} \left( \frac{1}{K} \sum_{k=1}^K \log \frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx, \bphi)} \right) \rightarrow \max_{q, \btheta}.
 		\]
 		\vspace{-0.2cm}
 	\end{block}
 	\begin{block}{IWAE objective}
 		\vspace{-0.2cm}
 		\[
-			\mathcal{L}_K (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right) \rightarrow \max_{q, \btheta}.
+			\mathcal{L}_K (q, \btheta)  = \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx, \bphi)} \right) \rightarrow \max_{q, \btheta}.
 		\]
 	\end{block}
 	If $K=1$, these objectives coincide.
@@ -476,56 +480,30 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
 \end{frame}
 %=======
-\begin{frame}{IWAE}
+\begin{frame}{Importance Weighted Autoencoders (IWAE)}
 	\begin{block}{Theorem}
 		\begin{enumerate}
 			\item $\log p(\bx | \btheta) \geq \mathcal{L}_K (q, \btheta) \geq \mathcal{L}_M (q, \btheta), \quad \text{for } K \geq M$;
-			\item $\log p(\bx | \btheta) = \lim_{K \rightarrow \infty} \mathcal{L}_K (q, \btheta)$ if $\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx)}$ is bounded.
+			\item $\log p(\bx | \btheta) = \lim_{K \rightarrow \infty} \mathcal{L}_K (q, \btheta)$ if $\frac{p(\bx, \bz | \btheta)}{q(\bz | \bx, \bphi)}$ is bounded.
 		\end{enumerate}
 		\vspace{-0.2cm}
 	\end{block}
 	If $K > 1$ the bound could be tighter.
 	\begin{align*}
-		\mathcal{L} (q, \btheta) &= \mathbb{E}_{q(\bz | \bx)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz| \bx)}; \\
-		\mathcal{L}_K (q, \btheta) &= \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx)} \right).
+		\mathcal{L} (q, \btheta) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{p(\bx, \bz | \btheta)}{q(\bz| \bx, \bphi)}; \\
+		\mathcal{L}_K (q, \btheta) &= \mathbb{E}_{\bz_1, \dots, \bz_K \sim q(\bz | \bx, \bphi)} \log \left( \frac{1}{K}\sum_{k=1}^K\frac{p(\bx, \bz_k | \btheta)}{q(\bz_k| \bx, \bphi)} \right).
 	\end{align*}
 	\vspace{-0.2cm}
 	\begin{itemize}
 		\item $\mathcal{L}_1(q, \btheta) = \mathcal{L}(q, \btheta)$;
 		\item $\mathcal{L}_{\infty}(q, \btheta) = \log p(\bx | \btheta)$.
-		\item Which $q^*(\bz | \bx)$ gives $\mathcal{L}(q^*, \btheta) = \log p(\bx | \btheta)$? 
-		\item Which $q^*(\bz | \bx)$ gives $\mathcal{L}(q^*, \btheta) = \mathcal{L}_K(q, \btheta)$?
+		\item Which $q^*(\bz | \bx, \bphi)$ gives $\mathcal{L}(q^*, \btheta) = \log p(\bx | \btheta)$? 
 	\end{itemize}
 
 	\myfootnotewithlink{https://arxiv.org/abs/1509.00519}{Burda Y., Grosse R., Salakhutdinov R. Importance Weighted Autoencoders, 2015}
 \end{frame}
 %=======
-\begin{frame}{IWAE}
-	\begin{block}{Theorem}
-		$\mathcal{L}(q^*, \btheta) = \mathcal{L}_K(q, \btheta)$
-		for the following variational distribution
-		\[
-		q^*(\bz | \bx) = \mathbb{E}_{\bz_2, \dots, \bz_K \sim q(\bz | \bx)} q_{IW}(\bz | \bx, \bz_{2:K}),
-		\]
-		where
-		\vspace{-0.4cm}
-		\[
-			q_{IW}(\bz | \bx, \bz_{2:K}) = \frac{\frac{p(\bx, \bz)}{q(\bz | \bx)}}{\frac{1}{K} \sum_{k=1}^K \frac{p(\bx, \bz_k)}{q(\bz_k | \bx)}} q(\bz | \bx) = \frac{p(\bx, \bz)}{\frac{1}{K}\left( \frac{p(\bx, \bz)}{q(\bz | \bx)} + \sum_{k=2}^K \frac{p(\bx, \bz_k)}{q(\bz_k | \bx)}\right)}.
-		\]
-	\end{block}
-	\vspace{-0.5cm}
-	\begin{block}{IWAE posterior}
-		\vspace{-0.3cm}
-		\begin{figure}
-			\centering
-			\includegraphics[width=\linewidth]{figs/IWAE_1.png}
-		\end{figure}
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1704.02916}{Cremer C., Morris Q., Duvenaud D. Reinterpreting Importance-Weighted Autoencoders, 2017}
-\end{frame}
-%=======
-\begin{frame}{IWAE}
+\begin{frame}{Importance Weighted Autoencoders (IWAE)}
 	\begin{block}{Objective}
 		\vspace{-0.5cm}
 		\[
@@ -553,7 +531,7 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1802.04537}{Rainforth T. et al. Tighter variational bounds are not necessarily better, 2018}
 \end{frame}
 %=======
-\begin{frame}{IWAE}
+\begin{frame}{Importance Weighted Autoencoders (IWAE)}
 	\begin{block}{Theorem}
 		\vspace{-0.5cm}
 		\[
@@ -578,7 +556,7 @@
 	\begin{itemize}
 		\item IWAE makes the variational bound tighter and extends the class of variational distributions.
 		\item Gradient signal becomes really small, training is complicated.
-		\item IWAE is very popular technique as a quality measure for VAE models.
+		\item IWAE is a standard quality measure for VAE models.
 	\end{itemize}
 	\myfootnotewithlink{https://arxiv.org/abs/1802.04537}{Rainforth T. et al. Tighter variational bounds are not necessarily better, 2018}
 \end{frame}
