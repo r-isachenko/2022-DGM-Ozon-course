@@ -9,31 +9,6 @@
 \end{frame}
 %=======
 \begin{frame}{Recap of previous lecture}
-	\begin{block}{Likelihood-free learning}
-		\begin{itemize}
-			\item Likelihood is not a perfect quality measure for generative model.
-			\item Likelihood could be intractable.
-		\end{itemize}
-	\end{block}
-	Imagine we have two sets of samples 
-	\begin{itemize}
-		\item $\cS_1 = \{\bx_i\}_{i=1}^{n_1} \sim \pi(\bx)$ -- real samples;
-		\item $\cS_2 = \{\bx_i\}_{i=1}^{n_2} \sim p(\bx | \btheta)$ -- generated (or fake) samples.
-	\end{itemize}
-	\begin{block}{Two sample test}
-		\vspace{-0.3cm}
-		\[
-			H_0: \pi(\bx) = p(\bx | \btheta), \quad H_1: \pi(\bx) \neq p(\bx | \btheta)
-		\]
-	\end{block}
-	If test statistic $T(\cS_1, \cS_2) < \alpha$, then accept $H_0$, else reject it.
-		\begin{itemize}
-			\item $p(\bx | \btheta)$ minimizes the value of test statistic~$T(\cS_1, \cS_2)$.
-			\item It is hard to find an appropriate test statistic in high dimensions. $T(\cS_1, \cS_2)$ could be learnable.
-		\end{itemize}
-\end{frame}
-%=======
-\begin{frame}{Recap of previous lecture}
 	\begin{itemize}
 		\item \textbf{Generator:} generative model $\bx = G(\bz)$, which makes generated sample more realistic.
 		\item \textbf{Discriminator:} a classifier $D(\bx) \in [0, 1]$, which distinguishes real samples from generated samples.

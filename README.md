@@ -26,14 +26,14 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 2 | February, 15 | <b>Lecture:</b> Autoregressive models (WaveNet, PixelCNN, PixelCNN++). Bayesian Framework. Latent Variable Models. | [slides](lectures/lecture2/Isachenko2022DeepGenerativeModels2.pdf) |
 |  |  | <b>Seminar:</b> MADE practice. PixelCNN implementation hints. Bayesian inference intro, conjugate distributions. | [notebook](seminars/seminar2/MADE.ipynb) |
 | 3 | February, 22 | <b>Lecture:</b> Variational lower bound. EM-algorithm, amortized inference. ELBO gradients, reparametrization trick. | [slides](lectures/lecture3/Isachenko2022DeepGenerativeModels3.pdf) |
-|  |  | <b>Seminar:</b> Mean field approximation. | TBA |
-| 4 | March, 1 | <b>Lecture:</b> Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tigher ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 5 | March, 8 | <b>Lecture:</b> Flow models definition. Forward and reverse KL divergence. Residual flows (Planar/Sylvester flows). Linear flows (Glow). | TBA |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | TBA |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 7 | March, 22 | <b>Lecture:</b> ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
+|  |  | <b>Seminar:</b> Mean field approximation. | [notebook](seminars/seminar3/Variational_inference.ipynb) |
+| 4 | March, 1 | <b>Lecture:</b> Variational Autoencoder (VAE). Posterior collapse and decoder weakening. Tighter ELBO (IWAE). | [slides](lectures/lecture4/Isachenko2022DeepGenerativeModels4.pdf) |
+|  |  | <b>Seminar:</b> EM-algorithm. VAE theory. Automatic differentiation through random graph. | --- |
+| 5 | March, 8 | <b>Lecture:</b> Flow models definition. Forward and reverse KL divergence. Linear flows (Glow). Residual flows (Planar/Sylvester flows). | [slides](lectures/lecture5/Isachenko2022DeepGenerativeModels5.pdf) |
+|  |  | <b>Seminar:</b> IWAE theory. IWAE variational posterior. VAE vs Normalizing flows. | --- |
+| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | [slides](lectures/lecture6/Isachenko2022DeepGenerativeModels6.pdf) |
+|  |  | <b>Seminar:</b> Planar flows. Forward vs Reverse KL. | TBA |
+| 7 | March, 22 | <b>Lecture:</b> Uniform and variational dequantization. ELBO surgery and optimal VAE prior. Flows-based VAE posterior vs flow-based VAE prior.  | [slides](lectures/lecture7/Isachenko2022DeepGenerativeModels7.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
@@ -55,8 +55,8 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |---------|------|-------------|--------|-------|
 | 1 | February, 13 | February, 27 | <ol><li>Theory (MADE, Mixture of Logistics).</li><li>PixelCNN on MNIST.</li><li>PixelCNN autocomplete and receptive field.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw1.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw1.ipynb) |
 | 2 | February, 27 | March, 13 | <ol><li>Theory (log-derivative trick, IWAE theorem).</li><li>VAE on 2D data.</li><li>VAE on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw2.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw2.ipynb) |
-| 3 | March, 13 | March, 27 | <ol><li>Theory (Sylvester flows).</li><li>RealNVP on 2D data.</li><li>RealNVP on CIFAR10.</li></ol> | TBA |
-| 4 | March, 27 | April, 10 | <ol><li>Theory (MI in ELBO surgery).</li><li>VAE with AR decoder on MNIST.</li><li>VAE with AR prior on CIFAR10.</li></ol> | TBA |
+| 3 | March, 13 | March, 27 | <ol><li>Theory (Sylvester flows).</li><li>RealNVP on 2D data.</li><li>RealNVP on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw3.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw3.ipynb) |
+| 4 | March, 27 | April, 10 | <ol><li>Theory (MI in ELBO surgery).</li><li>VAE with AR decoder on MNIST.</li><li>VAE with AR prior on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw4.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw4.ipynb) |
 | 5 | April, 10 | April, 24 | <ol><li>Theory (IW dequantization, LSGAN).</li><li>WGAN/WGAN-GP on 2D data.</li><li>WGAN-GP on CIFAR10.</li></ol> | TBA |
 | 6 | April, 24 | May, 8 | <ol><li>Theory (???).</li><li>SN-GAN on CIFAR10.</li><li>FID and Inception Score.</li></ol> | TBA |
 
