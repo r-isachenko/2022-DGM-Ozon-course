@@ -33,7 +33,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> IWAE theory. IWAE variational posterior. VAE vs Normalizing flows. | --- |
 | 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | [slides](lectures/lecture6/Isachenko2022DeepGenerativeModels6.pdf) |
 |  |  | <b>Seminar:</b> Planar flows. Forward vs Reverse KL. | TBA |
-| 7 | March, 22 | <b>Lecture:</b> ELBO surgery. VampPrior + flow-based VAE prior. Flows-based VAE posterior vs prior. Uniform and variational dequantization. | TBA |
+| 7 | March, 22 | <b>Lecture:</b> Uniform and variational dequantization. ELBO surgery and optimal VAE prior. Flows-based VAE posterior vs flow-based VAE prior.  | [slides](lectures/lecture7/Isachenko2022DeepGenerativeModels7.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
