@@ -92,7 +92,7 @@
 \end{frame}
 %=======
 \begin{frame}{Uniform dequantization}
-	\begin{block}{Statement}
+	\begin{block}{Theorem}
 		Fitting continuous model $p(\by | \btheta)$ on uniformly dequantized data $\by = \bx + \bu, \, \bu \sim U[0, 1]$ is equivalent to maximization of a lower bound on log-likelihood for a discrete model:
 		\vspace{-0.2cm}
 		\[
@@ -167,16 +167,16 @@
 		\]
 		\vspace{-0.3cm}
 	\end{block}
-	Let $\bu = h(\bepsilon, \bphi)$ is a flow model with base distribution $\bepsilon \sim p(\bepsilon) = \mathcal{N}(0, \mathbf{I})$:
+	Let $\bu = g(\bepsilon, \bx, \blambda)$ is a flow model with base distribution $\bepsilon \sim p(\bepsilon) = \mathcal{N}(0, \mathbf{I})$:
 	\vspace{-0.3cm}
 	\[
-		q(\bu | \bx) = p(h^{-1}(\bu, \bphi)) \cdot \left| \det \frac{\partial h^{-1}(\bu, \bphi)}{\partial \bu}\right|.
+		q(\bu | \bx) = p(g^{-1}(\bu, \bx, \blambda)) \cdot \left| \det \frac{\partial g^{-1}(\bu, \bx, \blambda)}{\partial \bu}\right|.
 	\]
 	\vspace{-0.7cm}
 	\begin{block}{Flow-based variational dequantization}
 		\vspace{-0.8cm}
 		\[
-			\log P(\bx | \btheta) \geq \cL(\bphi, \btheta) = \int p(\bepsilon) \log \left( \frac{p(\bx + h(\bepsilon, \bphi) | \btheta)}{p(\bepsilon) \cdot \left| \det \frac{\partial h(\bepsilon, \bphi)}{\partial \bepsilon}\right|^{-1}} \right) d\bepsilon.
+			\log P(\bx | \btheta) \geq \cL(\blambda, \btheta) = \int p(\bepsilon) \log \left( \frac{p(\bx + g(\bepsilon, \bx, \blambda) | \btheta)}{p(\bepsilon) \cdot \left| \det \bJ_g\right|^{-1}} \right) d\bepsilon.
 		\]
 		\vspace{-0.3cm}
 	\end{block}
@@ -188,7 +188,7 @@
 	\begin{block}{Flow-based variational dequantization}
 	\vspace{-0.3cm}
 	\[
-		\log P(\bx | \btheta) \geq \int p(\bepsilon)\log \left( \frac{p(\bx + h(\bepsilon, \bphi))}{p(\bepsilon) \cdot \left| \det \frac{\partial h(\bepsilon, \bphi)}{\partial \bepsilon}\right|^{-1}} \right) d\bepsilon.
+		\log P(\bx | \btheta) \geq \int p(\bepsilon)\log \left( \frac{p(\bx + g(\bepsilon, \bx, \blambda))}{p(\bepsilon) \cdot \left| \det \bJ_g\right|^{-1}} \right) d\bepsilon.
 	\]
 	\end{block}
 	\begin{figure}
@@ -341,7 +341,7 @@ What are the pros and cons of each of them? \\
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.5cm}
 		\[
-			\log p(\bz | \blambda) = \log p(\bz^*) + \log \det \left | \frac{d \bz^*}{d\bz}\right| = \log p(\bepsilon) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right| 
+			\log p(\bz | \blambda) = \log p(\bz^*) + \log  \left | \det \left(\frac{d \bz^*}{d\bz}\right)\right| = \log p(g(\bz, \blambda)) + \log \left | \det (\bJ_g)\right| 
 		\]
 		\[
 			\bz = f(\bz^*, \blambda) = g^{-1}(\bz^*, \blambda)
@@ -355,10 +355,10 @@ What are the pros and cons of each of them? \\
 	Why it is not a good idea to use IAF for VAE prior?
 	\begin{block}{ELBO with flow-based VAE prior}
 		\vspace{-0.5cm}
-		{
+		{\small
 		\begin{multline*}
 			\mathcal{L}(\bphi, \btheta) = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[ \log p(\bx | \bz, \btheta) +  \log p(\bz | \blambda) - \log q(\bz | \bx, \bphi) \right] \\
-				= \mathbb{E}_{q(\bz | \bx, \bphi)} \Bigl[ \log p(\bx | \bz, \btheta) + \underbrace{ \Bigl( \log p(g(\bz, \blambda)) + \log \left| \det \bJ_g \right| \Bigr) }_{\text{flow-based prior}} - \log q(\bz | \bx, \bphi) \Bigr] 
+				= \mathbb{E}_{q(\bz | \bx, \bphi)} \Bigl[ \log p(\bx | \bz, \btheta) + \underbrace{ \Bigl( \log p(g(\bz, \blambda)) + \log \left| \det (\bJ_g) \right| \Bigr) }_{\text{flow-based prior}} - \log q(\bz | \bx, \bphi) \Bigr] 
 		\end{multline*}
 		}
 	\end{block}
@@ -412,7 +412,7 @@ What are the pros and cons of each of them? \\
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.3cm}
 		\[
-			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right|
+			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \left | \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz}\right) \right|
 		\]
 		\[
 			\bz^* = g(\bz, \blambda) = f^{-1}(\bz, \blambda)
@@ -436,7 +436,7 @@ What are the pros and cons of each of them? \\
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.3cm}
 		\[
-			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right|
+			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \left | \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz}\right) \right|
 		\]
 		\vspace{-0.3cm}
 	\end{block}
@@ -459,7 +459,7 @@ What are the pros and cons of each of them? \\
 	\begin{block}{Flow model in latent space}
 		\vspace{-0.3cm}
 		\[
-			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \det \left | \frac{\partial g(\bz, \blambda)}{\partial \bz}\right|
+			\log q(\bz^* | \bx, \bphi, \blambda) = \log q(\bz | \bx, \bphi) + \log \left| \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz}\right)\right|
 		\]
 		\vspace{-0.3cm}
 	\end{block}
@@ -469,7 +469,7 @@ What are the pros and cons of each of them? \\
 			\mathcal{L} (\bphi, \btheta, \blambda)  
 			= \mathbb{E}_{q(\bz^* | \bx, \bphi, \blambda)} \bigl[\log p(\bx, \bz^* | \btheta) - \log q(\bz^*| \bx, \bphi, \blambda) \bigr] = \\
 			= \mathbb{E}_{q(\bz | \bx, \bphi)} \left. \bigl[\log p(\bx, \bz^* | \btheta) - \log q(\bz^*| \bx, \bphi, \blambda) \bigr]\right|_{\bz^* = g(\bz, \blambda)} = \\
-			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, \bz^* | \btheta) -  \log q(\bz | \bx, \bphi ) - \log \left| \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz} \right) \right| \bigg].
+			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, g(\bz, \blambda) | \btheta) -  \log q(\bz | \bx, \bphi ) - \log | \det \left( \bJ_g ) \right| \bigg].
 		\end{multline*}
 	\end{block}
 	\begin{itemize}
@@ -527,14 +527,14 @@ What are the pros and cons of each of them? \\
 		\mathcal{L}(\bphi, \btheta, \blambda) &= \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - \underbrace{KL( q(\bz | \bx, \bphi) || p(\bz | \blambda))}_{\text{flow-based prior}} \\
 		& = \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz, \btheta) - \underbrace{KL( q(\bz | \bx, \bphi, \blambda) || p(\bz))}_{\text{flow-based posterior}}
 	\end{align*}
-	(Here we use Flow KL duality theorem from Lecture 4)
+	(Here we use Flow KL duality theorem from Lecture 5)
 	\end{block}
 	\begin{block}{Flows in VAE posterior}
 		\vspace{-0.3cm}
 		{\small
 		\[
 			\mathcal{L} (\bphi, \btheta, \blambda) 
-			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, \bz^* | \btheta) -  \log q(\bz | \bx, \bphi ) -  \log \left| \det \left( \frac{\partial g(\bz, \blambda)}{\partial \bz} \right) \right| \bigg].
+			= \mathbb{E}_{q(\bz | \bx, \bphi)} \bigg[\log p(\bx, g(\bz, \blambda) | \btheta) -  \log q(\bz | \bx, \bphi ) -  \log \left| \det (\bJ_g) \right| \bigg].
 		\]
 		}
 	\end{block}
