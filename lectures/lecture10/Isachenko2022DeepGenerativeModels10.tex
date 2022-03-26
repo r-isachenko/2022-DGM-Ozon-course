@@ -112,105 +112,6 @@
 	\end{frame}
 }
 %=======
-\section{Wassestein GAN}
-%=======
-\begin{frame}{Wasserstein GAN}
-	\begin{block}{Wasserstein distance}
-		\vspace{-0.4cm}
-		\[
-			W(\pi || p) = \inf_{\gamma \in \Gamma(\pi, p)} \bbE_{(\bx, \by) \sim \gamma} \| \bx - \by \| =  \inf_{\gamma \in \Gamma(\pi, p)} \int \| \bx - \by \| \gamma (\bx, \by) d \bx d \by
-		\]
-	\end{block}
-	The infimum across all possible joint distributions in $\Gamma(\pi, p)$ is intractable.
-	\begin{block}{Theorem (Kantorovich-Rubinstein duality)}
-		\[
-			W(\pi || p) = \frac{1}{K} \max_{\| f \|_L \leq K} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right],
-		\]
-		where $\| f \|_L \leq K$ are $K-$Lipschitz continuous functions ($f: \cX \rightarrow \bbR$)
-		\[
-			|f(\bx_1) - f(\bx_2)| \leq K \| \bx_1 - \bx_2 \|, \quad \text{for all } \bx_1, \bx_2 \in \cX.
-		\]
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wasserstein GAN}
-		\begin{block}{Theorem (Kantorovich-Rubinstein duality)}
-		\[
-			W(\pi || p) = \frac{1}{K} \max_{\| f \|_L \leq K} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right],
-		\]
-	\end{block}
-	\begin{itemize}
-		\item Now we have to ensure that $f$ is $K$-Lipschitz continuous.
-		\item Let $f(\bx, \bphi)$ be a feedforward neural network parametrized by~$\bphi$.
-		\item If parameters $\bphi$ lie in a compact set $\boldsymbol{\Phi}$ then $f(\bx, \bphi)$ will be $K$-Lipschitz continuous function. 
-		\item Let the parameters be clamped to a fixed box $\boldsymbol{\Phi} \in [-0.01, 0.01]^d$ after each gradient update.
-	\end{itemize}
-	\begin{multline*}
-		 K \cdot W(\pi || p) = \max_{\| f \|_L \leq K} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right] \geq \\  \geq \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bx)} f(\bx, \bphi )\right]
-	\end{multline*}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wassestein GAN}
-	\begin{block}{Vanilla GAN objective}
-		\vspace{-0.2cm}
-		\[
-			\min_{G} \max_D \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz)))
-		\]
-		\vspace{-0.2cm}
-	\end{block}
-	\begin{block}{WGAN objective}
-		\vspace{-0.6cm}
-		\[
-		\min_{G} W(\pi || p) \approx \min_{G} \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bz)} f(G(\bz), \bphi )\right].
-		\]
-	\end{block}
-	\begin{itemize}
-		\item Discriminator $D$ is similar to the function $f$, but not the same (it is not a classifier anymore). In the WGAN model, function~$f$ is usually called $\textit{critic}$.
-		\item "Weight clipping is a clearly terrible way to enforce a Lipschitz constraint". If the clipping parameter is large, it is hard to train the critic till optimality. If the clipping parameter is too small, it could lead to vanishing gradients.
-	\end{itemize}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wasserstein GAN}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.8\linewidth]{figs/wgan_toy}
-	\end{figure}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wasserstein GAN}
-	\begin{minipage}[t]{0.49\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/dcgan_quality}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.49\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/wgan_quality}
-		\end{figure}
-	\end{minipage}
-	\begin{itemize}
-		\item $JSD$ correlates poorly with the sample quality. Stays constast nearly maximum value $\log 2 \approx 0.69$.
-		\item $W$ is highly correlated with the sample quality. 
-	\end{itemize}
-	\begin{figure}
-		\centering
-		\includegraphics[width=1.0\linewidth]{figs/wgan_mode_collapse}
-	\end{figure}
-	"In no experiment did we see evidence of mode collapse for the WGAN algorithm."
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
 \section{WGAN with Gradient Penalty}
 %=======
 \begin{frame}{Wasserstein GAN with Gradient Penalty}
@@ -367,13 +268,141 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1802.05957}{Miyato T. et al. Spectral Normalization for Generative Adversarial Networks, 2018}
 \end{frame}
 %=======
+\section{f-divergence minimization}
+%=======
+\begin{frame}{Divergences}
+	\begin{itemize}
+		\item Forward KL divergence in maximum likelihood estimation.
+		\item Reverse KL in variational inference.
+		\item JS divergence in standard GAN.
+		\item Wasserstein distance in WGAN.
+	\end{itemize}
+	\begin{block}{What is a divergence?}
+		Let $\cS$ be the set of all possible probability distributions. Then $D: \cS \times \cS \rightarrow \bbR$ is a divergence if 
+		\begin{itemize}
+			\item $D(\pi || p) \geq 0$ for all $\pi, p \in \cS$;
+			\item $D(\pi || p) = 0$ if and only if $\pi \equiv p$.
+		\end{itemize}
+	\end{block}
+	\begin{block}{General divergence minimization task}
+		\vspace{-0.3cm}
+		\[
+			\min_p D(\pi || p)
+		\]
+		\vspace{-0.7cm}
+	\end{block}
+	\begin{block}{Chalenge}
+		We do not know the real distribution $\pi(\bx)$!
+	\end{block}
+\end{frame}
+%=======
+\begin{frame}{f-divergence family}
+	
+	\begin{block}{f-divergence}
+		\vspace{-0.3cm}
+		\[
+		D_f(\pi || p) = \bbE_{p(\bx)}  f\left( \frac{\pi(\bx)}{p(\bx)} \right)  = \int p(\bx) f\left( \frac{\pi(\bx)}{p(\bx)} \right) d \bx.
+		\]
+		Here $f: \bbR_+ \rightarrow \bbR$ is a convex, lower semicontinuous function satisfying $f(1) = 0$.
+	\end{block}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/f_divs}
+	\end{figure}
+	\myfootnotewithlink{https://arxiv.org/abs/1606.00709}{Nowozin S., Cseke B., Tomioka R. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization, 2016}
+\end{frame}
+%=======
+\begin{frame}{f-divergence family}
+	\vspace{-0.2cm}
+	\begin{block}{Fenchel conjugate}
+		\vspace{-0.7cm}
+		\[
+		f^*(t) = \sup_{u \in \text{dom}_f} \left( ut - f(u) \right), \quad f(u) = \sup_{t \in \text{dom}_{f^*}} \left( ut - f^*(t) \right)
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\textbf{Important property:} $ f^{**} = f$ for convex $f$.
+	\begin{block}{f-divergence}
+		\vspace{-0.8cm}
+		\begin{multline*}
+			D_f(\pi || p) = \bbE_{p(\bx)}  f\left( \frac{\pi(\bx)}{p(\bx)} \right)  = \int p(\bx) f\left( \frac{\pi(\bx)}{p(\bx)} \right) d \bx = \\ = \int p(\bx) \sup_{t \in \text{dom}_{f^*}} \left( \frac{\pi(\bx)}{p(\bx)} t - f^*(t) \right) d \bx = \\ 
+			= \int \sup_{t \in \text{dom}_{f^*}} \left( \pi(\bx)t - p(\bx) f^*(t) \right) d \bx .
+		\end{multline*}
+		\vspace{-0.6cm}
+	\end{block}
+	Here we seek value of $t$, which gives us maximum value of $ \pi(\bx)t - p(\bx) f^*(t)$, for each data point $\bx$.
+	\myfootnotewithlink{https://arxiv.org/abs/1606.00709}{Nowozin S., Cseke B., Tomioka R. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization, 2016}
+\end{frame}
+%=======
+\begin{frame}{f-divergence family}
+	\vspace{-0.4cm}
+	\begin{block}{f-divergence}
+		\vspace{-0.3cm}
+		\[
+		D_f(\pi || p) = \bbE_{p(\bx)}  f\left( \frac{\pi(\bx)}{p(\bx)} \right)  = \int p(\bx) f\left( \frac{\pi(\bx)}{p(\bx)} \right) d \bx.
+		\]
+		\vspace{-0.4cm}
+	\end{block}
+	\begin{block}{Variational f-divergence estimation}
+		\vspace{-0.8cm}
+		\begin{multline*}
+			D_f(\pi || p)  = \int \sup_{t \in \text{dom}_{f^*}} \left( \pi(\bx)t - p(\bx) f^*(t) \right) d \bx \geq \\
+			 \geq \sup_{T \in \cT} \int \left( \pi(\bx)T(\bx) - p(\bx) f^*(T(\bx)) \right) d \bx = \\
+			 = \sup_{T \in \cT} \left[\bbE_{\pi}T(\bx) -  \bbE_p f^*(T(\bx)) \right]
+		\end{multline*}
+	\vspace{-0.6cm}
+	\end{block}
+	This is a lower bound because of Jensen-Shannon inequality and restricted class of functions $\cT: \cX \rightarrow \bbR$.
+	
+	\myfootnotewithlink{https://arxiv.org/abs/1606.00709}{Nowozin S., Cseke B., Tomioka R. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization, 2016}
+\end{frame}
+%=======
+\begin{frame}{f-divergence family}
+	\begin{block}{Variational divergence estimation}
+		\[
+			D_f(\pi || p) \geq \sup_{T \in \cT} \left[\bbE_{\pi}T(\bx) -  \bbE_p f^*(T(\bx)) \right]
+		\]
+		The lower bound is tight for $T^*(\bx) = f'\left( \frac{\pi(\bx)}{p(\bx)} \right)$.
+	\end{block}
+	\begin{block}{Example (JSD)}
+		\begin{itemize}
+			\item Let define function $f$ and its conjugate $f^*$
+			\[ 
+				f(u) = u \log u - (u + 1) \log (u + 1), \quad f^*(t) = - \log (1 - e^t).
+			\]
+			\item Let reparametrize $T(\bx) = \log D(\bx)$.
+		\end{itemize}
+		\vspace{-0.7cm}
+	\end{block}
+	\[
+		\min_{G} \max_D V(G, D) = \min_{G} \max_D \left[ \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz))) \right]
+	\]
+
+	\myfootnotewithlink{https://arxiv.org/abs/1606.00709}{Nowozin S., Cseke B., Tomioka R. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization, 2016}
+\end{frame}
+%=======
+\begin{frame}{f-divergence family}
+	\begin{block}{Variational divergence estimation}
+		\[
+			D_f(\pi || p) \geq \sup_{T \in \cT} \left[\bbE_{\pi}T(\bx) -  \bbE_p f^*(T(\bx)) \right]
+		\]
+	\end{block}
+	\textbf{Note:} To evaluate lower bound we only need samples from $\pi(\bx)$ and $p(\bx)$. Hence, we could fit implicit generative model.
+	\begin{figure}
+		\centering
+		\includegraphics[width=1.0\linewidth]{figs/f_div_results}
+	\end{figure}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1606.00709}{Nowozin S., Cseke B., Tomioka R. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization, 2016}
+\end{frame}
+%=======
 \begin{frame}{Summary}
 	\begin{itemize} 
-		\item Wasserstein GAN uses Kantorovich-Rubinstein duality to obtain EM distance.
-		\vfill
 		\item Weight clipping is a terrible way to enforce Lipschitzness. Gradient Penalty works better.
 		\vfill
 		\item Spectral normalization is a weight normalization technique to enforce Lipshitzness, which is helpful for generator and discriminator.
+		\vfill
+		\item f-divergence family is a unified framework for divergence minimization, which uses variational approximation. Standard GAN is a special case of it.
 	\end{itemize}
 \end{frame}
 %=======

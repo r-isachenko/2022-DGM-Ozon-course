@@ -8,19 +8,6 @@
 \titlepage
 \end{frame}
 %=======
-\begin{frame}{Recap of previous lecture}
-	\begin{figure}
-		\centering
-		\includegraphics[width=\linewidth]{figs/gan_evolution}
-	\end{figure}
-	\begin{itemize}
-		\item \textbf{Self-Attention GAN} allows to make huge receptive field and reduce convolution inductive bias.
-		\item \textbf{BigGAN} shows that large batch size increase model quality gradually.
-		\item \textbf{Progressive Growing GAN} starts from a low resolution, adds new layers that model fine details as training progresses.
-		\item \textbf{StyleGAN} introduces mapping network to get more disentangled latent representation.
-	\end{itemize}
-\end{frame}
-%=======
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
@@ -29,122 +16,7 @@
 	\begin{frame}{Outline}
 		\tableofcontents[currentsection]
 	\end{frame}
-}
-%=======
-\begin{frame}{Continuous Normalizing Flows}
-	\begin{block}{Discrete Normalizing Flows}
-		\vspace{-0.8cm}
-		  \[
-		  \bz_{t+1} = f(\bz_t, \btheta); \quad \log p(\bz_{t+1}) = \log p(\bz_{t}) - \log \left| \det \frac{\partial f(\bz_t, \btheta)}{\partial \bz_{t}} \right| .
-		  \]
-		\vspace{-0.7cm}
-	\end{block}
-	\begin{block}{Continuous-in-time dynamic transformation}
-		\vspace{-0.2cm}
-		\[
-			\frac{d\bz(t)}{dt} = f(\bz(t), \btheta).
-		\]
-		\vspace{-0.4cm}
-	\end{block}
-	Assume that function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$. From Picard’s existence theorem, it follows that the above ODE has a \textbf{unique solution}.
-	\begin{block}{Forward and inverse transforms}
-		\vspace{-0.7cm}
-		\begin{align*}
-			\bx &= \bz(t_1) = \bz(t_0) + \int_{t_0}^{t_1} f(\bz(t), \btheta) dt \\
-			\bz &= \bz(t_0) = \bz(t_1) + \int_{t_1}^{t_0} f(\bz(t), \btheta) dt \\
-		\end{align*}
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1912.02762}{Papamakarios G. et al. Normalizing flows for probabilistic modeling and inference, 2019}   
-\end{frame}
-%=======
-\begin{frame}{Continuous Normalizing Flows}
-	To train this flow we have to get the way to calculate the density~$p(\bz(t))$.
-	\begin{block}{Theorem (Fokker-Planck)}
-		if function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$, then
-		\vspace{-0.3cm}
-		\[
-			\frac{\partial \log p(\bz(t))}{\partial t} = - \text{trace} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
-		\]
-		\vspace{-0.5cm}
-	\end{block}
-	\textbf{Note:} Unlike discrete-in-time flows, the function $f$ does not need to be bijective, because uniqueness guarantees that the entire transformation is automatically bijective.
-	\begin{block}{Density evaluation}
-		\vspace{-0.4cm}
-		\[
-			\log p(\bx | \btheta) = \log p(\bz) - \int_{t_0}^{t_1} \text{trace}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt.
-		\]
-		\textbf{Adjoint} method is used to integral evaluation.
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-\begin{frame}{Continuous Normalizing Flows}
-	\vspace{-0.6cm}
-	\begin{block}{Forward transform + log-density}
-		\vspace{-0.8cm}
-		\[
-			\begin{bmatrix}
-				\bx \\
-				\log p(\bx | \btheta)
-			\end{bmatrix}
-			= 
-			\begin{bmatrix}
-				\bz \\
-				\log p(\bz)
-			\end{bmatrix} + 
-			\int_{t_0}^{t_1} 
-			\begin{bmatrix}
-				f(\bz(t), \btheta) \\
-				- \text{trace} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right) 
-			\end{bmatrix} dt.
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{itemize}
-		\item Discrete-in-time normalizing flows need invertible $f$. It costs $O(d^3)$ to get determinant of Jacobian.
-		\item Continuous-in-time flows require only smoothness of $f$. It costs $O(d^2)$ to get trace of Jacobian.
-	\end{itemize}
-	\vspace{-0.5cm}
-	\begin{minipage}[t]{0.4\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.75\linewidth]{figs/cnf_flow.png}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.6\columnwidth}
-		\begin{figure}
-			  \centering
-			  \includegraphics[width=0.8\linewidth]{figs/ffjord.png}
-		\end{figure}
-	\end{minipage}
-	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
-\end{frame}
-%=======
-\begin{frame}{FFJORD}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.75\linewidth]{figs/flow_comparison.png}
-	\end{figure}
-	\vspace{-0.4cm}
-	\begin{block}{Density estimation (forward KL)}
-		\vspace{-0.2cm}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\linewidth]{figs/ffjord_forward}
-		\end{figure}
-		\vspace{-0.5cm}
-	\end{block}
-	\begin{block}{Flows for variational inference (reverse KL)}
-		\vspace{-0.2cm}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\linewidth]{figs/ffjord_reverse}
-		\end{figure}
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
-\end{frame}
-%=======
+}%=======
 \begin{frame}{Discrete VAE}
 	\begin{figure}[h]
 		\centering
@@ -326,10 +198,6 @@
 %=======
 \begin{frame}{Summary}
 	\begin{itemize}
-	\item Fokker-Planck theorem allows to construct continuous-in-time normalizing flow with less functional restrictions.
-	\vfill
-	\item FFJORD model makes such kind of flows scalable.
-	\vfill
 	\item Gumbel-Softmax and Quantization are the two ways to create VAE with discrete latent space.
 	\vfill
 	\item It becomes more and more popular to use discrete latent spaces in the fields of image/video/music generaton.
