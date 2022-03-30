@@ -35,15 +35,15 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> Planar flows. Forward vs Reverse KL. | [notebook](seminars/seminar6/planar_flow.ipynb) |
 | 7 | March, 22 | <b>Lecture:</b> Uniform and variational dequantization. ELBO surgery and optimal VAE prior. Flows-based VAE posterior vs flow-based VAE prior.  | [slides](lectures/lecture7/Isachenko2022DeepGenerativeModels7.pdf) |
 |  |  | <b>Seminar:</b> VAE prior (VampPrior). SurVAE. RealNVP hints. | --- |
-| 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. | [slides](lectures/lecture8/Isachenko2022DeepGenerativeModels8.pdf) |
+| 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. GAN theorem. | [slides](lectures/lecture8/Isachenko2022DeepGenerativeModels8.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 9 | April, 5 | <b>Lecture:</b> GAN theorem. Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. | TBA |
+| 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. Wasserstein GAN. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 10 | April, 12 | <b>Lecture:</b> Wasserstein distance. Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. | TBA |
+| 10 | April, 12 | <b>Lecture:</b> WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 11 | April, 19 | <b>Lecture:</b> f-divergence minimization. GAN evaluation (Inception score, FID, Precision-Recall). | TBA |
+| 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 12 | April, 26 | <b>Lecture:</b> GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
+| 12 | April, 26 | <b>Lecture:</b> Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 13 | May, 3 | <b>Lecture:</b> Discrete VAE (Gumbel-Softmax trick, VQ-VAE, VQ-VAE-2, DALL-E). Diffusion models. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
