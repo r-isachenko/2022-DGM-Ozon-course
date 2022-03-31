@@ -36,8 +36,8 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 7 | March, 22 | <b>Lecture:</b> Uniform and variational dequantization. ELBO surgery and optimal VAE prior. Flows-based VAE posterior vs flow-based VAE prior.  | [slides](lectures/lecture7/Isachenko2022DeepGenerativeModels7.pdf) |
 |  |  | <b>Seminar:</b> VAE prior (VampPrior). SurVAE. RealNVP hints. | --- |
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. GAN theorem. | [slides](lectures/lecture8/Isachenko2022DeepGenerativeModels8.pdf) |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. Wasserstein GAN. | TBA |
+|  |  | <b>Seminar:</b> GAN vs VAE vs NF. GAN in 1d coding. | TBA |
+| 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. Wasserstein GAN. | [slides](lectures/lecture9/Isachenko2022DeepGenerativeModels9.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 10 | April, 12 | <b>Lecture:</b> WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
