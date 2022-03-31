@@ -100,7 +100,7 @@
 	\begin{block}{Optimal prior}
 		\vspace{-0.6cm}
 		\[
-		KL(q_{\text{agg}}(\bz) || p(\bz)) = 0 \quad \Leftrightarrow \quad p (\bz) = q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx_i).
+			KL(q_{\text{agg}}(\bz) || p(\bz)) = 0 \quad \Leftrightarrow \quad p (\bz) = q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx_i).
 		\]
 		\vspace{-0.4cm}\\
 		The optimal prior distribution $p(\bz)$ is aggregated posterior $q(\bz)$.
@@ -117,7 +117,7 @@
 	\begin{block}{Flow-based VAE prior}
 		\vspace{-0.5cm}
 		\[
-			\log p(\bz | \blambda) = \log p(\bz^*) + \log \left| \det \left( \frac{d \bz^*}{d\bz} \right) \right| = \log p(\bepsilon) + \log \left| \det ( \bJ_g) \right| 
+			\log p(\bz | \blambda) = \log p(\bz^*) + \log \left| \det \left( \frac{d \bz^*}{d\bz} \right) \right| = \log p(\bz^*) + \log \left| \det ( \bJ_g) \right| 
 		\]
 	\end{block}
 	\myfootnote{\href{https://arxiv.org/abs/1705.07120}{Tomczak J. M., Welling M. VAE with a VampPrior, 2017} \\
@@ -196,30 +196,12 @@
 \section{Disentanglement learning}
 %=======
 \begin{frame}{Disentangled representations}
+	\vspace{-0.2cm}
 	\textbf{Representation learning} is looking for an interpretable representation of the independent data generative factors. 
 	\begin{block}{Disentanglement informal definition}
 		Every single latent unit are sensitive to changes in a single generative factor, while being invariant to changes in other factors. 
 	\end{block}
-	\begin{block}{Generative process}
-		\vspace{-0.2cm}
-		\begin{itemize}
-		    \item $\pi(\bx | \bv, \bw) = \text{Sim}(\bv, \bw)$~-- true world simulator;
-		    \item $\bv$~-- conditionally independent factors: $\pi(\bv | \bx) = \prod_{j=1}^d \pi(v_j | \bx)$;
-		    \item $\bw$~-- conditionally dependent factors. 
-		\end{itemize}
-	\end{block}
-	\vspace{-0.3cm}
-	\begin{block}{Unsupervised generative model}
-		\vspace{-0.4cm}
-		\[
-		    p(\bx | \bz, \btheta) \approx \pi(\bx | \bv, \bw).
-		\]
-		The latent factors $q(\bz|\bx)$ capture the factors $\bv$ in a disentangled manner. The conditionally dependent factors $\bw$ remains entangled in a subset of $\bz$ that is not used for representing $\bv$. 
-	\end{block}
-	\myfootnotewithlink{https://openreview.net/references/pdf?id=Sy2fzU9gl}{Higgins I. et al. beta-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework, 2017}
-\end{frame}
-%=======
-\begin{frame}{$\beta$-VAE objective}
+	\vspace{-0.2cm}
 	\begin{block}{ELBO objective}
 	\vspace{-0.2cm}
 	\[
@@ -229,14 +211,11 @@
 	\end{block}
 	What do we get at $\beta = 1$? \\
 	\begin{block}{Constrained optimization}
-		\vspace{-0.5cm}
+		\vspace{-0.7cm}
 		\[
 			\max_{q, \btheta} \mathbb{E}_{q(\bz | \bx)} \log p(\bx | \bz, \btheta), \quad \text{subject to } KL (q(\bz | \bx) || p(\bz)) < \epsilon.
 		\]
-		\vspace{-0.5cm}
-	\end{block}
-	\begin{block}{Hypothesis}
-	We are able to learn disentangled representations of the independent factors $\bv$ by setting a stronger constraint with $\beta > 1$.
+		\vspace{-0.7cm}
 	\end{block}
 	\textbf{Note:} It leads to poorer reconstructions and a loss of high frequency details. 
 	\myfootnotewithlink{https://openreview.net/references/pdf?id=Sy2fzU9gl}{Higgins I. et al. beta-VAE: Learning Basic Visual Concepts with a Constrained Variational Framework, 2017}
@@ -270,9 +249,9 @@
 	\end{block}
 	\begin{block}{ELBO surgery}
 		\vspace{-0.3cm}
-		{\footnotesize
+		{\small
 			\[
-			\frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta, \beta) = \underbrace{\frac{1}{n} \sum_{i=1}^n \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta)}_{\text{Reconstruction loss}} - \beta \cdot \underbrace{\bbI_{q} [\bx, \bz]\vphantom{\sum_{i=1}}}_{\text{MI}} - \beta \cdot \underbrace{KL(q(\bz) || p(\bz))\vphantom{\sum_{i=1}}}_{\text{Marginal KL}}
+			\frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta, \beta) = \underbrace{\frac{1}{n} \sum_{i=1}^n \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta)}_{\text{Reconstruction loss}} - \beta \cdot \underbrace{\bbI_{q} [\bx, \bz]\vphantom{\sum_{i=1}}}_{\text{MI}} - \beta \cdot \underbrace{KL(q_{\text{agg}}(\bz) || p(\bz))\vphantom{\sum_{i=1}}}_{\text{Marginal KL}}
 			\]}
 	\end{block}
 	\begin{block}{Minimization of MI}
@@ -290,41 +269,24 @@
 		\[
 		q_{\text{agg}}(\bz) = \frac{1}{n} \sum_{i=1}^n q(\bz | \bx) = \prod_{j=1}^d q_{\text{agg}}(z_j)
 		\]
-		\vspace{-0.3cm}
+		\vspace{-0.6cm}
 	\end{block}
-	\begin{block}{DIP-VAE Objective}
-		\vspace{-0.3cm}
-		{\footnotesize
+	\begin{block}{DIP-VAE objective}
+		\vspace{-0.7cm}
+		{\small
 			\begin{multline*}
 			\cL_{\text{DIP}}(q, \btheta) = \frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta) -\lambda \cdot KL(q_{\text{agg}}(\bz) || p(\bz)) = \\
-			= \frac{1}{n} \sum_{i=1}^n\left[ \bbE_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta) - KL(q(\bz | \bx_i) || p(\bz)) \right] -\lambda \cdot KL(q_{\text{agg}}(\bz) || p(\bz)) = \\
 			= \underbrace{ \frac{1}{n} \sum_{i=1}^n \left[\bbE_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta)\right]}_{\text{Reconstruction loss}} - \underbrace{\vphantom{\sum_{i=1}^n} \bbI_{q} [\bx, \bz]}_{\text{MI}} - (1 + \lambda) \cdot \underbrace{\vphantom{\sum_{i=1}^n} KL(q_{\text{agg}}(\bz) || p(\bz))}_{\text{Marginal KL}}
 			\end{multline*}
 		}
 		\vspace{-0.3cm}
 	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1711.00848}{Kumar A., Sattigeri P., Balakrishnan A. Variational Inference of Disentangled Latent Concepts from Unlabeled Observations, 2017}
-\end{frame}
-%=======
-\begin{frame}{DIP-VAE: moment matching}
-		\vspace{-0.2cm}
-		\[
-			\cL_{\text{DIP}}(q, \btheta) = \frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta) -\lambda \cdot \underbrace{KL(q_{\text{agg}}(\bz) || p(\bz))}_{\text{intractable}}
-		\]
+	Marginal KL term is intractable. $\Rightarrow$
 	Let match the moments of $q_{\text{agg}}(\bz)$ and $p(\bz)$:
+	\vspace{-0.3cm}
 	\[
-	\text{cov}_{q(\bz)}(\bz) = \bbE_{q(\bz)} \left[ (\bz - \bbE_{q(\bz)}(\bz)) (\bz - \bbE_{q(\bz)}(\bz))^T \right]
+		\text{cov}_{q_{\text{agg}}(\bz)}(\bz) = \bbE_{q_{\text{agg}}(\bz)} \left[ (\bz - \bbE_{q_{\text{agg}}(\bz)}(\bz)) (\bz - \bbE_{q_{\text{agg}}(\bz)}(\bz))^T \right].
 	\]
-	DIP-VAE regularizes $\text{cov}_{q(\bz)}(\bz) $ to be close to the identity matrix. 
-	\begin{block}{Objective}
-		\vspace{-0.5cm}
-		\begin{multline*}
-		\max_{q, \btheta} \Bigl[\frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta) - \\ - \lambda_1 \sum_{i \neq j} \left[\text{cov}_{q(\bz)} (\bz) \right]^2_{ij} - \lambda_2 \sum_{i} \left( \left[ \text{cov}_{q(\bz)} (\bz) \right]_{ii} - 1 \right)^2 \Bigr]
-		\end{multline*}
-		\vspace{-0.5cm}
-	\end{block}
-
 	\myfootnotewithlink{https://arxiv.org/abs/1711.00848}{Kumar A., Sattigeri P., Balakrishnan A. Variational Inference of Disentangled Latent Concepts from Unlabeled Observations, 2017}
 \end{frame}
 %=======
@@ -338,12 +300,10 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1711.00848}{Kumar A., Sattigeri P., Balakrishnan A. Variational Inference of Disentangled Latent Concepts from Unlabeled Observations, 2017}
 \end{frame}
 %=======
-\section{Challenging disentanglement assumptions}
-%=======
 \begin{frame}{Challenging disentanglement assumptions}
 
 \begin{block}{Theorem}
-	Let $\bz \sim P$ with a density $p(\bz) = \prod^d_{i=1} p(z_i)$. Then, there exists an \textbf{infinite} family of bijective functions $f : \text{supp}(\bz) \rightarrow \text{supp}(\bz)$:
+	Let $\bz$ has density $p(\bz) = \prod^d_{i=1} p(z_i)$. Then, there exists an \textbf{infinite} family of bijective functions $f : \text{supp}(\bz) \rightarrow \text{supp}(\bz)$:
 	\begin{itemize}
 		\item $\frac{\partial f_i(\bz)}{\partial z_j} \neq 0$ for all $i$ and $j$ ($\bz$ and $f(\bz)$ are completely entangled);
 		\item $P(\bz \leq \bu) = P(f(\bz) \leq \bu)$ for all $\bu \in \text{supp}(\bz)$.
@@ -361,20 +321,6 @@ Consider a generative model with disentangled representation $\bz$.
 	\vspace{-0.6cm}
 \end{itemize}
 Theorem claims that unsupervised disentanglement learning is impossible for arbitrary generative models with a factorized prior.
-
-\myfootnotewithlink{https://arxiv.org/abs/1811.12359}{Locatello F. et al. Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations, 2018}
-\end{frame}
-%=======
-\begin{frame}{Challenging disentanglement assumptions}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.85\linewidth]{figs/challenge_dis_2}
-	\end{figure}
-	\vspace{-0.3cm}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.65\linewidth]{figs/challenge_dis_3}
-	\end{figure}
 
 \myfootnotewithlink{https://arxiv.org/abs/1811.12359}{Locatello F. et al. Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations, 2018}
 \end{frame}
@@ -557,13 +503,59 @@ Theorem claims that unsupervised disentanglement learning is impossible for arbi
 	 \myfootnotewithlink{https://arxiv.org/abs/1406.2661}{Goodfellow I. J. et al. Generative Adversarial Networks, 2014}
 \end{frame}
 %=======
+\begin{frame}{Vanilla GAN optimality}
+	\begin{block}{Theorem}
+		The minimax game 
+		\vspace{-0.1cm}
+		\[
+			\min_{G} \max_D  V(G, D) = \min_{G} \max_D \left[ \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz))) \right]
+		\]
+		has the global optimum $\pi(\bx) = p(\bx | \btheta)$, in this case $D^*(\bx) = 0.5$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{block}{Proof}
+	for fixed $G$:
+	\[
+		D^*(\bx) = \frac{\pi(\bx)}{\pi(\bx) + p(\bx | \btheta)}
+	\]
+	\vspace{-0.5cm} \\
+	for fixed $D = D^*$:
+	\[
+		\min_{G} V(G, D^*) = \min_{G} \left[ 2 JSD(\pi || p) - \log 4 \right] = -\log 4, \quad \pi(\bx) = p(\bx | \btheta).
+	\]
+	\vspace{-0.6cm}
+	\end{block}
+	If the generator could be any function and the discriminator is optimal at every step, then the generator is guaranteed to converge to the data distribution.
+	 \myfootnotewithlink{https://arxiv.org/abs/1406.2661}{Goodfellow I. J. et al. Generative Adversarial Networks, 2014}
+\end{frame}
+%=======
+\begin{frame}{Vanilla GAN}
+	\begin{block}{Objective}
+		\vspace{-0.4cm}
+		\[
+		\min_{G} \max_D V(G, D) = \min_{G} \max_D \left[ \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz))) \right]
+		\]
+		\vspace{-0.4cm}
+	\end{block}
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=1.0\linewidth]{figs/gan_1}
+	\end{figure}
+	\begin{itemize}
+		\item Generator updates are made in parameter space.
+		\item Discriminator is not optimal at every step.
+		\item Generator and discriminator loss keeps oscillating during GAN training.
+	\end{itemize}
+
+	 \myfootnotewithlink{https://arxiv.org/abs/1406.2661}{Goodfellow I. J. et al. Generative Adversarial Networks, 2014}
+\end{frame}
+%=======
 \begin{frame}{Summary}
 	\begin{itemize}
 		\item Disentanglement learning tries to make latent components more informative.
 		\vfill
-		\item $\beta$-VAE makes the latent components more independent, but the reconstructions get poorer.
-		\vfill
-		\item DIP-VAE does not make the reconstructions worse using ELBO surgery theorem.
+		\item $\beta$-VAE makes the latent components more independent, but the reconstructions get poorer. DIP-VAE does not make the reconstructions worse using ELBO surgery theorem.
 		\vfill
 		\item Majority of disentanglement learning models use heuristic objective or regularizers to achieve the goal, but the task itself could not be solved without good inductive bias.
 		\vfill
