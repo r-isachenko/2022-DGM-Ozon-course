@@ -56,6 +56,29 @@
 		\end{itemize}
 \end{frame}
 %=======
+\begin{frame}{Recap of previous lecture}
+	\begin{itemize}
+		\item \textbf{Generator:} generative model $\bx = G(\bz)$, which makes generated sample more realistic.
+		\item \textbf{Discriminator:} a classifier $D(\bx) \in [0, 1]$, which distinguishes real samples from generated samples.
+	\end{itemize}
+	
+	\begin{block}{GAN optimality theorem}
+		The minimax game 
+		\vspace{-0.2cm}
+		\[
+			\min_{G} \max_D V(G, D) = \min_{G} \max_D \left[ \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz))) \right]
+		\]
+		 has the global optimum $\pi(\bx) = p(\bx | \btheta)$, in this case $D^*(\bx) = 0.5$.
+	\end{block}
+	\vspace{-0.5cm}
+	\[
+		\min_{G} V(G, D^*) = \min_{G} \left[ 2 JSD(\pi || p) - \log 4 \right] = -\log 4, \quad \pi(\bx) = p(\bx | \btheta).
+	\]
+	\vspace{-0.4cm} \\
+	If the generator could be any function and the discriminator is optimal at every step, then the generator is guaranteed to converge to the data distribution.
+	 \myfootnotewithlink{https://arxiv.org/abs/1406.2661}{Goodfellow I. J. et al. Generative Adversarial Networks, 2014}
+\end{frame}
+%=======
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
@@ -72,11 +95,11 @@
 	\begin{block}{Objective}
 		\vspace{-0.4cm}
 		\[
-		\min_{G} \max_D V(G, D) = \min_{G} \max_D \left[ \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz))) \right]
+			\min_{\btheta} \max_{\bphi} \left[ \bbE_{\pi(\bx)} \log D(\bx, \bphi) + \bbE_{p(\bz)} \log (1 - D(G(\bz, \btheta), \bphi)) \right]
 		\]
 		\vspace{-0.4cm}
 	\end{block}
-	Early in learning, $G$ is poor, $D$ can reject samples with high confidence. In this case, $\log (1 - D(G(\bz)))$ saturates.
+	Early in learning, $G$ is poor, $D$ can reject samples with high confidence. In this case, $\log (1 - D(G(\bz, \btheta), \bphi))$ saturates.
 	\begin{minipage}[t]{0.5\columnwidth}
 		\begin{figure}
 			\centering
@@ -95,9 +118,9 @@
 \begin{frame}{Vanishing gradients}
 	\begin{block}{Objective}
 		\vspace{-0.4cm}
-		\[
-		\min_{G} \max_D V(G, D) = \min_{G} \max_D \left[ \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz))) \right]
-		\]
+				\[
+					\min_{\btheta} \max_{\bphi} \left[ \bbE_{\pi(\bx)} \log D(\bx, \bphi) + \bbE_{p(\bz)} \log (1 - D(G(\bz, \btheta), \bphi)) \right]
+				\]
 		\vspace{-0.4cm}
 	\end{block}
 	\begin{minipage}[t]{0.45\columnwidth}
@@ -124,10 +147,10 @@
 		\centering
 		\includegraphics[width=0.75\linewidth]{figs/mode_collapse_1}
 	\end{figure}
-	\vspace{-0.2cm}
+	\vspace{-0.3cm}
 	\begin{figure}
 		\centering
-		\includegraphics[width=1.0\linewidth]{figs/mode_collapse_3}
+		\includegraphics[width=1.0\linewidth]{figs/mode_collapse_4}
 	\end{figure}
 	Alternate architectures, adding regularization terms, injecting small noise
 	perturbations and other millions bags and tricks are used to avoid the mode collapse.
@@ -164,14 +187,6 @@
 	\end{minipage}
 	\vspace{-0.3cm}
 	\end{block}
-\end{frame}
-%=======
-\begin{frame}{Mode collapse: Deep Convolutional GAN}
-	\begin{figure}
-		\centering
-		\includegraphics[width=\linewidth]{figs/mode_collapse_4}
-	\end{figure}
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
 \end{frame}
 %=======
 \section{Adversatial variational Bayes}
@@ -217,7 +232,7 @@
 	\begin{block}{ELBO objective}
 		\vspace{-0.5cm}
 		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz| \bx, \bphi) \right] \rightarrow \max_{\bphi, \btheta}.
+			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \bigl[\log p(\bx | \bz, \btheta) - KL(q(\bz| \bx, \bphi) || p(\bz))  \bigr] \rightarrow \max_{\bphi, \btheta}.
 		\]	
 		\vspace{-0.5cm}
 	\end{block}
@@ -226,14 +241,16 @@
 	\item The third term requires the explicit the value of $q(\bz | \bx, \bphi)$.
 	\item We could join second and third terms:
 		\vspace{-0.2cm}
+		{\small
 		\[
-			\mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{p(\bz)}{q(\bz| \bx, \bphi)} = \mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{p(\bz) \pi(\bx)}{q(\bz| \bx, \bphi) \pi (\bx)}.
+			KL(q(\bz| \bx, \bphi) || p(\bz)) = \mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{q(\bz| \bx, \bphi)}{p(\bz)} = \mathbb{E}_{q(\bz | \bx, \bphi)} \log \frac{q(\bz| \bx, \bphi) \pi (\bx)}{p(\bz) \pi(\bx)}.
 		\]
+		}
 		\vspace{-0.5cm}
 	\item We have to estimate density ratio 
 		\vspace{-0.2cm}
 		\[
-			r(\bx, \bz) = \frac{q_1(\bx, \bz)}{q_2(\bx, \bz)} = \frac{p(\bz) \pi(\bx)}{q(\bz| \bx, \bphi) \pi (\bx)}.
+			r(\bx, \bz) = \frac{q_1(\bx, \bz)}{q_2(\bx, \bz)} = \frac{q(\bz| \bx, \bphi) \pi (\bx)}{p(\bz) \pi(\bx)}.
 		\] 
 	\end{itemize}
 	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
@@ -274,7 +291,7 @@
 	\begin{block}{ELBO objective}
 		\vspace{-0.5cm}
 		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log \frac{p(\bz)}{q(\bz| \bx, \bphi)} \right] \rightarrow \max_{\bphi, \btheta}.
+			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) - \log \frac{q(\bz| \bx, \bphi)}{p(\bz)} \right] \rightarrow \max_{\bphi, \btheta}.
 		\]	
 		\vspace{-0.5cm}
 	\end{block}
@@ -289,7 +306,7 @@
 \begin{frame}{Informal theoretical results}
 	\begin{itemize}
 		\footnotesize
-		\item Since $\bz$ usually has lower dimensionality compared to $\bx$, manifold $G(\bz)$ has a measure 0 in $\bx$ space. Hence, support of $p(\bx | \btheta)$ lies on low-dimensional manifold.
+		\item Since $\bz$ usually has lower dimensionality compared to $\bx$, manifold $G(\bz, \btheta)$ has a measure 0 in $\bx$ space. Hence, support of $p(\bx | \btheta)$ lies on low-dimensional manifold.
 		\item Distribution of real images $\pi(\bx)$ is also concentrated on a low dimensional manifold.
 		\begin{figure}
 			\centering
@@ -442,14 +459,14 @@
 	\begin{block}{Vanilla GAN objective}
 		\vspace{-0.2cm}
 		\[
-			\min_{G} \max_D \bbE_{\pi(\bx)} \log D(\bx) + \bbE_{p(\bz)} \log (1 - D(G(\bz)))
+			\min_{\btheta} \max_{\bphi} \bbE_{\pi(\bx)} \log D(\bx, \bphi) + \bbE_{p(\bz)} \log (1 - D(G(\bz, \btheta), \bphi))
 		\]
 		\vspace{-0.2cm}
 	\end{block}
 	\begin{block}{WGAN objective}
 		\vspace{-0.6cm}
 		\[
-		\min_{G} W(\pi || p) \approx \min_{G} \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bz)} f(G(\bz), \bphi )\right].
+		\min_{\btheta} W(\pi || p) \approx \min_{\btheta} \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bz)} f(G(\bz, \btheta), \bphi )\right].
 		\]
 	\end{block}
 	\begin{itemize}
