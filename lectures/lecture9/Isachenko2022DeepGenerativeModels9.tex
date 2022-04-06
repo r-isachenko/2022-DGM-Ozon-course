@@ -25,7 +25,7 @@
 		\vspace{-0.3cm}
 		{\footnotesize
 			\[
-			\frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta, \beta) = \underbrace{\frac{1}{n} \sum_{i=1}^n \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta)}_{\text{Reconstruction loss}} - \beta \cdot \underbrace{\bbI_{q} [\bx, \bz]\vphantom{\sum_{i=1}}}_{\text{MI}} - \beta \cdot \underbrace{KL(q(\bz) || p(\bz))\vphantom{\sum_{i=1}}}_{\text{Marginal KL}}
+			\frac{1}{n} \sum_{i=1}^n \cL_i(q, \btheta, \beta) = \underbrace{\frac{1}{n} \sum_{i=1}^n \mathbb{E}_{q(\bz | \bx_i)} \log p(\bx_i | \bz, \btheta)}_{\text{Reconstruction loss}} - \beta \cdot \underbrace{\bbI_{q} [\bx, \bz]\vphantom{\sum_{i=1}}}_{\text{MI}} - \beta \cdot \underbrace{KL(q_{\text{agg}}(\bz) || p(\bz))\vphantom{\sum_{i=1}}}_{\text{Marginal KL}}
 			\]}
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1804.03599}{Burgess C. P. et al. Understanding disentangling in $\beta$-VAE, 2018}
@@ -210,7 +210,7 @@
 	\begin{block}{ELBO objective}
 		\vspace{-0.5cm}
 		\[
-			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) + \log p(\bz) - \log q(\bz| \bx, \bphi) \right] \rightarrow \max_{\bphi, \btheta}.
+			 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \left[\log p(\bx | \bz, \btheta) - KL(q(\bz| \bx, \bphi) || p(\bz)) \right] \rightarrow \max_{\bphi, \btheta}.
 		\]	
 		\vspace{-0.5cm}
 	\end{block}
@@ -301,7 +301,7 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1701.04722}{Mescheder L., Nowozin S., Geiger A. Adversarial variational bayes: Unifying variational autoencoders and generative adversarial networks, 2017}
 \end{frame}
 %=======
-\section{Wassestein distance}
+\section{Wasserstein distance}
 %=======
 \begin{frame}{Informal theoretical results}
 	\begin{itemize}
@@ -312,7 +312,7 @@
 			\centering
 			\includegraphics[width=0.5\linewidth]{figs/low_dim_manifold}
 		\end{figure}
-		\item If $\pi(\bx)$ and $p(\bx | \btheta)$ have disjoint supports, then there is a smooth optimal discrimator. We are not able to learn anything by backproping through it.
+		\item If $\pi(\bx)$ and $p(\bx | \btheta)$ have disjoint supports, then there is a smooth optimal discriminator. We are not able to learn anything by backproping through it.
 		\item For such low-dimensional disjoint manifolds
 		\vspace{-0.1cm}
 		\[
@@ -413,8 +413,6 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
 \end{frame}
 %=======
-\section{Wassestein GAN}
-%=======
 \begin{frame}{Wasserstein GAN}
 	\begin{block}{Wasserstein distance}
 		\vspace{-0.4cm}
@@ -436,93 +434,17 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
 \end{frame}
 %=======
-\begin{frame}{Wasserstein GAN}
-		\begin{block}{Theorem (Kantorovich-Rubinstein duality)}
-		\[
-			W(\pi || p) = \frac{1}{K} \max_{\| f \|_L \leq K} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right],
-		\]
-	\end{block}
-	\begin{itemize}
-		\item Now we have to ensure that $f$ is $K$-Lipschitz continuous.
-		\item Let $f(\bx, \bphi)$ be a feedforward neural network parametrized by~$\bphi$.
-		\item If parameters $\bphi$ lie in a compact set $\boldsymbol{\Phi}$ then $f(\bx, \bphi)$ will be $K$-Lipschitz continuous function. 
-		\item Let the parameters be clamped to a fixed box $\boldsymbol{\Phi} \in [-0.01, 0.01]^d$ after each gradient update.
-	\end{itemize}
-	\begin{multline*}
-		 K \cdot W(\pi || p) = \max_{\| f \|_L \leq K} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right] \geq \\  \geq \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bx)} f(\bx, \bphi )\right]
-	\end{multline*}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wassestein GAN}
-	\begin{block}{Vanilla GAN objective}
-		\vspace{-0.2cm}
-		\[
-			\min_{\btheta} \max_{\bphi} \bbE_{\pi(\bx)} \log D(\bx, \bphi) + \bbE_{p(\bz)} \log (1 - D(G(\bz, \btheta), \bphi))
-		\]
-		\vspace{-0.2cm}
-	\end{block}
-	\begin{block}{WGAN objective}
-		\vspace{-0.6cm}
-		\[
-		\min_{\btheta} W(\pi || p) \approx \min_{\btheta} \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bz)} f(G(\bz, \btheta), \bphi )\right].
-		\]
-	\end{block}
-	\begin{itemize}
-		\item Discriminator $D$ is similar to the function $f$, but not the same (it is not a classifier anymore). In the WGAN model, function~$f$ is usually called $\textit{critic}$.
-		\item "Weight clipping is a clearly terrible way to enforce a Lipschitz constraint". If the clipping parameter is large, it is hard to train the critic till optimality. If the clipping parameter is too small, it could lead to vanishing gradients.
-	\end{itemize}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wasserstein GAN}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.8\linewidth]{figs/wgan_toy}
-	\end{figure}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
-\begin{frame}{Wasserstein GAN}
-	\begin{minipage}[t]{0.49\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/dcgan_quality}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.49\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.0\linewidth]{figs/wgan_quality}
-		\end{figure}
-	\end{minipage}
-	\begin{itemize}
-		\item $JSD$ correlates poorly with the sample quality. Stays constast nearly maximum value $\log 2 \approx 0.69$.
-		\item $W$ is highly correlated with the sample quality. 
-	\end{itemize}
-	\begin{figure}
-		\centering
-		\includegraphics[width=1.0\linewidth]{figs/wgan_mode_collapse}
-	\end{figure}
-	"In no experiment did we see evidence of mode collapse for the WGAN algorithm."
-
-	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
-\end{frame}
-%=======
 \begin{frame}{Summary}
 	\begin{itemize}
 		\item Mode collapse and vanishing gradients are the two main problems of vanilla GAN.  Lots of tips and tricks has to be used to make the GAN training is stable and scalable.
 		\vfill
-		\item KL and JS divergences work poorly as model objective in the case of disjoint supports.
-		\vfill
 		\item Adversarial Variational Bayes uses density ratio trick to get more powerful variational posterior.
+		\vfill
+		\item KL and JS divergences work poorly as model objective in the case of disjoint supports.
 		\vfill
 		\item Earth-Mover distance is a more appropriate objective function for distribution matching problem.	
 		\vfill
-		\item Wasserstein GAN uses Kantorovich-Rubinstein duality to obtain EM distance.
+		\item Kantorovich-Rubinstein duality gives the way to calculate the EM distance using only samples.
 	\end{itemize}
 \end{frame}
 %=======
