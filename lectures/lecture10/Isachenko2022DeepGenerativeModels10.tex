@@ -111,7 +111,7 @@
 \end{frame}
 %=======
 \begin{frame}{Wassestein GAN}
-	\begin{block}{Vanilla GAN objective}
+	\begin{block}{Standard GAN objective}
 		\vspace{-0.2cm}
 		\[
 			\min_{\btheta} \max_{\bphi} \bbE_{\pi(\bx)} \log D(\bx, \bphi) + \bbE_{p(\bz)} \log (1 - D(G(\bz, \btheta), \bphi))
@@ -170,35 +170,37 @@
 \section{WGAN with Gradient Penalty}
 %=======
 \begin{frame}{Wasserstein GAN with Gradient Penalty}
-	\begin{block}{Weight clipping analysis}
-		\begin{itemize}
-			\item The critic ignores higher moments of the data distribution.
-			\item The gradients either grow or decay exponentially.
-		\end{itemize}
-	\end{block}
 	\vspace{-0.2cm}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.8\linewidth]{figs/wgan_gp_weights}
+		\includegraphics[width=0.9\linewidth]{figs/wgan_gp_weights}
 	\end{figure}
 	\vspace{-0.2cm} 
 	
-	Gradient penalty makes the gradients  more stable.
+	\begin{block}{Weight clipping analysis}
+		\begin{itemize}
+			\item The gradients either grow or decay exponentially.
+			\item Gradient penalty makes the gradients more stable.
+		\end{itemize}
+	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1704.00028}{Gulrajani I. et al. Improved Training of Wasserstein GANs, 2017}
 \end{frame}
 %=======
 \begin{frame}{Wasserstein GAN with Gradient Penalty}
 	\begin{block}{Theorem}
-		Let $\pi(\bx)$ and $p(\bx)$ be two distribution in $\cX$, a compact metric space. Then, there is 1-Lipschitz function $f^*$ which is the optimal solution of 
-		\[
-			\max_{\| f \|_L \leq 1} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right].
-		\]
-		Let $\gamma$ be the optimal transportation plan between $\pi(\bx)$ and $p(\bx)$. Then, if $f^*$ is differentiable, $\gamma(\bx = \by) = 0$ and $\hat{\bx}_t = t \bx + (1 - t) \by$ with $\bx \sim \pi(\bx)$, $\by \sim p(\bx | \btheta)$, $t \in [0, 1]$ it holds that
-		\[
-			\bbP_{(\bx, \by) \sim \gamma} \left[ \nabla f^*(\hat{\bx}_t) = \frac{\by - \hat{\bx}_t}{\| \by - \hat{\bx}_t \|} \right] = 1.
-		\]
+		Let $\pi(\bx)$ and $p(\bx)$ be two distribution in $\cX$, a compact metric space. Let $\gamma$ be the optimal transportation plan between $\pi(\bx)$ and $p(\bx)$. Then
+		\begin{enumerate}
+			\item there is 1-Lipschitz function $f^*$ which is the optimal solution of 
+			\[
+				\max_{\| f \|_L \leq 1} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right].
+			\]
+			\item if $f^*$ is differentiable, $\gamma(\bx = \by) = 0$ and $\hat{\bx}_t = t \bx + (1 - t) \by$ with $\bx \sim \pi(\bx)$, $\by \sim p(\bx | \btheta)$, $t \in [0, 1]$ it holds that
+			\[
+				\bbP_{(\bx, \by) \sim \gamma} \left[ \nabla f^*(\hat{\bx}_t) = \frac{\by - \hat{\bx}_t}{\| \by - \hat{\bx}_t \|} \right] = 1.
+			\]
+		\end{enumerate}
 	\end{block}
-	\vspace{-0.2cm}
+	\vspace{-0.5cm}
 	\begin{block}{Corollary}
 		$f^*$ has gradient norm 1 almost everywhere under $\pi(\bx)$ and $p(\bx)$.
 	\end{block}
@@ -236,6 +238,8 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1704.00028}{Gulrajani I. et al. Improved Training of Wasserstein GANs, 2017}
 \end{frame}
 %=======
+\section{Spectral Normalization GAN}
+%=======
 \begin{frame}{Spectral Normalization GAN}
 	\begin{block}{Definition}
 		$\| \bA \|_2$ is a \textit{spectral norm} of matrix $\bA$:
@@ -260,8 +264,6 @@
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1802.05957}{Miyato T. et al. Spectral Normalization for Generative Adversarial Networks, 2018}
 \end{frame}
-%=======
-\section{Spectral Normalization GAN}
 %=======
 \begin{frame}{Spectral Normalization GAN}
 	Let consider the critic $f(\bx, \bphi)$ of the following form:
@@ -296,13 +298,13 @@
 	 \begin{block}{Power iteration method}
 	 	\begin{itemize}
 	 		\item $\bu_0$ -- random vector.
-	 		\item for $k = 0, \dots, n - 1$: ($n$ is a large enough number of steps)
+	 		\item for $k = 0, \dots, K - 1$: ($k$ is a fixed number of steps)
 	 		\[
 	 			\bv_{k+1} = \frac{\bW^T \bu_{k}}{\| \bW^T \bu_{k} \|}, \quad \bu_{k+1} = \frac{\bW \bv_{k+1}}{\| \bW \bv_{k+1} \|}.
 	 		\]
 	 		\item approximate the spectral norm
 	 		\[
-	 			\| \bW \|_2 = \lambda_{\text{max}}(\bW^T \bW) \approx \bu_{n}^T \bW \bv_{n}.
+	 			\| \bW \|_2 = \lambda_{\text{max}}(\bW^T \bW) \approx \bu_{K}^T \bW \bv_{K}.
 	 		\]
 	 	\end{itemize}
 	 \end{block}
