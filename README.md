@@ -31,15 +31,15 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> EM-algorithm. VAE theory. Automatic differentiation through random graph. | --- |
 | 5 | March, 8 | <b>Lecture:</b> Flow models definition. Forward and reverse KL divergence. Linear flows (Glow). Residual flows (Planar/Sylvester flows). | [slides](lectures/lecture5/Isachenko2022DeepGenerativeModels5.pdf) |
 |  |  | <b>Seminar:</b> IWAE theory. IWAE variational posterior. VAE vs Normalizing flows. | --- |
-| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF/RealNVP). Parallel WaveNet. ELBO surgery. | [slides](lectures/lecture6/Isachenko2022DeepGenerativeModels6.pdf) |
+| 6 | March, 15 | <b>Lecture:</b> Autoregressive flows (MAF/IAF). Coupling layer (RealNVP). | [slides](lectures/lecture6/Isachenko2022DeepGenerativeModels6.pdf) |
 |  |  | <b>Seminar:</b> Planar flows. Forward vs Reverse KL. | [notebook](seminars/seminar6/planar_flow.ipynb) |
-| 7 | March, 22 | <b>Lecture:</b> Uniform and variational dequantization. ELBO surgery and optimal VAE prior. Flows-based VAE posterior vs flow-based VAE prior.  | [slides](lectures/lecture7/Isachenko2022DeepGenerativeModels7.pdf) |
+| 7 | March, 22 | <b>Lecture:</b> Uniform and variational dequantization. ELBO surgery and optimal VAE prior. Flows-based VAE posterior vs flow-based VAE prior. | [slides](lectures/lecture7/Isachenko2022DeepGenerativeModels7.pdf) |
 |  |  | <b>Seminar:</b> VAE prior (VampPrior). SurVAE. RealNVP hints. | --- |
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. GAN theorem. | [slides](lectures/lecture8/Isachenko2022DeepGenerativeModels8.pdf) |
 |  |  | <b>Seminar:</b> GAN vs VAE vs NF. GAN in 1d coding. | [notebook](seminars/seminar8/Vanila_GAN.ipynb) |
-| 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and Mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. Wasserstein GAN. | [slides](lectures/lecture9/Isachenko2022DeepGenerativeModels9.pdf) |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 10 | April, 12 | <b>Lecture:</b> WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | TBA |
+| 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. | [slides](lectures/lecture9/Isachenko2022DeepGenerativeModels9.pdf) |
+|  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | TBA |
+| 10 | April, 12 | <b>Lecture:</b> Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
@@ -58,7 +58,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 3 | March, 13 | March, 27 | <ol><li>Theory (Sylvester flows).</li><li>RealNVP on 2D data.</li><li>RealNVP on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw3.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw3.ipynb) |
 | 4 | March, 27 | April, 10 | <ol><li>Theory (MI in ELBO surgery).</li><li>VAE with AR decoder on MNIST.</li><li>VAE with AR prior on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw4.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw4.ipynb) |
 | 5 | April, 10 | April, 24 | <ol><li>Theory (IW dequantization, LSGAN).</li><li>WGAN/WGAN-GP on 2D data.</li><li>WGAN-GP on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw5.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw5.ipynb) |
-| 6 | April, 24 | May, 8 | <ol><li>Theory (???).</li><li>SN-GAN on CIFAR10.</li><li>FID and Inception Score.</li></ol> | TBA |
+| 6 | April, 24 | May, 8 | <ol><li>Theory (Neural ODE backprop).</li><li>SN-GAN on CIFAR10.</li><li>FID and Inception Score.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw6.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw6.ipynb) |
 
 ## Game rules
 - 6 homeworks each of 13 points = **78 points**
