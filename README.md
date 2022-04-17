@@ -41,7 +41,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | TBA |
 | 10 | April, 12 | <b>Lecture:</b> Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
 |  |  | <b>Seminar:</b> WGAN: practice. Optimal trannsport task. SN-GAN: practice. | TBA |
-| 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). | TBA |
+| 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 12 | April, 26 | <b>Lecture:</b> Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
