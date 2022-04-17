@@ -82,12 +82,6 @@
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
-\AtBeginSection[ ]
-{
-	\begin{frame}{Outline}
-		\tableofcontents[currentsection]
-	\end{frame}
-}
 %=======
 \section{Wasserstein GAN}
 %=======
@@ -282,7 +276,7 @@
 	\begin{block}{Critic spectral norm}
 		\vspace{-0.4cm}
 		\[
-			\| f \|_L \leq \| \bW_{K+1}\| \cdot \prod_{k=1}^K  \| \sigma_k \|_L \cdot \| \bW_k \|_2 = \prod_{k=1}^{K+1} \|\bW_k\|_2.
+			\| f \|_L \leq \| \bW_{K+1}\|_2 \cdot \prod_{k=1}^K  \| \sigma_k \|_L \cdot \| \bW_k \|_2 = \prod_{k=1}^{K+1} \|\bW_k\|_2.
 		\]
 		\vspace{-0.2cm}
 	\end{block}
