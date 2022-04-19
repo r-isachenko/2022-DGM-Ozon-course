@@ -38,9 +38,9 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. GAN theorem. | [slides](lectures/lecture8/Isachenko2022DeepGenerativeModels8.pdf) |
 |  |  | <b>Seminar:</b> GAN vs VAE vs NF. GAN in 1d coding. | [notebook](seminars/seminar8/Vanila_GAN.ipynb) |
 | 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. | [slides](lectures/lecture9/Isachenko2022DeepGenerativeModels9.pdf) |
-|  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | TBA |
+|  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | [notebook](seminars/seminar9/Forward-Reverse_KL_vs_JSD.ipynb) |
 | 10 | April, 12 | <b>Lecture:</b> Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
-|  |  | <b>Seminar:</b> WGAN: practice. Optimal trannsport task. SN-GAN: practice. | TBA |
+|  |  | <b>Seminar:</b> WGAN: practice. Optimal trannsport task. SN-GAN: practice. | [notebook](seminars/seminar10/WGAN.ipynb) |
 | 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 12 | April, 26 | <b>Lecture:</b> Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
