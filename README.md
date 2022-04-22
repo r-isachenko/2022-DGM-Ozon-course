@@ -40,9 +40,9 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. | [slides](lectures/lecture9/Isachenko2022DeepGenerativeModels9.pdf) |
 |  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | [notebook](seminars/seminar9/Forward-Reverse_KL_vs_JSD.ipynb) |
 | 10 | April, 12 | <b>Lecture:</b> Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
-|  |  | <b>Seminar:</b> WGAN: practice. Optimal trannsport task. SN-GAN: practice. | [notebook](seminars/seminar10/WGAN.ipynb) |
+|  |  | <b>Seminar:</b> WGAN: practice. Optimal transport task. SN-GAN: practice. | [notebook](seminars/seminar10/WGAN.ipynb) |
 | 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall, truncation trick). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN). | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
-|  |  | <b>Seminar:</b> TBA | TBA |
+|  |  | <b>Seminar:</b> StyleGAN: implementation hints. | TBA |
 | 12 | April, 26 | <b>Lecture:</b> Neural ODE. Continuous-in-time NF (FFJORD). | [slides](lectures/lecture11/Isachenko2022DeepGenerativeModels11.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 13 | May, 3 | <b>Lecture:</b> Discrete VAE (Gumbel-Softmax trick, VQ-VAE, VQ-VAE-2, DALL-E). Diffusion models. | TBA |
