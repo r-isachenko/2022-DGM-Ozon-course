@@ -238,7 +238,7 @@
 	\begin{block}{Definition}
 		$\| \bA \|_2$ is a \textit{spectral norm} of matrix $\bA$:
 		\[
-			\| \bA \|_2 = \max_{\bh \neq 0} \frac{\|\bA \bh\|_2}{\|\bh\|_2} = \max_{\|\bh\|_2 \leq 1} \| \bA \bh \|_2 = \lambda_{\text{max}}(\bA^T \bA),
+			\| \bA \|_2 = \max_{\bh \neq 0} \frac{\|\bA \bh\|_2}{\|\bh\|_2} = \max_{\|\bh\|_2 \leq 1} \| \bA \bh \|_2 = \sqrt{\lambda_{\text{max}}(\bA^T \bA)},
 		\]
 		where $\lambda_{\text{max}}(\bA^T \bA)$ is the largest eigenvalue value of $\bA^T \bA$.
 	\end{block}
@@ -286,7 +286,7 @@
 \end{frame}
 %=======
 \begin{frame}{Spectral Normalization GAN}
-	How to compute $ \| \bW \|_2 = \lambda_{\text{max}}(\bW^T \bW)$? \\
+	How to compute $ \| \bW \|_2 = \sqrt{\lambda_{\text{max}}(\bW^T \bW)}$? \\
 	 If we apply SVD to compute the $\| \bW \|_2$ at each iteration, the algorithm becomes intractable.
 	 
 	 \begin{block}{Power iteration method}
@@ -298,7 +298,7 @@
 	 		\]
 	 		\item approximate the spectral norm
 	 		\[
-	 			\| \bW \|_2 = \lambda_{\text{max}}(\bW^T \bW) \approx \bu_{K}^T \bW \bv_{K}.
+	 			\| \bW \|_2 = \sqrt{\lambda_{\text{max}}(\bW^T \bW)} \approx \bu_{K}^T \bW \bv_{K}.
 	 		\]
 	 	\end{itemize}
 	 \end{block}
