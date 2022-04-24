@@ -301,7 +301,7 @@
 	\begin{block}{BigGAN: truncated normal sampling}
 		\vspace{-0.3cm}
 		\[
-			p(\bz | b) = \cN(\bz | 0, 1) / \int_{-\infty}^b \cN(\bz | 0, 1) d\bz
+			p(\bz | b) = \cN(\bz | 0, 1) / \int_{-\infty}^\psi \cN(\bz | 0, 1) d\bz
 		\]
 		Components of $\bz \sim \cN(0, \bI)$ which fall outside a predefined range are resampled.
 	\end{block}
@@ -406,7 +406,7 @@
 		\end{figure}
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1710.10196}{Karras T. et al. Progressive Growing of GANs for Improved Quality, Stability, and Variation, 2017}
-s\end{frame}
+\end{frame}
 \begin{frame}{Progressive Growing GAN}
 	Grow both the generator and discriminator progressively, new layers will introduce higher-resolution details as the training progresses. 
 	\begin{itemize}
