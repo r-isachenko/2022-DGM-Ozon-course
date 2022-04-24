@@ -84,39 +84,71 @@
 \section{Discrete VAE latent representations}
 %=======
 \begin{frame}{Discrete VAE latents}
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=\linewidth]{figs/vae-gaussian.png}
-	\end{figure}
+	\begin{block}{Motivation}
+		\begin{itemize}
+			\item Previous VAE models had \textbf{continuous} latent variables $\bz$.
+			\item \textbf{Discrete} representations $\bz$ are potentially a more natural fit for many of the modalities.
+			\item Powerful autoregressive models (like PixelCNN) have been developed for modelling distributions over discrete variables.
+		\end{itemize}
+	\end{block}
+	\begin{block}{ELBO}
+		\vspace{-0.3cm}
+		\[
+			\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz , \btheta) - KL(q(\bz| \bx, \bphi) || p(\bz)) \rightarrow \max_{\bphi, \btheta}.
+		\]
+		\vspace{-0.5cm}
+	\end{block}
 	\begin{itemize}
-		\item Previous VAE models had \textbf{continuous} latent variables $\bz$.
-		\item \textbf{Discrete} representations $\bz$ are potentially a more natural fit for many of the modalities.
-		\item Powerful autoregressive models (like PixelCNN) have been developed for modelling distributions over discrete variables.
+		\item Reparametrization trick to get unbiased gradients.
+		\item Normal assumptions for $q(\bz | \bx, \bphi)$ and $p(\bz)$ to compute KL analytically.
 	\end{itemize}
+\end{frame}
+%=======
+\begin{frame}{Discrete VAE latents}
+		Let $z \sim \text{Categorical}(\bpi)$, where 
+		\[
+			\bpi = (\pi_1, \dots, \pi_K), \quad \pi_k = P(z = z_k), \quad \sum_k \pi_k = 1.
+		\]
+		We assume that the prior distribution $p(z) = \text{Uniform}\{z_1, \dots, z_K\}$.
+		\begin{multline*}
+			KL(q(z| \bx, \bphi) || p(z)) = \sum_{k=1}^K q(z_k | \bx, \bphi) \log \frac{q(z_k | \bx, \bphi)}{p(z_k)} = 
+			\\ = \sum_{k=1}^K q(z_k | \bx, \bphi) \left[\log q(z_k | \bx, \bphi)  - \log p(z_k) \right] = - H(q(z | \bx, \bphi)) + \log K. 
+		\end{multline*}
+			\begin{block}{ELBO}
+				\vspace{-0.6cm}
+				\[
+					\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(z | \bx, \bphi)} \log p(\bx | z , \btheta) + H(q(z | \bx, \bphi)) - \log K \rightarrow \max_{\bphi, \btheta}.
+				\]
+				\vspace{-0.5cm}
+			\end{block}
+			\begin{itemize}
+				\item Reparametrization trick does not work now.
+				\item Entropy term should be estimated.
+			\end{itemize}
 \end{frame}
 %=======
 \subsection{Gumbel-softmax}
 %=======
 \begin{frame}{Gumbel-softmax trick}
-	If $\bz$ is a discrete random variable we cannot differentiate through it.
+	If $z$ is a discrete random variable we cannot differentiate through it.
 	
-	\begin{block}{Gumbel-Max trick}
-		Let $G_k \sim \text{Gumbel}$ for $k = 1, \dots, K$, i.e. $G = - \log (\log u)$, $u \sim \text{Uniform}[0, 1]$. Then a discrete random variable
+	\begin{block}{Gumbel-max trick}
+		Let $g_k \sim \text{Gumbel}(0, 1)$ for $k = 1, \dots, K$, i.e. $g = - \log (\log u)$, $u \sim \text{Uniform}[0, 1]$. Then a discrete random variable
 		\vspace{-0.2cm}
 		\[
-			z = \argmax_k (\log \pi_k + G_k), \quad \sum_k \pi_k = 1
+			z = \argmax_k [\log \pi_k + g_k],
 		\]
 		\vspace{-0.5cm} \\
-		has a categorical distribution $z \sim \text{Categorical}(\bpi)$ ($P(z = k) = \pi_k$).
+		has a categorical distribution $z \sim \text{Categorical}(\bpi)$.
+	\end{block}
+	\begin{block}{Reparametrization trick}
+		\vspace{-0.5cm}
+		\[
+			\nabla_{\bphi} \bbE_{q(z | \bphi) f(z)} = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} f\bigl(\argmax_k [\log q(z_k | \bphi) + g_k]\bigr).
+		\]
+		\vspace{-0.5cm}
 	\end{block}
 	\textbf{Problem:} We still have non-differentiable $\argmax$ operation.
-	\begin{block}{Gumbel-softmax relaxation}
-		
-		\[
-			z_k = \frac{\exp ((\log \pi_k + G_k) / \tau)}{\sum_{j=1}^K \exp ((\log \pi_j + G_j) / \tau)}, \quad k = 1, \dots, K.
-		\]
-		Here $\tau$ is a temperature parameter.
- 	\end{block}
 	\myfootnote{
 	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
 	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
@@ -125,14 +157,14 @@
 %=======
 \begin{frame}{Concrete distribution}
 	\vspace{-0.3cm}
-	\begin{block}{Gumbel-Softmax relaxation}
+	\begin{block}{Gumbel-softmax relaxation}
 		Concrete distribution = continuous + discrete
 		\vspace{-0.2cm}
 		\[
 			z_k = \frac{\exp ((\log \pi_k + G_k) / \tau)}{\sum_{j=1}^K \exp ((\log \pi_j + G_j) / \tau)}, \quad k = 1, \dots, K.
 		\]
 		\vspace{-0.4cm} \\
-		Here $\tau$ is a temperature parameter. Now we have differentiable operation.
+		Here $\tau$ is a temperature parameter. Now we have differentiable operation, but the gradient estimate is biased now.
  	\end{block}
  	\vspace{-0.2cm}
  	\begin{figure}
