@@ -46,10 +46,10 @@
   node[anchor=south west,inner sep=0pt]{\parbox{\textwidth}{%
       \rlap{\rule{10em}{0.4pt}}\raggedright\scriptsize\href{#1}{\textit{#2}}}};}
       
-\AtBeginSection[ ]
+\AtBeginSection[]
 {
 	\begin{frame}{Outline}
-		\tableofcontents[currentsection]
+		\tableofcontents[currentsection,subsectionstyle=hide]
 	\end{frame}
 }
 \AtBeginSubsection[]{
