@@ -182,18 +182,17 @@
 %=======
 \subsection{Vector quantization}
 %=======
-\begin{frame}{Vector Quantized VAE}
+\begin{frame}{Vector quantization}
 	\begin{itemize}
 		\item Define dictionary space $\{\be_k\}_{k=1}^K$, where $\be_k \in \bbR^C$, $K$ is the size of the dictionary.
-		\item Let $\bz = \text{NN}_\text{e}(\bx) \in \bbR^{W \times H \times C}$ be an encoder output.
-		\item Quantized representation $\bz_q \in \bbR^{W \times H \times C}$ is defined by a nearest neighbour look-up using the shared dictionary space for each of $W \times H$ spatial locations
-		\vspace{-0.2cm}
+		\item Quantized representation $\bz_q \in \bbR^{W \times H \times C}$  for $\bz \in \bbR^C$ is defined by a nearest neighbour look-up using the shared dictionary space
 		\[
-			[\bz_q]_{ij} = \be_{k^*}, \quad \text{where } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \|.
+			\bz_q = \be_{k^*}, \quad \text{where } k^* = \argmin_k \| \bz - \be_k \|.
 		\] 
 	\end{itemize}
-	\vspace{-0.6cm}
+	\vspace{-0.3cm}
 	\begin{block}{Quantization procedure}
+		If we have tensor with the spatial dimenstions we apply the quantization for each of $W \times H$ locations.
 		\begin{minipage}[t]{0.65\columnwidth}
 			\begin{figure}
 				\includegraphics[width=\linewidth]{figs/fqgan_cnn.png}
@@ -210,29 +209,25 @@
 \end{frame}
 %=======
 \begin{frame}{Vector Quantized VAE}
-	Define VAE latent variable $\hat{\bz} \in \bbR^{W \times H}$ with prior distribution $p(\hat{\bz}) = \text{Uniform}\{1, \dots, K\}$ and variational posterior distribution 
+	Let VAE latent variable $\hat{\bz} \in \bbR^{W \times H}$ is the discrete with spatial-independent variational posterior and prior distributions  
 	\vspace{-0.3cm}
 	\[
-		q(\hat{\bz} | \bx) = \prod_{i=1}^W \prod_{j=1}^H q(\hat{z}_{ij} | \bx)
+		q(\hat{\bz} | \bx, \bphi) = \prod_{i=1}^W \prod_{j=1}^H q(\hat{z}_{ij} | \bx, \bphi); \quad p(\hat{\bz}) = \prod_{i=1}^W \prod_{j=1}^H \text{Uniform}\{z_1, \dots, z_K\}.
 	\]
-	\vspace{-0.3cm}
+	Let $\bz_e = \text{NN}(\bx, \bphi) \in \bbR^{W \times H \times C}$ is the encoder output.
 	\[
-		q(\hat{z}_{ij} = k^* | \bx) = \begin{cases}
+		q(\hat{z}_{ij} = z_k^* | \bx, \bphi) = \begin{cases}
 			1 , \quad \text{for } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \| \\
 			0, \quad \text{otherwise}.
 		\end{cases}
 	\]
-	\vspace{-0.5cm}
-	\begin{block}{ELBO objective}
-		\vspace{-0.5cm}
-		\[
-		 \mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\hat{\bz} | \bx, \bphi)} \log p(\bx | \hat{\bz}, \btheta)] - KL(q(\hat{\bz}| \bx) || p(\hat{\bz})) \rightarrow \max_{\bphi, \btheta}.
-		\]	
-		\vspace{-0.5cm}
-	\end{block}
+	\vspace{-0.3cm}
 	\begin{itemize}
-		\item VAE proposal distribution $q(\hat{\bz} | \bx)$ is deterministic. 
-		\item $KL(q(\hat{z}| \bx) || p(\hat{z}))$ term in ELBO is constant (equals to $\log K$).
+		\item VAE posterior distribution $q(\hat{\bz} | \bx)$ is deterministic (zero entropy). 
+		\item $KL(q(\hat{z}| \bx) || p(\hat{z}))$ term in ELBO is constant.
+		\[
+			KL(q(\hat{z} | \bx, \bphi) || p(z)) = - H(q(\hat{z} | \bx, \bphi)) + \log K = \log K. 
+		\]
 	\end{itemize}
 	
 	\myfootnotewithlink{https://arxiv.org/abs/1711.00937}{Oord A., Vinyals O., Kavukcuoglu K. Neural Discrete Representation Learning, 2017} 
