@@ -89,6 +89,7 @@
 			\item Previous VAE models had \textbf{continuous} latent variables $\bz$.
 			\item \textbf{Discrete} representations $\bz$ are potentially a more natural fit for many of the modalities.
 			\item Powerful autoregressive models (like PixelCNN) have been developed for modelling distributions over discrete variables.
+			\item All cool transformer-like models work with discrete tokens.
 		\end{itemize}
 	\end{block}
 	\begin{block}{ELBO}
@@ -105,151 +106,125 @@
 \end{frame}
 %=======
 \begin{frame}{Discrete VAE latents}
-		Let $z \sim \text{Categorical}(\bpi)$, where 
-		\[
-			\bpi = (\pi_1, \dots, \pi_K), \quad \pi_k = P(z = z_k), \quad \sum_k \pi_k = 1.
-		\]
-		We assume that the prior distribution $p(z) = \text{Uniform}\{z_1, \dots, z_K\}$.
-		\begin{multline*}
-			KL(q(z| \bx, \bphi) || p(z)) = \sum_{k=1}^K q(z_k | \bx, \bphi) \log \frac{q(z_k | \bx, \bphi)}{p(z_k)} = 
-			\\ = \sum_{k=1}^K q(z_k | \bx, \bphi) \left[\log q(z_k | \bx, \bphi)  - \log p(z_k) \right] = - H(q(z | \bx, \bphi)) + \log K. 
-		\end{multline*}
-			\begin{block}{ELBO}
-				\vspace{-0.6cm}
-				\[
-					\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(z | \bx, \bphi)} \log p(\bx | z , \btheta) + H(q(z | \bx, \bphi)) - \log K \rightarrow \max_{\bphi, \btheta}.
-				\]
-				\vspace{-0.5cm}
-			\end{block}
-			\begin{itemize}
-				\item Reparametrization trick does not work now.
-				\item Entropy term should be estimated.
-			\end{itemize}
-\end{frame}
-%=======
-\subsection{Gumbel-softmax}
-%=======
-\begin{frame}{Gumbel-softmax trick}
-	If $z$ is a discrete random variable we cannot differentiate through it.
-	
-	\begin{block}{Gumbel-max trick}
-		Let $g_k \sim \text{Gumbel}(0, 1)$ for $k = 1, \dots, K$, i.e. $g = - \log (\log u)$, $u \sim \text{Uniform}[0, 1]$. Then a discrete random variable
-		\vspace{-0.2cm}
-		\[
-			z = \argmax_k [\log \pi_k + g_k],
-		\]
-		\vspace{-0.5cm} \\
-		has a categorical distribution $z \sim \text{Categorical}(\bpi)$.
+	\begin{block}{Assumptions}
+		\begin{itemize}
+			\item Define dictionary (word book) space $\{\be_k\}_{k=1}^K$, where $\be_k \in \bbR^C$, $K$ is the size of the dictionary.
+			\item Let $c \sim \text{Categorical}(\bpi)$, where 
+			\vspace{-0.6cm}
+			\[
+				\bpi = (\pi_1, \dots, \pi_K), \quad \pi_k = P(c = k), \quad \sum_{k=1}^K \pi_k = 1.
+			\]
+			\vspace{-0.6cm}
+			\item Let VAE model has discrete latent representation $c$ with prior $p(c) = \text{Uniform}\{1, \dots, K\}$.
+		\end{itemize}
 	\end{block}
-	\begin{block}{Reparametrization trick}
-		\vspace{-0.5cm}
-		\[
-			\nabla_{\bphi} \bbE_{q(z | \bphi) f(z)} = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} f\bigl(\argmax_k [\log q(z_k | \bphi) + g_k]\bigr).
-		\]
-		\vspace{-0.5cm}
-	\end{block}
-	\textbf{Problem:} We still have non-differentiable $\argmax$ operation.
-	\myfootnote{
-	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
-	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
-	}
-\end{frame}
-%=======
-\begin{frame}{Concrete distribution}
 	\vspace{-0.3cm}
-	\begin{block}{Gumbel-softmax relaxation}
-		Concrete distribution = continuous + discrete
-		\vspace{-0.2cm}
-		\[
-			z_k = \frac{\exp ((\log \pi_k + G_k) / \tau)}{\sum_{j=1}^K \exp ((\log \pi_j + G_j) / \tau)}, \quad k = 1, \dots, K.
-		\]
-		\vspace{-0.4cm} \\
-		Here $\tau$ is a temperature parameter. Now we have differentiable operation, but the gradient estimate is biased now.
- 	\end{block}
- 	\vspace{-0.2cm}
- 	\begin{figure}
- 		\includegraphics[width=0.8\linewidth]{figs/gumbel_softmax}
- 	\end{figure}
- 	\vspace{-0.7cm}
- 	\begin{figure}
- 		\includegraphics[width=0.8\linewidth]{figs/simplex}
- 	\end{figure} 
-	\myfootnote{
-	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
-	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
-	}
+	\begin{block}{How it should work?}
+		\begin{itemize}
+			\item Our variational posterior $q(c | \bx, \bphi) = \text{Categorical}(\bpi(\bx, \bphi))$ (encoder) outputs discrete probabilities vector.
+			\item We sample $c^*$ from $q(c | \bx, \bphi)$ (reparametrization trick analogue).
+			\item Our generative distribution $p(\bx | \be_{c^*}, \btheta)$ (decoder).
+		\end{itemize}
+	\end{block}
+
+\end{frame}
+%=======
+\begin{frame}{Discrete VAE latents}
+		\begin{block}{ELBO}
+			\vspace{-0.5cm}
+			\[
+				\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | c, \btheta) - KL(q(c| \bx, \bphi) || p(c)) \rightarrow \max_{\bphi, \btheta}.
+			\]
+			\vspace{-0.5cm}
+		\end{block}
+		\begin{block}{KL term}
+			\vspace{-0.8cm}
+			\begin{multline*}
+				KL(q(c| \bx, \bphi) || p(c)) = \sum_{k=1}^K q(k | \bx, \bphi) \log \frac{q(k | \bx, \bphi)}{p(k)} = 
+				\\ = \sum_{k=1}^K q(k | \bx, \bphi) \left[\log q(k | \bx, \bphi)  - \log p(k) \right] = - H(q(z | \bx, \bphi)) + \log K. 
+			\end{multline*}
+		\end{block}
+		\begin{itemize}
+			\item Reparametrization trick does not work now (we sample from discrete distribution).
+			\item Entropy term should be estimated.
+		\end{itemize}
 \end{frame}
 %=======
 \subsection{Vector quantization}
 %=======
 \begin{frame}{Vector quantization}
-	\begin{itemize}
-		\item Define dictionary space $\{\be_k\}_{k=1}^K$, where $\be_k \in \bbR^C$, $K$ is the size of the dictionary.
-		\item Quantized representation $\bz_q \in \bbR^{W \times H \times C}$  for $\bz \in \bbR^C$ is defined by a nearest neighbour look-up using the shared dictionary space
+	\begin{block}{Quantized representation}
+		$\bz_q \in \bbR^{C}$  for $\bz \in \bbR^C$ is defined by a nearest neighbour look-up using the shared dictionary space
+		\vspace{-0.3cm}
 		\[
 			\bz_q = \be_{k^*}, \quad \text{where } k^* = \argmin_k \| \bz - \be_k \|.
 		\] 
+		\vspace{-0.7cm}
+	\end{block}
+	\begin{itemize}
+		\item Let our encoder outputs continuous representation $\bz$. 
+		\item Quantization will give us the discrete distribution $q(c | \bx, \bphi)$.
 	\end{itemize}
-	\vspace{-0.3cm}
+	\vspace{-0.2cm}
 	\begin{block}{Quantization procedure}
 		If we have tensor with the spatial dimenstions we apply the quantization for each of $W \times H$ locations.
 		\begin{minipage}[t]{0.65\columnwidth}
 			\begin{figure}
-				\includegraphics[width=\linewidth]{figs/fqgan_cnn.png}
+				\includegraphics[width=0.8\linewidth]{figs/fqgan_cnn.png}
 			\end{figure}
 		\end{minipage}%
 		\begin{minipage}[t]{0.35\columnwidth}
 			\begin{figure}
-				\includegraphics[width=0.9\linewidth]{figs/fqgan_lookup}
+				\includegraphics[width=0.7\linewidth]{figs/fqgan_lookup}
 			\end{figure}
 		\end{minipage}
 	\end{block}
-
 	\myfootnotewithlink{https://arxiv.org/abs/2004.02088}{Zhao Y. et al. Feature Quantization Improves GAN Training, 2020} 
 \end{frame}
 %=======
 \begin{frame}{Vector Quantized VAE}
-	Let VAE latent variable $\hat{\bz} \in \bbR^{W \times H}$ is the discrete with spatial-independent variational posterior and prior distributions  
+	Let VAE latent variable $\bc \in \bbR^{W \times H}$ is the discrete with spatial-independent variational posterior and prior distributions  
 	\vspace{-0.3cm}
 	\[
-		q(\hat{\bz} | \bx, \bphi) = \prod_{i=1}^W \prod_{j=1}^H q(\hat{z}_{ij} | \bx, \bphi); \quad p(\hat{\bz}) = \prod_{i=1}^W \prod_{j=1}^H \text{Uniform}\{z_1, \dots, z_K\}.
+		q(\bc | \bx, \bphi) = \prod_{i=1}^W \prod_{j=1}^H q(c_{ij} | \bx, \bphi); \quad p(\bc) = \prod_{i=1}^W \prod_{j=1}^H \text{Uniform}\{1, \dots, K\}.
 	\]
 	Let $\bz_e = \text{NN}(\bx, \bphi) \in \bbR^{W \times H \times C}$ is the encoder output.
-	\[
-		q(\hat{z}_{ij} = z_k^* | \bx, \bphi) = \begin{cases}
-			1 , \quad \text{for } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \| \\
-			0, \quad \text{otherwise}.
-		\end{cases}
-	\]
-	\vspace{-0.3cm}
-	\begin{itemize}
-		\item VAE posterior distribution $q(\hat{\bz} | \bx)$ is deterministic (zero entropy). 
-		\item $KL(q(\hat{z}| \bx) || p(\hat{z}))$ term in ELBO is constant.
+	\begin{block}{Deterministic variational posterior}
+		\vspace{-0.6cm}
 		\[
-			KL(q(\hat{z} | \bx, \bphi) || p(z)) = - H(q(\hat{z} | \bx, \bphi)) + \log K = \log K. 
+			q(\hat{z}_{ij} = z_{k^*} | \bx, \bphi) = \begin{cases}
+				1 , \quad \text{for } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \|; \\
+				0, \quad \text{otherwise}.
+			\end{cases}
 		\]
-	\end{itemize}
+		$KL(q(c| \bx, \bphi) || p(c))$ term in ELBO is constant, entropy of the posterior is zero.
+		\[
+			KL(q(c | \bx, \bphi) || p(c)) = - H(q(c | \bx, \bphi)) + \log K = \log K. 
+		\]
+	\end{block}
 	
 	\myfootnotewithlink{https://arxiv.org/abs/1711.00937}{Oord A., Vinyals O., Kavukcuoglu K. Neural Discrete Representation Learning, 2017} 
 \end{frame}
 %=======
 \begin{frame}{Vector Quantized VAE}
+	\begin{block}{ELBO}
+		\vspace{-0.6cm}
+		\[
+			\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) - \log K =  \log p(\bx | \bz_q, \btheta) - \log K,
+		\]
+		where $z_q = \be_{k^*}$, $k^* = \argmin_k \| \bz_e - \be_k \|$.
+	\end{block}
 	\begin{figure}
 		\centering
-		\includegraphics[width=\linewidth]{figs/vqvae}
+		\includegraphics[width=0.85\linewidth]{figs/vqvae}
 	\end{figure}
-	\begin{block}{Objective}
-		\vspace{-0.3cm}
+	\textbf{Problem:} $\argmin$ is not differentiable.
+	\begin{block}{Straight-through gradient estimation}
+		\vspace{-0.6cm}
 		\[
-			\log p(\bx | \bz_q) + \| \text{sg} (\bz_e) - \bz_q \| + \beta \| \bz_e - \text{sg}(\bz_q) \|
+			\frac{\partial \log p(\bx | \bz_q , \btheta)}{\partial \bphi} = \frac{\partial \log p(\bx | \bz_q, \btheta)}{\partial \bz_q} \cdot {\color{red}\frac{\partial \bz_q}{\partial \bphi}} \approx \frac{\partial \log p(\bx | \bz_q, \btheta)}{\partial \bz_q} \cdot \frac{\partial \bz_e}{\partial \bphi}
 		\]
 	\end{block}
-	\begin{itemize}
-		\item First term is ELBO part.
-		\item Quantization operation is not differentiable.
-		\item Straight-through gradient estimation is used to backpropagate the quantization operation.
-	\end{itemize}
-
 	\myfootnotewithlink{https://arxiv.org/abs/1711.00937}{Oord A., Vinyals O., Kavukcuoglu K. Neural Discrete Representation Learning, 2017} 
 \end{frame}
 %=======
@@ -272,6 +247,85 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1906.00446}{Razavi A., Oord A., Vinyals O. Generating Diverse High-Fidelity Images with VQ-VAE-2, 2019} 
 \end{frame}
 %=======
+\subsection{Gumbel-softmax}
+%=======
+\begin{frame}{Gumbel-softmax trick}
+	\begin{itemize}
+		\item VQ-VAE has deterministic variational posterior (it allows to get rid of discrete sampling and reparametrization trick).
+		\item There is no uncertainty in the encoder output. 
+	\end{itemize}
+	\vspace{-0.2cm}
+	\begin{block}{Gumbel-max trick}
+		Let $g_k \sim \text{Gumbel}(0, 1)$ for $k = 1, \dots, K$, i.e. $g = - \log (\log u)$, $u \sim \text{Uniform}[0, 1]$. Then a discrete random variable
+		\vspace{-0.2cm}
+		\[
+			c = \argmax_k [\log \pi_k + g_k],
+		\]
+		\vspace{-0.5cm} \\
+		has a categorical distribution $c \sim \text{Categorical}(\bpi)$.
+	\end{block}
+	\begin{itemize}
+		\item Let our encoder $q(c | \bx, \bphi) = \text{Categorical}(\bpi(\bx, \bphi))$ outputs logits of $\bpi(\bx, \bphi)$.
+		\item We could sample from the discrete distribution using Gumbel-max reparametrization.
+	\end{itemize}
+
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
+\begin{frame}{Gumbel-softmax trick}
+	\begin{block}{Reparametrization trick}
+		\vspace{-0.7cm}
+		\[
+			\nabla_{\bphi} \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} \log p(\bx | \be_{k^*} , \btheta),
+		\]
+		where $k^* = \argmax_k [\log q(k | \bx, \bphi) + g_k]$.
+	\end{block}
+	\textbf{Problem:} We still have non-differentiable $\argmax$ operation.
+	
+	\begin{block}{Gumbel-softmax relaxation}
+		Concrete distribution = continuous + discrete
+		\vspace{-0.2cm}
+		\[
+			\hat{c}_k = \frac{\exp \left(\frac{\log q(k | \bx, \bphi) + g_k}{\tau}\right)}{\sum_{j=1}^K \exp \left(\frac{\log q(j | \bx, \bphi) + g_j}{\tau}\right)}, \quad k = 1, \dots, K.
+		\]
+		\vspace{-0.4cm} \\
+		Here $\tau$ is a temperature parameter. Now we have differentiable operation, but the gradient estimate is biased now.
+ 	\end{block}
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
+\begin{frame}{Gumbel-softmax trick}
+	 \vspace{-0.3cm}
+	\begin{block}{Concrete distribution}
+	 	\begin{figure}
+	 		\includegraphics[width=0.8\linewidth]{figs/gumbel_softmax}
+	 	\end{figure}
+	 	\vspace{-0.7cm}
+	 	\begin{figure}
+	 		\includegraphics[width=0.8\linewidth]{figs/simplex}
+	 	\end{figure} 
+	 	\vspace{-0.5cm}
+	 \end{block}
+	\begin{block}{Reparametrization trick}
+		\vspace{-0.4cm}
+		\[
+			\nabla_{\bphi} \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} \log p(\bx | \bz , \btheta),
+		\]
+		where $\bz = \sum_{k=1}^K\hat{c}_k \be_k$ (all operations are differentiable now).
+	\end{block}
+ 	\vspace{-0.2cm}
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
 \begin{frame}{DALL-E}
 	\begin{block}{Deterministic VQ-VAE posterior}
 		\vspace{-0.3cm}
@@ -284,9 +338,9 @@
 		\vspace{-0.3cm}
 	\end{block}
 	\begin{itemize}
-		\item It is possible to use Gumbel-Softmax trick to relax this distribution to continuous one.
+		\item Gumbel-Softmax trick allows to make true categorical distribution and sample from it.
 		\item Since latent space is discrete we could train autoregressive transformers in it.
-		\item It is a natural way to incorporate text and image spaces.
+		\item It is a natural way to incorporate text and image token spaces.
 	\end{itemize}
 	\begin{figure}
 		\includegraphics[width=\linewidth]{figs/dalle}
