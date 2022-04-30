@@ -43,9 +43,9 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> WGAN: practice. Optimal transport task. SN-GAN: practice. | [notebook](seminars/seminar10/WGAN.ipynb) |
 | 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall, truncation trick). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN). | [slides](lectures/lecture11/Isachenko2022DeepGenerativeModels11.pdf) |
 |  |  | <b>Seminar:</b> StyleGAN: implementation hints. | [notebook](seminars/seminar11/StyleGAN.ipynb) |
-| 12 | April, 26 | <b>Lecture:</b> Discrete VAE latent representations (vector quantization, straight-through gradient estimation, Gumbel-softmax trick, VQ-VAE and DALL-E models). Neural ODE. | [slides](lectures/lecture12/Isachenko2022DeepGenerativeModels12.pdf) |
+| 12 | April, 26 | <b>Lecture:</b> 12. Discrete VAE latent representations. Vector quantization, straight-through gradient estimation (VQ-VAE). Gumbel-softmax trick (DALL-E). Neural ODE. | [slides](lectures/lecture12/Isachenko2022DeepGenerativeModels12.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 13 | May, 17 | <b>Lecture:</b> Continuous-in-time NF (FFJORD). Fooker-Planck equation and Langevin dynamic. Score-based models. | TBA |
+| 13 | May, 17 | <b>Lecture:</b> Continuous-in-time NF (FFJORD). Kolmogorov-Fokker-Planck equation and Langevin dynamic. Score-based models. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 14 | May, 24 | <b>Lecture:</b> Diffusion model as VAE. Diffusion model as score-based model. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
