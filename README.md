@@ -49,6 +49,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 14 | May, 24 | <b>Lecture:</b> Diffusion model as VAE. Diffusion model as score-based model. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
+|  | May, 31 | <b>Oral exam</b> | TBA |
 
 ## Homeworks 
 | Homework | Date | Deadline | Description | Link |
