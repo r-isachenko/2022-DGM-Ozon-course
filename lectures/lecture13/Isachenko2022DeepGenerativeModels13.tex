@@ -290,8 +290,41 @@
 			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx | t) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
 		\]
 	\end{block}
+	\begin{block}{Statement}
+		Let $\bx_0$ be a random vector. Then under mild regularity conditions for small enough $\eta$ samples from the following dynamics
+		\[
+			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \nabla_{\bx_t} \log p(\bx_t | \btheta) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
+		\]
+		will comes from $p(\bx | \btheta)$.
+	\end{block}
 \end{frame}
 %=======
+\begin{frame}{Stochastic differential equation (SDE)}
+	We could sample from the model if we have $\nabla_{\bx}\log p(\bx| \btheta)$.
+	\begin{block}{Fisher divergence}
+		\[
+			D_F(\pi, p) = \bbE_{\pi}\bigl\| \nabla_{\bx}\log p(\bx| \btheta) - \nabla_\bx \log \pi(\bx) \bigr\|^2_2 \rightarrow \min_{\btheta}
+		\]
+	\end{block}
+	\begin{block}{Score function}
+		\[
+			\bs(\bx, \btheta) = \nabla_{\bx}\log p(\bx| \btheta)
+		\]
+	\end{block}
+	\textbf{Problem:} we do not know $\nabla_\bx \log \pi(\bx)$.
+\end{frame}
+%=======
+\begin{frame}{Stochastic differential equation (SDE)}
+	\begin{block}{Theorem}
+		\begin{align*}
+			\btheta^* &= \argmin_{\btheta} \bbE_{\pi}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx) \bigr\|^2_2 \\ &= \argmin_{\btheta} \bbE_{\pi}\Bigr[ \| \bs(\bx, \btheta) \|^2 + \text{trace}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr]
+		\end{align*}
+		Here $\nabla_{\bx} \bs(\bx, \btheta) = \nabla_{\bx}^2 \log p(\bx | \btheta)$.
+	\end{block}
+	\begin{block}{Proof (only for 1D)}
+	\end{block}
+	\myfootnotewithlink{https://jmlr.org/papers/volume6/hyvarinen05a/old.pdf}{Hyvarinen A. Estimation of non-normalized statistical models by score matching, 2005} 
+\end{frame}
 \begin{frame}{Summary}
 	\begin{itemize}
 		\item Adjoint method generalizes backpropagation procedure and allows to train Neural ODE solving ODE for adjoint function back in time.
