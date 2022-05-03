@@ -111,7 +111,6 @@
 	To train this flow we have to get the way to calculate the density~$p(\bz(t))$.
 	\begin{block}{Theorem (special case of Kolmogorov-Fokker-Planck)}
 		if function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$, then
-		\vspace{-0.3cm}
 		\[
 			\frac{d \log p(\bz(t))}{d t} = - \text{tr} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
 		\]
@@ -129,9 +128,9 @@
 \end{frame}
 %=======
 \begin{frame}{Continuous Normalizing Flows}
-	\vspace{-0.6cm}
+	\vspace{-0.5cm}
 	\begin{block}{Forward transform + log-density}
-		\vspace{-0.8cm}
+		\vspace{-0.5cm}
 		\[
 			\begin{bmatrix}
 				\bx \\
@@ -148,11 +147,11 @@
 				- \text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right) 
 			\end{bmatrix} dt.
 		\]
-		\vspace{-0.6cm}
+		\vspace{-0.4cm}
 	\end{block}
 	\begin{itemize}
-		\item Discrete-in-time normalizing flows need invertible $f$. It costs $O(d^3)$ to get determinant of the Jacobian.
-		\item Continuous-in-time flows require only smoothness of $f$. It costs $O(d^2)$ to get the trace of the Jacobian.
+		\item Discrete-in-time normalizing flows need invertible $f$. It costs $O(m^3)$ to get determinant of the Jacobian.
+		\item Continuous-in-time flows require only smoothness of $f$. It costs $O(m^2)$ to get the trace of the Jacobian.
 	\end{itemize}
 	\vspace{-0.5cm}
 	\begin{minipage}[t]{0.4\columnwidth}
@@ -167,6 +166,30 @@
 			  \includegraphics[width=0.8\linewidth]{figs/ffjord.png}
 		\end{figure}
 	\end{minipage}
+	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
+\end{frame}
+%=======
+\begin{frame}{Continuous Normalizing Flows}
+	\vspace{0.2cm}
+	\begin{itemize}
+		\item $\text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right)$ costs $O(m^2)$, or approximately the same cost as m
+		evaluations of $f$, since each entry of the diagonal of the Jacobian requires computing a separate derivative of $f$. 
+		\item Vector-Jacobian products $\bv^T \frac{\partial f}{\partial \bz}$ can be computed for approximately the same cost as evaluating $f$.
+	\end{itemize}
+	It is possible to reduce cost from $O(m^2)$ to $O(m)$!
+	\begin{block}{Hutchinson's trace estimator}
+		\vspace{-0.3cm}
+		\[
+		    \text{tr}(A) = \mathbb{E}_{p(\bepsilon)} \left[ \bepsilon^T A \bepsilon \right]; \quad \mathbb{E} [\bepsilon] = 0; \quad \text{Cov} (\bepsilon) = I.
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{FFJORD density estimation}
+		\vspace{-0.8cm}
+		\begin{multline*}
+		    \log p(\bz(t_1)) = \log p(\bz(t_0)) - \int_{t_0}^{t_1} \text{tr}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt = \\ = \log p(\bz(t_0)) - \mathbb{E}_{p(\bepsilon)} \int_{t_0}^{t_1} \left[ \bepsilon^T \frac{\partial f}{\partial \bz} \bepsilon \right] dt.
+		\end{multline*}
+	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
 \end{frame}
 %=======
@@ -253,22 +276,19 @@
 	 \item $g(t)$ is the \textbf{diffusion} coefficient of $\bx(t)$.
 	 \item If $g(t) = 0$ we get standard ODE.
 	\end{itemize}
+	 How to get distribution $p(\bx | t)$ for $\bx(t)$?
 \end{frame}
 %=======
 \begin{frame}{Stochastic differential equation (SDE)}
 	\[
 		d\bx = \mathbf{f}(\bx, t) dt + g(t) d \bw
 	\]
- 	How to get distribution $p(\bx | t)$ for $\bx(t)$?
 	\begin{block}{Theorem (Kolmogorov-Fokker-Planck)}
 		Evolution of the distribution $p(\bx | t)$ is given by the folliwing ODE:
 		\[
 			\frac{\partial p(\bx|t)}{\partial t} = - \frac{\partial}{\partial \bx} \bigl( \mathbf{f}(\bx, t) p(\bx)\bigr) + \frac{1}{2} g^2(t) \frac{\partial^2 p(\bx | t)}{\partial \bx^2} 
 		\]
 	\end{block}
-\end{frame}
-%=======
-\begin{frame}{Stochastic differential equation (SDE)}
 	\begin{block}{Langevin SDE}
 		Let consider special case of SDE with $g(t) = 1$ and $\mathbf{f}(\bx, t) = \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx | t)$.
 		\[
@@ -297,7 +317,8 @@
 		\]
 		will comes from $p(\bx | \btheta)$.
 	\end{block}
-\end{frame}
+	The desity $p(\bx | \btheta)$ is a \textbf{stationary} distribution for this SDE.
+	\end{frame}
 %=======
 \section{Score matching}
 %=======
