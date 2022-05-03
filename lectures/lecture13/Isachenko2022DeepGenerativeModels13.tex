@@ -16,6 +16,147 @@
 	\tableofcontents
 \end{frame}
 %=======
+\begin{frame}{Recap of previous lecture}
+	\begin{block}{Discrete VAE latents}
+		\begin{itemize}
+			\item Define dictionary (word book) space $\{\be_k\}_{k=1}^K$, where $\be_k \in \bbR^C$, $K$ is the size of the dictionary.
+			\item Our variational posterior $q(c | \bx, \bphi) = \text{Categorical}(\bpi(\bx, \bphi))$ (encoder) outputs discrete probabilities vector.
+			\item We sample $c^*$ from $q(c | \bx, \bphi)$ (reparametrization trick analogue).
+			\item Our generative distribution $p(\bx | \be_{c^*}, \btheta)$ (decoder).
+		\end{itemize}
+	\end{block}
+	\begin{block}{ELBO}
+		\vspace{-0.5cm}
+		\[
+			\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | c, \btheta) - KL(q(c| \bx, \bphi) || p(c)) \rightarrow \max_{\bphi, \btheta}.
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{KL term}
+		\vspace{-0.4cm}
+		\[
+			KL(q(c| \bx, \bphi) || p(c)) = - H(q(c | \bx, \bphi)) + \log K. 
+		\]
+	\end{block}
+\end{frame}
+%=======
+\begin{frame}{Recap of previous lecture}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{figs/vqvae}
+	\end{figure}
+	\vspace{-0.3cm}
+	\begin{block}{Deterministic variational posterior}
+		\vspace{-0.8cm}
+		\[
+			q(c_{ij} = k^* | \bx, \bphi) = \begin{cases}
+				1 , \quad \text{for } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \|; \\
+				0, \quad \text{otherwise}.
+			\end{cases}
+		\]
+		\vspace{-0.8cm}
+	\end{block}
+	\begin{block}{ELBO}
+		\vspace{-0.6cm}
+		\[
+			\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) - \log K =  \log p(\bx | \bz_q, \btheta) - \log K.
+		\]
+		\vspace{-0.6cm}
+	\end{block}
+	\begin{block}{Straight-through gradient estimation}
+		\vspace{-0.6cm}
+		\[
+			\frac{\partial \log p(\bx | \bz_q , \btheta)}{\partial \bphi} = \frac{\partial \log p(\bx | \bz_q, \btheta)}{\partial \bz_q} \cdot {\color{red}\frac{\partial \bz_q}{\partial \bphi}} \approx \frac{\partial \log p(\bx | \bz_q, \btheta)}{\partial \bz_q} \cdot \frac{\partial \bz_e}{\partial \bphi}
+		\]
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1711.00937}{Oord A., Vinyals O., Kavukcuoglu K. Neural Discrete Representation Learning, 2017} 
+\end{frame}
+%=======
+\begin{frame}{Recap of previous lecture}
+	\vspace{-0.4cm}
+	\begin{block}{Gumbel-max trick}
+		Let $g_k \sim \text{Gumbel}(0, 1)$ for $k = 1, \dots, K$. Then
+		\vspace{-0.3cm}
+		\[
+			c = \argmax_k [\log \pi_k + g_k]
+		\]
+		\vspace{-0.6cm} \\
+		has a categorical distribution $c \sim \text{Categorical}(\bpi)$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{block}{Gumbel-softmax relaxation}
+		Concrete distribution = continuous + discrete
+		\vspace{-0.2cm}
+		\[
+			\hat{c}_k = \frac{\exp \left(\frac{\log q(k | \bx, \bphi) + g_k}{\tau}\right)}{\sum_{j=1}^K \exp \left(\frac{\log q(j | \bx, \bphi) + g_j}{\tau}\right)}, \quad k = 1, \dots, K.
+		\]
+		\vspace{-0.7cm}
+ 	\end{block}
+	\begin{block}{Reparametrization trick}
+		\vspace{-0.4cm}
+		\[
+			\nabla_{\bphi} \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} \log p(\bx | \bz , \btheta),
+		\]
+		where $\bz = \sum_{k=1}^K\hat{c}_k \be_k$ (all operations are differentiable now).
+	\end{block}
+ 	\vspace{-0.2cm}
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
+\begin{frame}{Recap of previous lecture}
+	Consider Ordinary Differential Equation    
+	\begin{align*}
+	    \frac{d \bz(t)}{dt} &= f(\bz(t), \btheta); \quad \text{with initial condition }\bz(t_0) = \bz_0. \\
+	    \bz(t_1) &= \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 = \text{ODESolve}(\bz(t_0), f, t_0,t_1, \btheta).
+	\end{align*}
+	\vspace{-0.4cm}
+	\begin{block}{Euler update step}
+		\vspace{-0.6cm}
+		\[
+		    \frac{\bz(t + \Delta t) - \bz(t)}{\Delta t} = f(\bz(t), \btheta) \quad \Rightarrow \quad \bz(t + \Delta t) = \bz(t) + \Delta t \cdot f(\bz(t), \btheta).
+		\]
+		\vspace{-0.7cm}
+	\end{block}
+	\begin{block}{Residual block}
+		\vspace{-0.4cm}
+		\[
+			\bz_{t + 1} = \bz_t + f(\bz_t, \btheta)
+		\]
+		It is equavalent to Euler update step for solving ODE with $\Delta t = 1$!
+	\end{block}
+	In the limit of adding more layers and taking smaller steps we get: 
+	\[
+	    \frac{d \bz(t)}{dt} = f(\bz(t), t, \btheta); \quad \bz(t_0) = \bx; \quad \bz(t_1) = \by.
+	\]
+
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
+\end{frame}
+%=======
+
+\begin{frame}{Neural ODE}
+	\begin{block}{Forward pass (loss function)}
+		\vspace{-0.8cm}
+		\begin{align*}
+			L(\by) = L(\bz(t_1)) &= L\left( \bz(t_0) + \int_{t_0}^{t_1} f(\bz(t), \btheta) dt \right) \\ &= L\bigl(\text{ODESolve}(\bz(t_0), f, t_0,t_1, \btheta) \bigr)
+		\end{align*}
+	\vspace{-0.5cm}
+	\end{block}
+	\textbf{Note:} ODESolve could be any method (Euler step, Runge-Kutta methods).
+	\begin{block}{Backward pass (gradients computation)}
+		For fitting parameters we need gradients:
+		\[
+			\ba_{\bz}(t) = \frac{\partial L(\by)}{\partial \bz(t)}; \quad \ba_{\btheta}(t) = \frac{\partial L(\by)}{\partial \btheta(t)}.
+		\]
+		In theory of optimal control these functions called \textbf{adjoint} functions. 
+		They show how the gradient of the loss depends on the hidden state~$\bz(t)$ and parameters $\btheta$.
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}     
+\end{frame}
+%=======
 \section{Neural ODE: finish}
 %=======
 \begin{frame}{Neural ODE}
@@ -108,11 +249,11 @@
 \end{frame}
 %=======
 \begin{frame}{Continuous Normalizing Flows}
-	To train this flow we have to get the way to calculate the density~$p(\bz(t))$.
+	To train this flow we have to get the way to calculate the density~$p(\bz(t), t)$.
 	\begin{block}{Theorem (special case of Kolmogorov-Fokker-Planck)}
 		if function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$, then
 		\[
-			\frac{d \log p(\bz(t))}{d t} = - \text{tr} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
+			\frac{d \log p(\bz(t), t)}{d t} = - \text{tr} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
 		\]
 		\vspace{-0.5cm}
 	\end{block}
@@ -172,15 +313,15 @@
 \begin{frame}{Continuous Normalizing Flows}
 	\vspace{0.2cm}
 	\begin{itemize}
-		\item $\text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right)$ costs $O(m^2)$, or approximately the same cost as m
-		evaluations of $f$, since each entry of the diagonal of the Jacobian requires computing a separate derivative of $f$. 
+		\item $\text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right)$ costs $O(m^2)$ ($m$
+		evaluations of $f$), since we have to compute a derivative for each diagonal element. 
 		\item Vector-Jacobian products $\bv^T \frac{\partial f}{\partial \bz}$ can be computed for approximately the same cost as evaluating $f$.
 	\end{itemize}
 	It is possible to reduce cost from $O(m^2)$ to $O(m)$!
 	\begin{block}{Hutchinson's trace estimator}
 		\vspace{-0.3cm}
 		\[
-		    \text{tr}(A) = \mathbb{E}_{p(\bepsilon)} \left[ \bepsilon^T A \bepsilon \right]; \quad \mathbb{E} [\bepsilon] = 0; \quad \text{Cov} (\bepsilon) = I.
+		    \text{tr}(A) = \text{tr}\left(A\mathbb{E}_{p(\bepsilon)} \left[ \bepsilon \bepsilon^T \right]\right) = \mathbb{E}_{p(\bepsilon)} \left[ \bepsilon^T A \bepsilon \right]; \quad \mathbb{E} [\bepsilon] = 0; \quad \text{Cov} (\bepsilon) = I.
 		\]
 		\vspace{-0.5cm}
 	\end{block}
@@ -267,49 +408,55 @@
 	\[
 		d\bx = \mathbf{f}(\bx, t) dt + g(t) d \bw
 	\]
+	\vspace{-0.6cm}
 	\begin{itemize}
-	\item $\bw(t)$ is the standard Wiener process (Brownian motion)
-	\[		
-		\bw(t) - \bw(s) \sim \cN(0, t - s), \quad d \bw = \epsilon \cdot \sqrt{dt}, \, \text{where } \epsilon \sim \cN(0, 1).
-	\]
-	 \item $\mathbf{f}(\bx, t)$ is the \textbf{drift} function of $\bx(t)$.
-	 \item $g(t)$ is the \textbf{diffusion} coefficient of $\bx(t)$.
-	 \item If $g(t) = 0$ we get standard ODE.
+		\item $\bw(t)$ is the standard Wiener process (Brownian motion)
+		\[		
+			\bw(t) - \bw(s) \sim \cN(0, t - s), \quad d \bw = \epsilon \cdot \sqrt{dt}, \, \text{where } \epsilon \sim \cN(0, 1).
+		\]
+		 \item $\mathbf{f}(\bx, t)$ is the \textbf{drift} function of $\bx(t)$.
+		 \item $g(t)$ is the \textbf{diffusion} coefficient of $\bx(t)$.
+		 \item If $g(t) = 0$ we get standard ODE.
 	\end{itemize}
-	 How to get distribution $p(\bx | t)$ for $\bx(t)$?
+	 How to get distribution $p(\bx, t)$ for $\bx(t)$?
+ 	\begin{block}{Theorem (Kolmogorov-Fokker-Planck)}
+ 		Evolution of the distribution $p(\bx | t)$ is given by the folliwing ODE:
+ 		\vspace{-0.2cm}
+ 		\[
+ 			\frac{\partial p(\bx, t)}{\partial t} = \text{tr}\left(- \frac{\partial}{\partial \bx} \bigl[ \mathbf{f}(\bx, t) p(\bx, t)\bigr] + \frac{1}{2} g^2(t) \frac{\partial^2 p(\bx, t)}{\partial \bx^2} \right)
+ 		\]
+ 		\vspace{-0.6cm}
+ 	\end{block}
 \end{frame}
 %=======
 \begin{frame}{Stochastic differential equation (SDE)}
 	\[
-		d\bx = \mathbf{f}(\bx, t) dt + g(t) d \bw
+		d\bx = {\color{violet}\mathbf{f}(\bx, t)} dt + {\color{cyan}g(t)} d \bw
 	\]
-	\begin{block}{Theorem (Kolmogorov-Fokker-Planck)}
-		Evolution of the distribution $p(\bx | t)$ is given by the folliwing ODE:
+	\vspace{-0.4cm}
+	\begin{block}{Langevin SDE (special case)}
+		\vspace{-0.3cm}
 		\[
-			\frac{\partial p(\bx|t)}{\partial t} = - \frac{\partial}{\partial \bx} \bigl( \mathbf{f}(\bx, t) p(\bx)\bigr) + \frac{1}{2} g^2(t) \frac{\partial^2 p(\bx | t)}{\partial \bx^2} 
+			d \bx = {\color{violet}\frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx, t)} d t + {\color{cyan} 1 }d \bw
 		\]
+		\vspace{-0.6cm}
 	\end{block}
-	\begin{block}{Langevin SDE}
-		Let consider special case of SDE with $g(t) = 1$ and $\mathbf{f}(\bx, t) = \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx | t)$.
+	\begin{block}{Langevin discrete dynamic}
+		\vspace{-0.3cm}
 		\[
-			d \bx = \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx | t) d t + d \bw
+			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx, t) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
 		\]
-		Let apply KFP theorem.
-		\begin{multline*}
-			\frac{\partial p(\bx|t)}{\partial t} =  - \frac{\partial}{\partial \bx}\left( p(\bx | t) \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx | t) \right)  + \frac{1}{2} \frac{\partial^2 p(\bx | t)}{\partial \bx^2} = \\
-			= - \frac{\partial}{\partial \bx}\left( \frac{1}{2} \frac{\partial}{\partial \bx} p(\bx | t) \right)  + \frac{1}{2} \frac{\partial^2 p(\bx | t)}{\partial \bx^2} = 0
-		\end{multline*}
-		The density is $p(\bx | t) = \text{const}$.
+		\vspace{-0.3cm}
 	\end{block}
+	Let apply KFP theorem.
+	\begin{multline*}
+		\frac{\partial p(\bx, t)}{\partial t} =  \text{tr} \left(- \frac{\partial}{\partial \bx}\left[ p(\bx, t) \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx, t) \right]  + \frac{1}{2} \frac{\partial^2 p(\bx, t)}{\partial \bx^2} \right) = \\
+		= \text{tr} \left(- \frac{\partial}{\partial \bx}\left[ \frac{1}{2} \frac{\partial}{\partial \bx} p(\bx, t) \right]  + \frac{1}{2} \frac{\partial^2 p(\bx, t)}{\partial \bx^2} \right) = 0
+	\end{multline*}
+	The density is $p(\bx, t) = \text{const}$.
 \end{frame}
 %=======
 \begin{frame}{Stochastic differential equation (SDE)}
-	\begin{block}{Langevin dynamic}
-		Let discretize the Langevin SDE
-		\[
-			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx | t) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
-		\]
-	\end{block}
 	\begin{block}{Statement}
 		Let $\bx_0$ be a random vector. Then under mild regularity conditions for small enough $\eta$ samples from the following dynamics
 		\[
@@ -317,7 +464,12 @@
 		\]
 		will comes from $p(\bx | \btheta)$.
 	\end{block}
-	The desity $p(\bx | \btheta)$ is a \textbf{stationary} distribution for this SDE.
+	The density $p(\bx | \btheta)$ is a \textbf{stationary} distribution for this SDE.
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.3\linewidth]{figs/langevin_dynamic}
+	\end{figure}
+	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y., Generative Modeling by Estimating Gradients of the Data Distribution, blogpost, 2021} 
 	\end{frame}
 %=======
 \section{Score matching}
@@ -374,6 +526,13 @@
 		}
 	\end{block}
 	\myfootnotewithlink{https://jmlr.org/papers/volume6/hyvarinen05a/old.pdf}{Hyvarinen A. Estimation of non-normalized statistical models by score matching, 2005} 
+\end{frame}
+\begin{frame}{Score matching}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{figs/smld}
+	\end{figure}
+	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y., Generative Modeling by Estimating Gradients of the Data Distribution, blogpost, 2021} 
 \end{frame}
 \begin{frame}{Summary}
 	\begin{itemize}
