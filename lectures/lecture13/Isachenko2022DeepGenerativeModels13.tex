@@ -230,7 +230,7 @@
 		  \]
 		\vspace{-0.7cm}
 	\end{block}
-	\begin{block}{Continuous-in-time dynamic transformation}
+	\begin{block}{Continuous-in-time dynamics}
 		\vspace{-0.2cm}
 		\[
 			\frac{d\bz(t)}{dt} = f(\bz(t), \btheta).
@@ -263,7 +263,8 @@
 		\[
 			\log p(\bx | \btheta) = \log p(\bz) - \int_{t_0}^{t_1} \text{tr}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt.
 		\]
-		\textbf{Adjoint} method is used to integral evaluation.
+		Here $p(\bx | \btheta) = p(\bz(t_1), t_1)$, $p(\bz) = p(\bz(t_0), t_0)$. \\
+		\textbf{Adjoint} method is used for getting the derivatives.
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
 \end{frame}
@@ -315,20 +316,20 @@
 	\begin{itemize}
 		\item $\text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right)$ costs $O(m^2)$ ($m$
 		evaluations of $f$), since we have to compute a derivative for each diagonal element. 
-		\item Vector-Jacobian products $\bv^T \frac{\partial f}{\partial \bz}$ can be computed for approximately the same cost as evaluating $f$.
+		\item Vector-Jacobian products ${\color{violet}\bv^T \frac{\partial f}{\partial \bz}}$ can be computed for approximately the same cost as evaluating $f$.
 	\end{itemize}
 	It is possible to reduce cost from $O(m^2)$ to $O(m)$!
 	\begin{block}{Hutchinson's trace estimator}
 		\vspace{-0.3cm}
 		\[
-		    \text{tr}(A) = \text{tr}\left(A\mathbb{E}_{p(\bepsilon)} \left[ \bepsilon \bepsilon^T \right]\right) = \mathbb{E}_{p(\bepsilon)} \left[ \bepsilon^T A \bepsilon \right]; \quad \mathbb{E} [\bepsilon] = 0; \quad \text{Cov} (\bepsilon) = I.
+		    \text{tr}(A) = \text{tr}\left(A\mathbb{E}_{p(\bepsilon)} \left[ \bepsilon \bepsilon^T \right]\right) = \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet} \bepsilon^T A} \bepsilon  \right]; \quad \mathbb{E} [\bepsilon] = 0; \quad \text{Cov} (\bepsilon) = I.
 		\]
 		\vspace{-0.5cm}
 	\end{block}
 	\begin{block}{FFJORD density estimation}
 		\vspace{-0.8cm}
 		\begin{multline*}
-		    \log p(\bz(t_1)) = \log p(\bz(t_0)) - \int_{t_0}^{t_1} \text{tr}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt = \\ = \log p(\bz(t_0)) - \mathbb{E}_{p(\bepsilon)} \int_{t_0}^{t_1} \left[ \bepsilon^T \frac{\partial f}{\partial \bz} \bepsilon \right] dt.
+		    \log p(\bz(t_1)) = \log p(\bz(t_0)) - \int_{t_0}^{t_1} \text{tr}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt = \\ = \log p(\bz(t_0)) - \mathbb{E}_{p(\bepsilon)} \int_{t_0}^{t_1} \left[ {\color{violet}\bepsilon^T \frac{\partial f}{\partial \bz}} \bepsilon \right] dt.
 		\end{multline*}
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
@@ -453,23 +454,28 @@
 		\frac{\partial p(\bx, t)}{\partial t} =  \text{tr} \left(- \frac{\partial}{\partial \bx}\left[ p(\bx, t) \frac{1}{2} \frac{\partial}{\partial \bx} \log p(\bx, t) \right]  + \frac{1}{2} \frac{\partial^2 p(\bx, t)}{\partial \bx^2} \right) = \\
 		= \text{tr} \left(- \frac{\partial}{\partial \bx}\left[ \frac{1}{2} \frac{\partial}{\partial \bx} p(\bx, t) \right]  + \frac{1}{2} \frac{\partial^2 p(\bx, t)}{\partial \bx^2} \right) = 0
 	\end{multline*}
-	The density is $p(\bx, t) = \text{const}$.
+	The density $p(\bx, t) = \text{const}$.
 \end{frame}
 %=======
 \begin{frame}{Stochastic differential equation (SDE)}
 	\begin{block}{Statement}
-		Let $\bx_0$ be a random vector. Then under mild regularity conditions for small enough $\eta$ samples from the following dynamics
+		Let $\bx_0$ be a random vector. Then samples from the following dynamics
 		\[
 			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \nabla_{\bx_t} \log p(\bx_t | \btheta) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
 		\]
-		will comes from $p(\bx | \btheta)$.
+		will come from $p(\bx | \btheta)$ under mild regularity conditions for small enough $\eta$ and large enough $t$.
 	\end{block}
-	The density $p(\bx | \btheta)$ is a \textbf{stationary} distribution for this SDE.
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.3\linewidth]{figs/langevin_dynamic}
-	\end{figure}
-	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y., Generative Modeling by Estimating Gradients of the Data Distribution, blogpost, 2021} 
+	\begin{minipage}{0.6\linewidth}
+		The density $p(\bx | \btheta)$ is a \textbf{stationary} distribution for this SDE.
+	\end{minipage}%
+	\begin{minipage}{0.35\linewidth}
+		\vspace{-0.2cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\linewidth]{figs/langevin_dynamic}
+		\end{figure}
+	\end{minipage}
+	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021} 
 	\end{frame}
 %=======
 \section{Score matching}
@@ -500,6 +506,7 @@
 	Here $\nabla_{\bx} \bs(\bx, \btheta) = \nabla_{\bx}^2 \log p(\bx | \btheta)$ is a Hessian matrix.
 	\myfootnotewithlink{https://jmlr.org/papers/volume6/hyvarinen05a/old.pdf}{Hyvarinen A. Estimation of non-normalized statistical models by score matching, 2005} 
 \end{frame}
+%=======
 \begin{frame}{Score matching}
 	\begin{block}{Theorem}
 		\vspace{-0.6cm}
@@ -527,13 +534,67 @@
 	\end{block}
 	\myfootnotewithlink{https://jmlr.org/papers/volume6/hyvarinen05a/old.pdf}{Hyvarinen A. Estimation of non-normalized statistical models by score matching, 2005} 
 \end{frame}
+%=======
 \begin{frame}{Score matching}
+	\vspace{-0.3cm}
 	\begin{figure}
 		\centering
-		\includegraphics[width=\linewidth]{figs/smld}
+		\includegraphics[width=0.8\linewidth]{figs/smld}
 	\end{figure}
-	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y., Generative Modeling by Estimating Gradients of the Data Distribution, blogpost, 2021} 
+	\vspace{-0.4cm}
+	\begin{block}{Theorem}
+		\vspace{-0.6cm}
+		\[
+			\frac{1}{2} \bbE_{\pi}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx) \bigr\|^2_2 = \bbE_{\pi}\Bigr[ \frac{1}{2}\| \bs(\bx, \btheta) \|_2^2 + \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] + \text{const}
+		\]
+		\vspace{-0.4cm}
+	\end{block}
+	\begin{enumerate}
+	    \item 
+	    \item 
+	\end{enumerate}
+	\myfootnote{\href{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021} \\ \href{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019}}
 \end{frame}
+%=======
+\begin{frame}{Score matching}
+	\vspace{-0.3cm}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\linewidth]{figs/smld}
+	\end{figure}
+	\vspace{-0.4cm}
+	\begin{block}{Score function estimation}
+		\vspace{-0.3cm}
+		\[
+			\bbE_{\pi}\Bigr[ \frac{1}{2}\| \bs(\bx, \btheta) \|_2^2 + \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] \rightarrow \min_{\btheta}
+		\]
+		\vspace{-0.6cm}
+	\end{block}
+	\begin{block}{Sliced score matching (Hutchinson's trace estimation)}
+		\vspace{-0.6cm}
+		\[
+			\bbE_{\pi}\Bigr[ \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] = \bbE_{\pi} \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet}\bepsilon^T \nabla_{\bx} \bs(\bx, \btheta)} \bepsilon \right]; \quad \mathbb{E} [\bepsilon] = 0; \,\, \text{Cov} (\bepsilon) = I.
+		\]
+	\end{block}
+	\myfootnote{\href{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021} \\ \href{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019}}
+\end{frame}
+%=======
+\begin{frame}{Score matching}
+	\[
+		\pi(\bx | \sigma) = \int \pi(\bx') p(\bx | \bx', \sigma) d\bx', \quad \text{where } p(\bx | \bx', \sigma) = \cN(\bx | \bx', \sigma^2 \bI)
+	\]
+	\begin{block}{Theorem (denoising score matching)}
+		\begin{multline*}
+			\bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 = \\ = \bbE_{\pi(\bx')} \bbE_{p(\bx | \bx', \sigma)}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log p(\bx | \bx', \sigma) \bigr\|^2_2	
+		\end{multline*}
+	\end{block}
+	\begin{block}{Proof}
+		\begin{multline*}
+			\bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 = \\ = \bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta) \bigr\|_2^2 - 2  \bbE_{\pi(\bx | \sigma)} \left[\bs(\bx, \btheta)^T \nabla_\bx \log \pi(\bx | \sigma) \right]+ \text{const} = 
+		\end{multline*}
+	\end{block}
+\end{frame}
+%=======
 \begin{frame}{Summary}
 	\begin{itemize}
 		\item Adjoint method generalizes backpropagation procedure and allows to train Neural ODE solving ODE for adjoint function back in time.
