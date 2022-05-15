@@ -525,7 +525,7 @@
 		\begin{align*}
 			{\color{teal}\bbE_{\pi} [{\color{violet}s(x) } \nabla_x \log \pi(x) ] } &= \int {\color{olive}\pi(x) {\color{violet}\nabla_x \log p(x)} \nabla_x \log \pi(x)} d x \\ 
 			&= \int {\color{violet}\nabla_x \log p(x) } {\color{olive}\nabla_x \pi(x) } dx = \Bigl.\pi(x) \nabla_x \log p(x) \Bigr|_{-\infty}^{+\infty} \\
-			&= - \int \nabla^2_x \log p(x)  \pi(x) dx =- \bbE_{\pi} \nabla^2_x \log p(x)
+			&- \int \nabla^2_x \log p(x)  \pi(x) dx =- \bbE_{\pi} \nabla^2_x \log p(x)
 		\end{align*}
 		\[
 			\frac{1}{2} \bbE_{\pi}\bigl\| s(x) - \nabla_x \log \pi(x) \bigr\|^2_2 = \frac{1}{2} \bbE_{\pi} \Bigr[s(x)^2 + \nabla_x s(x) \Bigl]+ \text{const}.
@@ -541,7 +541,7 @@
 		\centering
 		\includegraphics[width=0.8\linewidth]{figs/smld}
 	\end{figure}
-	\vspace{-0.4cm}
+	\vspace{-0.6cm}
 	\begin{block}{Theorem}
 		\vspace{-0.6cm}
 		\[
@@ -550,49 +550,49 @@
 		\vspace{-0.4cm}
 	\end{block}
 	\begin{enumerate}
-	    \item 
-	    \item 
+	    \item The left hand side is intractable due to unknown $\pi(\bx)$ -- \textbf{denoising score matching}. 
+	    \item The right hand side is complex due to Hessian matrix -- \textbf{sliced score matching}.
 	\end{enumerate}
-	\myfootnote{\href{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021} \\ \href{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019}}
+	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021}
 \end{frame}
 %=======
 \begin{frame}{Score matching}
-	\vspace{-0.3cm}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.8\linewidth]{figs/smld}
-	\end{figure}
-	\vspace{-0.4cm}
-	\begin{block}{Score function estimation}
+	\begin{block}{Sliced score matching (Hutchinson's trace estimation)}
 		\vspace{-0.3cm}
 		\[
-			\bbE_{\pi}\Bigr[ \frac{1}{2}\| \bs(\bx, \btheta) \|_2^2 + \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] \rightarrow \min_{\btheta}
+			\bbE_{\pi}\Bigr[ \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] = \bbE_{\pi(\bx)} \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet}\bepsilon^T \nabla_{\bx} \bs(\bx, \btheta)} \bepsilon \right],
 		\]
-		\vspace{-0.6cm}
+		where $\mathbb{E} [\bepsilon] = 0$ and $\text{Cov} (\bepsilon) = I$.
 	\end{block}
-	\begin{block}{Sliced score matching (Hutchinson's trace estimation)}
-		\vspace{-0.6cm}
+	\begin{block}{Denoising score mathing}
+		Let perturb original data by normal noise $p(\bx | \bx', \sigma) = \cN(\bx | \bx', \sigma^2 \bI)$
+		\vspace{-0.3cm}
 		\[
-			\bbE_{\pi}\Bigr[ \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] = \bbE_{\pi} \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet}\bepsilon^T \nabla_{\bx} \bs(\bx, \btheta)} \bepsilon \right]; \quad \mathbb{E} [\bepsilon] = 0; \,\, \text{Cov} (\bepsilon) = I.
+			\pi(\bx | \sigma) = \int \pi(\bx') p(\bx | \bx', \sigma) d\bx'.
 		\]
+		\vspace{-0.6cm} \\
+		Then the solution of 
+		\[
+			\frac{1}{2} \bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta, \sigma) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 \rightarrow \min_{\btheta}
+		\]
+		satisfies $\bs(\bx, \btheta, \sigma) = \bs(\bx, \btheta, 0) = \bs(\bx, \btheta)$ using small enough noise scale $\sigma$.
 	\end{block}
-	\myfootnote{\href{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021} \\ \href{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019}}
+	\myfootnotewithlink{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019}
 \end{frame}
 %=======
-\begin{frame}{Score matching}
-	\[
-		\pi(\bx | \sigma) = \int \pi(\bx') p(\bx | \bx', \sigma) d\bx', \quad \text{where } p(\bx | \bx', \sigma) = \cN(\bx | \bx', \sigma^2 \bI)
-	\]
-	\begin{block}{Theorem (denoising score matching)}
+\begin{frame}{Denoising score matching}
+	\begin{block}{Theorem}
+		\vspace{-0.8cm}
 		\begin{multline*}
-			\bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 = \\ = \bbE_{\pi(\bx')} \bbE_{p(\bx | \bx', \sigma)}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log p(\bx | \bx', \sigma) \bigr\|^2_2	
+			\bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta, \sigma) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 = \\ = \bbE_{\pi(\bx')} \bbE_{p(\bx | \bx', \sigma)}\bigl\| \bs(\bx, \btheta, \sigma) - \nabla_\bx \log p(\bx | \bx', \sigma) \bigr\|^2_2	
 		\end{multline*}
+		\vspace{-0.8cm}
 	\end{block}
-	\begin{block}{Proof}
-		\begin{multline*}
-			\bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 = \\ = \bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta) \bigr\|_2^2 - 2  \bbE_{\pi(\bx | \sigma)} \left[\bs(\bx, \btheta)^T \nabla_\bx \log \pi(\bx | \sigma) \right]+ \text{const} = 
-		\end{multline*}
-	\end{block}
+	\begin{figure}
+		\includegraphics[width=0.75\linewidth]{figs/pitfalls}
+		\includegraphics[width=0.75\linewidth]{figs/single_noise}
+	\end{figure}
+	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021}
 \end{frame}
 %=======
 \begin{frame}{Summary}
