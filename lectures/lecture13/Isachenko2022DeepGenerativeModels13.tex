@@ -316,7 +316,7 @@
 	\begin{itemize}
 		\item $\text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right)$ costs $O(m^2)$ ($m$
 		evaluations of $f$), since we have to compute a derivative for each diagonal element. 
-		\item Vector-Jacobian products ${\color{violet}\bv^T \frac{\partial f}{\partial \bz}}$ can be computed for approximately the same cost as evaluating $f$.
+		\item Jacobian vector products ${\color{violet}\bv^T \frac{\partial f}{\partial \bz}}$ can be computed for approximately the same cost as evaluating $f$.
 	\end{itemize}
 	It is possible to reduce cost from $O(m^2)$ to $O(m)$!
 	\begin{block}{Hutchinson's trace estimator}
@@ -402,6 +402,7 @@
 			\nabla_{\bx} \log p(\bx | \btheta) = \nabla_{\bx} \log \hat{p}(\bx | \btheta) - \nabla_{\bx} \log Z_{\btheta} = \nabla_{\bx} \log \hat{p}(\bx | \btheta)
 		\]
 	\end{block}
+	\myfootnotewithlink{https://www.stats.ox.ac.uk/~teh/research/compstats/WelTeh2011a.pdf}{Welling M. Bayesian Learning via Stochastic Gradient Langevin Dynamics, 2011}
 \end{frame}
 %=======
 \begin{frame}{Stochastic differential equation (SDE)}
@@ -494,10 +495,12 @@
 		\[
 			\bs(\bx, \btheta) = \nabla_{\bx}\log p(\bx| \btheta)
 		\]
+		\vspace{-0.3cm}
 	\end{block}
 	\textbf{Problem:} we do not know $\nabla_\bx \log \pi(\bx)$.
 	\begin{block}{Theorem}
-		\vspace{-0.6cm}
+		Under some regularity conditions, it holds
+		\vspace{-0.2cm}
 		\[
 			\frac{1}{2} \bbE_{\pi}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx) \bigr\|^2_2 = \bbE_{\pi}\Bigr[ \frac{1}{2}\| \bs(\bx, \btheta) \|_2^2 + \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] + \text{const}
 		\]
@@ -557,6 +560,7 @@
 \end{frame}
 %=======
 \begin{frame}{Score matching}
+	\vspace{-0.3cm}
 	\begin{block}{Sliced score matching (Hutchinson's trace estimation)}
 		\vspace{-0.3cm}
 		\[
@@ -564,6 +568,7 @@
 		\]
 		where $\mathbb{E} [\bepsilon] = 0$ and $\text{Cov} (\bepsilon) = I$.
 	\end{block}
+	\vspace{-0.2cm}
 	\begin{block}{Denoising score mathing}
 		Let perturb original data by normal noise $p(\bx | \bx', \sigma) = \cN(\bx | \bx', \sigma^2 \bI)$
 		\vspace{-0.3cm}
@@ -572,12 +577,15 @@
 		\]
 		\vspace{-0.6cm} \\
 		Then the solution of 
+		\vspace{-0.2cm}
 		\[
 			\frac{1}{2} \bbE_{\pi(\bx | \sigma)}\bigl\| \bs(\bx, \btheta, \sigma) - \nabla_\bx \log \pi(\bx | \sigma) \bigr\|^2_2 \rightarrow \min_{\btheta}
 		\]
-		satisfies $\bs(\bx, \btheta, \sigma) = \bs(\bx, \btheta, 0) = \bs(\bx, \btheta)$ using small enough noise scale $\sigma$.
+		\vspace{-0.5cm} \\
+		satisfies $\bs(\bx, \btheta, \sigma) \approx \bs(\bx, \btheta, 0) = \bs(\bx, \btheta)$ using small enough noise scale $\sigma$.
 	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019}
+	\myfootnote{\href{https://arxiv.org/abs/1905.07088}{Song Y. Sliced Score Matching: A Scalable Approach to Density and Score Estimation, 2019} \\
+	\href{http://www.iro.umontreal.ca/~vincentp/Publications/smdae_techreport.pdf}{Vincent P. A connection between score matching and denoising autoencoders. Neural computation, 2011}}.
 \end{frame}
 %=======
 \begin{frame}{Denoising score matching}
@@ -603,6 +611,11 @@
 		\vfill
 		\item FFJORD model makes such kind of flows scalable.
 		\vfill
+		\item Langevin dynamics allows to sample from the model using the score function (due to existence of stationary distribution for SDE).
+		\vfill
+		\item Score matching proposes to minimize Fisher divergence to get score function.
+		\vfill
+		\item Sliced score matching and denoised score matching are two techniques to get scalable algorithm for fitting Fisher divergence.
 	\end{itemize}
 \end{frame}
 \end{document} 
