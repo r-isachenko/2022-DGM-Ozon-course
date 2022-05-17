@@ -45,7 +45,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> StyleGAN: implementation hints. | [notebook](seminars/seminar11/StyleGAN.ipynb) |
 | 12 | April, 26 | <b>Lecture:</b> 12. Discrete VAE latent representations. Vector quantization, straight-through gradient estimation (VQ-VAE). Gumbel-softmax trick (DALL-E). Neural ODE. | [slides](lectures/lecture12/Isachenko2022DeepGenerativeModels12.pdf) |
 |  |  | <b>Seminar:</b> NeuralODE explanation. | [notebook](seminars/seminar12/Neural_Ordinary_Differential_Equations.ipynb) |
-| 13 | May, 17 | <b>Lecture:</b> Continuous-in-time NF (FFJORD). Kolmogorov-Fokker-Planck equation and Langevin dynamic. Score matching. | TBA |
+| 13 | May, 17 | <b>Lecture:</b> Continuous-in-time NF (FFJORD). Kolmogorov-Fokker-Planck equation and Langevin dynamic. Score matching. | [slides](lectures/lecture13/Isachenko2022DeepGenerativeModels13.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 | 14 | May, 24 | <b>Lecture:</b> Diffusion model as VAE. Diffusion model as score-based model. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
