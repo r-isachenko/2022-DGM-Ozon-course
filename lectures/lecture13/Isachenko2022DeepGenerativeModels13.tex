@@ -12,10 +12,6 @@
 \titlepage
 \end{frame}
 %=======
-\begin{frame}{Outline}
-	\tableofcontents
-\end{frame}
-%=======
 \begin{frame}{Recap of previous lecture}
 	\begin{block}{Discrete VAE latents}
 		\begin{itemize}
@@ -135,7 +131,10 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
 \end{frame}
 %=======
-
+\begin{frame}{Outline}
+	\tableofcontents
+\end{frame}
+%=======
 \begin{frame}{Neural ODE}
 	\begin{block}{Forward pass (loss function)}
 		\vspace{-0.8cm}
@@ -251,7 +250,7 @@
 \begin{frame}{Continuous Normalizing Flows}
 	To train this flow we have to get the way to calculate the density~$p(\bz(t), t)$.
 	\begin{block}{Theorem (special case of Kolmogorov-Fokker-Planck)}
-		if function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$, then
+		If function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$, then
 		\[
 			\frac{d \log p(\bz(t), t)}{d t} = - \text{tr} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
 		\]

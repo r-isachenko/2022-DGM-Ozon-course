@@ -12,12 +12,106 @@
 \titlepage
 \end{frame}
 %=======
-\begin{frame}{Outline}
-	\tableofcontents
+\begin{frame}{Recap of previous lecture}
+	\begin{block}{Continuous dynamic}
+		\vspace{-0.5cm}
+		\[
+			\frac{d\bz(t)}{dt} = f(\bz(t), \btheta).
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{Forward pass}
+		\vspace{-0.5cm}
+		\[
+			\bz(t_1) = \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 \quad \Rightarrow \quad \text{ODE Solver}
+		\]
+		\vspace{-0.6cm}
+	\end{block}
+	\begin{block}{Backward pass}
+		\vspace{-0.6cm}
+		\begin{equation*}
+			\left.
+				{\footnotesize 
+				\begin{aligned}
+					\frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0 \\
+					\frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)} \\
+					\bz(t_0) &= - \int^{t_0}_{t_1} f(\bz(t), \btheta) d t  + \bz_1.
+				\end{aligned}
+				}
+			\right\rbrace
+			 \Rightarrow
+			\text{ODE Solver}
+		\end{equation*}
+		\vspace{-0.4cm} 
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
 \end{frame}
 %=======
 \begin{frame}{Recap of previous lecture}
-
+	\vspace{-0.5cm}
+	\begin{block}{Continuous normalizing flows}
+		\[
+			\frac{d \log p(\bz(t), t)}{d t} = - \text{tr} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{Forward transform + log-density}
+		\vspace{-0.4cm}
+		\[
+			\begin{bmatrix}
+				\bx \\
+				\log p(\bx | \btheta)
+			\end{bmatrix}
+			= 
+			\begin{bmatrix}
+				\bz \\
+				\log p(\bz)
+			\end{bmatrix} + 
+			\int_{t_0}^{t_1} 
+			\begin{bmatrix}
+				f(\bz(t), \btheta) \\
+				- \text{tr} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right) 
+			\end{bmatrix} dt.
+		\]
+		\vspace{-0.4cm}
+	\end{block}	
+	\begin{block}{Hutchinson's trace estimator}
+		\vspace{-0.8cm}
+		\begin{multline*}
+		   \log p(\bz(t_1)) = \log p(\bz(t_0)) - \int_{t_0}^{t_1} \text{tr}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt = \\ = \log p(\bz(t_0)) - \mathbb{E}_{p(\bepsilon)} \int_{t_0}^{t_1} \left[ {\color{violet}\bepsilon^T \frac{\partial f}{\partial \bz}} \bepsilon \right] dt.
+		\end{multline*}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
+\end{frame}
+%=======
+\begin{frame}{Recap of previous lecture}
+	\vspace{-0.2cm}
+	\begin{block}{SDE basics}
+		Let define stochastic process $\bx(t)$ with initial condition $\bx(0) \sim p_0(\bx)$:
+		\[
+			d\bx = \mathbf{f}(\bx, t) dt + g(t) d \bw, 
+		\]
+		where $\bw(t)$ is the standard Wiener process (Brownian motion)
+		\vspace{-0.2cm}
+		\[		
+			\bw(t) - \bw(s) \sim \cN(0, t - s), \quad d \bw = \bepsilon \cdot \sqrt{dt}, \, \text{where } \bepsilon \sim \cN(0, 1).
+		\]
+	\end{block}
+	\vspace{-0.5cm}
+	\begin{block}{Langevin dynamics}
+		Let $\bx_0$ be a random vector. Then under mild regularity conditions for small enough $\eta$ samples from the following dynamics
+		\vspace{-0.2cm}
+		\[
+			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \nabla_{\bx_t} \log p(\bx_t | \btheta) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
+		\]
+		will comes from $p(\bx | \btheta)$.
+	\end{block}
+	The density $p(\bx | \btheta)$ is a \textbf{stationary} distribution for the Langevin SDE.
+	\myfootnotewithlink{https://www.stats.ox.ac.uk/~teh/research/compstats/WelTeh2011a.pdf}{Welling M. Bayesian Learning via Stochastic Gradient Langevin Dynamics, 2011}
+\end{frame}
+%=======
+\begin{frame}{Outline}
+	\tableofcontents
 \end{frame}
 %=======
 \section{Score matching}
