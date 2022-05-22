@@ -47,7 +47,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> NeuralODE explanation. | --- |
 | 13 | May, 17 | <b>Lecture:</b> Adjoint method. Continuous-in-time NF (FFJORD, Hutchinson's trace estimator). Kolmogorov-Fokker-Planck equation and Langevin dynamic. SDE basics. | [slides](lectures/lecture13/Isachenko2022DeepGenerativeModels13.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 14 | May, 24 | <b>Lecture:</b> Score matching. Diffusion model as VAE. Diffusion model as score-based model. | TBA |
+| 14 | May, 24 | <b>Lecture:</b> Score matching. Noise conditioned score network (NCSN). Denoising diffusion probabilistic model (DDPM). | [slides](lectures/lecture14/Isachenko2022DeepGenerativeModels14.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
 |  | May, 31 | <b>Oral exam</b> | TBA |
 
