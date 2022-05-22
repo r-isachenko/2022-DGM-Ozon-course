@@ -180,7 +180,7 @@
 		\includegraphics[width=0.8\linewidth]{figs/smld}
 	\end{figure}
 	\vspace{-0.6cm}
-	\begin{block}{Theorem}
+	\begin{block}{Theorem (implicit score matching)}
 		\vspace{-0.6cm}
 		\[
 			\frac{1}{2} \bbE_{\pi}\bigl\| \bs(\bx, \btheta) - \nabla_\bx \log \pi(\bx) \bigr\|^2_2 = \bbE_{\pi}\Bigr[ \frac{1}{2}\| \bs(\bx, \btheta) \|_2^2 + \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] + \text{const}
@@ -199,7 +199,7 @@
 	\begin{block}{Sliced score matching (Hutchinson's trace estimation)}
 		\vspace{-0.3cm}
 		\[
-			\bbE_{\pi}\Bigr[ \text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) \Bigr] = \bbE_{\pi(\bx)} \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet}\bepsilon^T \nabla_{\bx} \bs(\bx, \btheta)} \bepsilon \right],
+			\text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) = \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet}\bepsilon^T \nabla_{\bx} \bs(\bx, \btheta)} \bepsilon \right],
 		\]
 		where $\mathbb{E} [\bepsilon] = 0$ and $\text{Cov} (\bepsilon) = I$.
 	\end{block}
@@ -231,11 +231,65 @@
 		\end{multline*}
 		\vspace{-0.8cm}
 	\end{block}
-	\begin{figure}
-		\includegraphics[width=0.75\linewidth]{figs/pitfalls}
-		\includegraphics[width=0.75\linewidth]{figs/single_noise}
-	\end{figure}
+	Here $\nabla_{\bx} \log p(\bx | \bx', \sigma) = - \frac{\bx - \bx'}{\sigma^2}$.
+	\begin{itemize}
+		\item The RHS does not need to compute $\nabla_{\bx} \pi(\bx | \sigma)$ and even more $\nabla_{\bx} \pi(\bx)$.
+		\item $\bs(\bx, \btheta, \sigma)$ tries to \textbf{denoise} a corrupted sample.
+		\item Score function $\bs(\bx, \btheta, \sigma)$ parametrized by $\sigma$. How to make it?
+	\end{itemize}
+	\myfootnotewithlink{http://www.iro.umontreal.ca/~vincentp/Publications/smdae_techreport.pdf}{Vincent P. A Connection Between Score Matching and Denoising Autoencoders, 2010}
+\end{frame}
+%=======
+\begin{frame}{Denoising score matching}
+	\begin{itemize}
+		\item If $\sigma$ is \textbf{small}, the score function is not accurate and Langevin dynamics will probably fail to jump between modes.
+		\begin{figure}
+			\includegraphics[width=0.75\linewidth]{figs/pitfalls}
+		\end{figure}
+		\item If $\sigma$ is \textbf{large}, it is good for low-density regions and  multimodal distributions, but we will learn too corrupted distribution.
+		\begin{figure}
+			\includegraphics[width=0.75\linewidth]{figs/single_noise}
+		\end{figure}
+	\end{itemize}
 	\myfootnotewithlink{https://yang-song.github.io/blog/2019/ssm/}{Song Y. Generative Modeling by Estimating Gradients of the Data Distribution, blog post, 2021}
+\end{frame}
+%=======
+\begin{frame}{Noice conditioned score network}
+	\begin{itemize}
+		\item Define the sequence of noise levels: $\sigma_1 > \sigma_2 > \dots > \sigma_L$.
+		\item Perturb the original data with the different noise level to get $\pi(\bx | \sigma_1), \dots, \pi(\bx | \sigma_L)$.
+		\item Train denoised score function $\bs(\bx, \btheta, \sigma)$ for each noise level:
+		\vspace{-0.2cm}
+		\[
+			\sum_{l=1}^L {\color{violet}\sigma_l^2} \bbE_{\pi(\bx')} \bbE_{p(\bx | \bx', \sigma_l)}\bigl\| \bs(\bx, \btheta, \sigma_l) - \nabla_\bx \log p(\bx | \bx', \sigma_l) \bigr\|^2_2 \rightarrow \min_{\btheta}
+		\]
+		\item Sample from \textbf{annealed} Langevin dynamics (for $l=1, \dots, L$).
+	\end{itemize}
+	\begin{figure}
+		\includegraphics[width=0.6\linewidth]{figs/multi_scale}
+	\end{figure}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{figs/duoduo}
+	\end{figure}
+	\myfootnotewithlink{https://arxiv.org/abs/1907.05600}{Song Y. et al. Generative Modeling by Estimating Gradients of the Data Distribution, 2019}
+\end{frame}
+%=======
+\begin{frame}{Noice conditioned score network}
+	\begin{block}{Samples}
+		\begin{figure}
+			\includegraphics[width=\linewidth]{figs/NCSNv2}
+		\end{figure}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/2006.09011}{Song Y. et al. Improved Techniques for Training Score-Based Generative Models, 2020}
+\end{frame}
+%=======
+\section{Diffusion models}
+%=======
+\begin{frame}{The poorest course overview :)}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{figs/generative-overview}
+	\end{figure}
+	\myfootnotewithlink{https://lilianweng.github.io/posts/2021-07-11-diffusion-models/}{Weng L. What are Diffusion Models?, blog post, 2021}
 \end{frame}
 %=======
 \begin{frame}{Summary}
