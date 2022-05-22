@@ -94,7 +94,7 @@
 		where $\bw(t)$ is the standard Wiener process (Brownian motion)
 		\vspace{-0.2cm}
 		\[		
-			\bw(t) - \bw(s) \sim \cN(0, t - s), \quad d \bw = \bepsilon \cdot \sqrt{dt}, \, \text{where } \bepsilon \sim \cN(0, 1).
+			\bw(t) - \bw(s) \sim \cN(0, (t - s) \bI), \quad d \bw = \bepsilon \cdot \sqrt{dt}, \, \text{where } \bepsilon \sim \cN(0, \bI).
 		\]
 	\end{block}
 	\vspace{-0.5cm}
@@ -102,7 +102,7 @@
 		Let $\bx_0$ be a random vector. Then under mild regularity conditions for small enough $\eta$ samples from the following dynamics
 		\vspace{-0.2cm}
 		\[
-			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \nabla_{\bx_t} \log p(\bx_t | \btheta) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, 1).
+			\bx_{t + 1} = \bx_t + \eta \frac{1}{2} \nabla_{\bx_t} \log p(\bx_t | \btheta) + \sqrt{\eta} \cdot \bepsilon, \quad \bepsilon \sim \cN(0, \bI).
 		\]
 		will comes from $p(\bx | \btheta)$.
 	\end{block}
@@ -201,7 +201,7 @@
 		\[
 			\text{tr}\bigl(\nabla_{\bx} \bs(\bx, \btheta)\bigr) = \mathbb{E}_{p(\bepsilon)} \left[ {\color{violet}\bepsilon^T \nabla_{\bx} \bs(\bx, \btheta)} \bepsilon \right],
 		\]
-		where $\mathbb{E} [\bepsilon] = 0$ and $\text{Cov} (\bepsilon) = I$.
+		where $\mathbb{E} [\bepsilon] = 0$ and $\text{Cov} (\bepsilon) = \bI$.
 	\end{block}
 	\vspace{-0.2cm}
 	\begin{block}{Denoising score mathing}
@@ -284,6 +284,50 @@
 \end{frame}
 %=======
 \section{Diffusion models}
+%=======
+\begin{frame}{Forward diffusion process}
+	Let $\bx_0 \sim \pi(\bx)$. Define the Markov chain
+	\vspace{-0.2cm}
+	\[
+		\bx_t = \sqrt{1 - \beta} \bx_t + \sqrt{\beta} \bepsilon, \quad \text{where } \bepsilon \sim \cN(0, 1)
+	\]
+	\[
+		q(\bx_t | \bx_{t-1}) = \cN(\bx_t | \sqrt{1 - \beta} \bx_{t-1}, \beta \bI), \quad \text{where } \beta \in (0, 1)
+	\]
+	\vspace{-0.5cm}
+	\begin{block}{Statement}
+		Applying the Markov chain to samples from any $\pi(\bx)$ we will get $\bx_{\infty} \sim p_{\infty}(\bx) = \cN(0, 1)$. Here $p_{\infty}(\bx)$ is a \textbf{stationary} distribution:
+		\[
+			p_{\infty}(\bx) = \int q(\bx | \bx') p_{\infty}(\bx') d \bx'. 
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{Statement}
+		Denote $\alpha_t = 1 - \beta_t$, $\bar{\alpha}_t = \prod_{s=1}^t \alpha_t$. Then 
+		\[
+			q(\bx_t | \bx_0) = \cN(\bx_t | \sqrt{\bar{\alpha}_t} \bx_0, (1 - \bar{\alpha}_t) \bI)
+		\]
+		We could sample from any timestamp using only $\bx_0$.
+	\end{block}
+	\myfootnotewithlink{http://proceedings.mlr.press/v37/sohl-dickstein15.pdf}{Sohl-Dickstein J. Deep Unsupervised Learning using Nonequilibrium Thermodynamics, 2015}
+\end{frame}
+%=======
+\begin{frame}{Diffusion }
+	\textbf{Diffusion} refers to the flow of particles from high-density regions towards low-density regions.
+	\begin{figure}
+		\includegraphics[width=0.5\linewidth]{figs/diffusion_over_time}
+	\end{figure}
+	\myfootnotewithlink{https://ayandas.me/blog-tut/2021/12/04/diffusion-prob-models.html}{Das A. An introduction to Diffusion Probabilistic Models, 2021}
+\end{frame}
+%=======
+\begin{frame}{Denoising diffusion probabilistic model}
+	\begin{block}{Samples}
+		\begin{figure}
+			\includegraphics[width=\linewidth]{figs/ddpm_samples}
+		\end{figure}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/2006.11239}{Ho J. Denoising Diffusion Probabilistic Models, 2020}
+\end{frame}
 %=======
 \begin{frame}{The poorest course overview :)}
 	\begin{figure}
