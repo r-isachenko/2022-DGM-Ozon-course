@@ -233,7 +233,7 @@
 	\end{block}
 	Here $\nabla_{\bx} \log p(\bx | \bx', \sigma) = - \frac{\bx - \bx'}{\sigma^2}$.
 	\begin{itemize}
-		\item The RHS does not need to compute $\nabla_{\bx} \pi(\bx | \sigma)$ and even more $\nabla_{\bx} \pi(\bx)$.
+		\item The RHS does not need to compute $\nabla_{\bx} \log \pi(\bx | \sigma)$ and even more $\nabla_{\bx} \log \pi(\bx)$.
 		\item $\bs(\bx, \btheta, \sigma)$ tries to \textbf{denoise} a corrupted sample.
 		\item Score function $\bs(\bx, \btheta, \sigma)$ parametrized by $\sigma$. How to make it?
 	\end{itemize}
@@ -340,7 +340,7 @@
 	Let define the reverse process
 	\vspace{-0.2cm}
 	\[
-		p(\bx_{t - 1} | \bx_t, \btheta) = \cN(\bx_{t - 1} | \bmu(\bx_t, \btheta, t), \bSigma(\bx_t, \btheta, t))
+		p(\bx_{t - 1} | \bx_t, \btheta) = \cN(\bx_{t - 1} | \bmu(\bx_t, \btheta, t), \bsigma^2(\bx_t, \btheta, t))
 	\]
 	\vspace{-0.5cm}
 	\begin{minipage}{0.5\linewidth}
@@ -356,7 +356,7 @@
 		\begin{block}{Reverse process}
 			\begin{enumerate}
 				\item $\bx_T \sim p_{\infty}(\bx) = \cN(0, 1)$;
-				\item $\bx_{t - 1} = \bSigma(\bx_t, \btheta, t) \cdot \bx_t + \bmu(\bx_t, \btheta, t)$;
+				\item $\bx_{t - 1} = \bsigma(\bx_t, \btheta, t) \cdot \bx_t + \bmu(\bx_t, \btheta, t)$;
 				\item $\bx_0 = \bx \sim \pi(\bx)$;
 			\end{enumerate}
 		\end{block}
@@ -425,7 +425,7 @@
 	\]
 	$\tilde{\bmu}_t(\bx_t, \bx_0)$ and $\tilde{\beta}_t$ have analytical formulas (we omit it) and both dependent on $\beta_t$.
 	\begin{itemize}
-		\item Assume $\bSigma(\bx_t, \btheta, t) = \tilde{\beta}_t \bI$ {\color{gray}(reminder: $p(\bx_{t - 1} | \bx_t, \btheta) = \cN(\bx_{t - 1} | \bmu(\bx_t, \btheta, t), \bSigma(\bx_t, \btheta, t))$)}.
+		\item Assume $\bsigma^2(\bx_t, \btheta, t) = \tilde{\beta}_t \bI$ {\color{gray}(reminder: $p(\bx_{t - 1} | \bx_t, \btheta) = \cN(\bx_{t - 1} | \bmu(\bx_t, \btheta, t), \bsigma^2(\bx_t, \btheta, t))$)}.
 		\item Use KL formula for normal distributions.
 		\item Use the fact $\bx_t = \sqrt{\bar{\alpha}_t} \bx_{0} + \sqrt{1 - \bar{\alpha}_t} \bepsilon$
 	\end{itemize}
