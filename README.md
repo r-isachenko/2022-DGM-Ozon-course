@@ -43,12 +43,13 @@ The course is accompanied by practical tasks that allow you to understand the pr
 |  |  | <b>Seminar:</b> WGAN: practice. Optimal transport task. SN-GAN: practice. | [notebook](seminars/seminar10/WGAN.ipynb) |
 | 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall, truncation trick). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN). | [slides](lectures/lecture11/Isachenko2022DeepGenerativeModels11.pdf) |
 |  |  | <b>Seminar:</b> StyleGAN: implementation hints. | [notebook](seminars/seminar11/StyleGAN.ipynb) |
-| 12 | April, 26 | <b>Lecture:</b> Discrete VAE latent representations (vector quantization, straight-through gradient estimation, Gumbel-softmax trick, VQ-VAE and DALL-E models). Neural ODE. | [slides](lectures/lecture12/Isachenko2022DeepGenerativeModels12.pdf) |
+| 12 | April, 26 | <b>Lecture:</b> 12. Discrete VAE latent representations. Vector quantization, straight-through gradient estimation (VQ-VAE). Gumbel-softmax trick (DALL-E). Neural ODE. | [slides](lectures/lecture12/Isachenko2022DeepGenerativeModels12.pdf) |
+|  |  | <b>Seminar:</b> NeuralODE explanation. | --- |
+| 13 | May, 17 | <b>Lecture:</b> Adjoint method. Continuous-in-time NF (FFJORD, Hutchinson's trace estimator). Kolmogorov-Fokker-Planck equation and Langevin dynamic. SDE basics. | [slides](lectures/lecture13/Isachenko2022DeepGenerativeModels13.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 13 | May, 3 | <b>Lecture:</b> Continuous-in-time NF (FFJORD). Fooker-Planck equation and Langevin dynamic. Score-based models. | TBA |
+| 14 | May, 24 | <b>Lecture:</b> Score matching. Noise conditioned score network (NCSN). Denoising diffusion probabilistic model (DDPM). | [slides](lectures/lecture14/Isachenko2022DeepGenerativeModels14.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 14 | May, 17 | <b>Lecture:</b> Diffusion model as VAE. Diffusion model as score-based model. | TBA |
-|  |  | <b>Seminar:</b> TBA | TBA |
+|  | May, 31 | <b>Oral exam</b> | TBA |
 
 ## Homeworks 
 | Homework | Date | Deadline | Description | Link |
@@ -58,7 +59,7 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 3 | March, 13 | March, 27 | <ol><li>Theory (Sylvester flows).</li><li>RealNVP on 2D data.</li><li>RealNVP on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw3.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw3.ipynb) |
 | 4 | March, 27 | April, 10 | <ol><li>Theory (MI in ELBO surgery).</li><li>VAE with AR decoder on MNIST.</li><li>VAE with AR prior on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw4.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw4.ipynb) |
 | 5 | April, 10 | April, 24 | <ol><li>Theory (IW dequantization, LSGAN).</li><li>WGAN/WGAN-GP on 2D data.</li><li>WGAN-GP on CIFAR10.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw5.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw5.ipynb) |
-| 6 | April, 24 | May, 8 | <ol><li>Theory (Neural ODE backprop).</li><li>SN-GAN on CIFAR10.</li><li>FID and Inception Score.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw6.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw6.ipynb) |
+| 6 | April, 24 | May, 15 | <ol><li>Theory (Neural ODE backprop).</li><li>SN-GAN on CIFAR10.</li><li>FID and Inception Score.</li></ol> | [![Open In Github](https://img.shields.io/static/v1.svg?logo=github&label=Repo&message=Open%20in%20Github&color=lightgrey)](homeworks/hw6.ipynb)<br>[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/r-isachenko/2022-DGM-Ozon-course/blob/main/homeworks/hw6.ipynb) |
 
 ## Game rules
 - 6 homeworks each of 13 points = **78 points**
