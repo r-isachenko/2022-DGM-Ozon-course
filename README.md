@@ -38,16 +38,16 @@ The course is accompanied by practical tasks that allow you to understand the pr
 | 8 | March, 29 | <b>Lecture:</b> Disentanglement learning (beta-VAE, DIP-VAE + summary). Likelihood-free learning. GAN theorem. | [slides](lectures/lecture8/Isachenko2022DeepGenerativeModels8.pdf) |
 |  |  | <b>Seminar:</b> GAN vs VAE vs NF. GAN in 1d coding. | [notebook](seminars/seminar8/Vanila_GAN.ipynb) |
 | 9 | April, 5 | <b>Lecture:</b> Vanishing gradients and mode collapse, KL vs JSD. Adversarial Variational Bayes. Wasserstein distance. | [slides](lectures/lecture9/Isachenko2022DeepGenerativeModels9.pdf) |
-|  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | TBA |
+|  |  | <b>Seminar:</b> GAN vs VAE theory. KL vs JS divergences. | [notebook](seminars/seminar9/Forward-Reverse_KL_vs_JSD.ipynb) |
 | 10 | April, 12 | <b>Lecture:</b> Wasserstein GAN. WGAN-GP. Spectral Normalization GAN. f-divergence minimization. | [slides](lectures/lecture10/Isachenko2022DeepGenerativeModels10.pdf) |
+|  |  | <b>Seminar:</b> WGAN: practice. Optimal transport task. SN-GAN: practice. | [notebook](seminars/seminar10/WGAN.ipynb) |
+| 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall, truncation trick). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN). | [slides](lectures/lecture11/Isachenko2022DeepGenerativeModels11.pdf) |
+|  |  | <b>Seminar:</b> StyleGAN: implementation hints. | [notebook](seminars/seminar11/StyleGAN.ipynb) |
+| 12 | April, 26 | <b>Lecture:</b> Discrete VAE latent representations (vector quantization, straight-through gradient estimation, Gumbel-softmax trick, VQ-VAE and DALL-E models). Neural ODE. | [slides](lectures/lecture12/Isachenko2022DeepGenerativeModels12.pdf) |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 11 | April, 19 | <b>Lecture:</b> GAN evaluation (Inception score, FID, Precision-Recall). GAN models (Self-Attention GAN, BigGAN, PGGAN, StyleGAN, truncation trick). | TBA |
+| 13 | May, 3 | <b>Lecture:</b> Continuous-in-time NF (FFJORD). Fooker-Planck equation and Langevin dynamic. Score-based models. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
-| 12 | April, 26 | <b>Lecture:</b> Neural ODE. Continuous-in-time NF (FFJORD). | TBA |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 13 | May, 3 | <b>Lecture:</b> Discrete VAE (Gumbel-Softmax trick, VQ-VAE, VQ-VAE-2, DALL-E). Diffusion models. | TBA |
-|  |  | <b>Seminar:</b> TBA | TBA |
-| 14 | May, 17 | <b>Lecture:</b> Diffusion models. | TBA |
+| 14 | May, 17 | <b>Lecture:</b> Diffusion model as VAE. Diffusion model as score-based model. | TBA |
 |  |  | <b>Seminar:</b> TBA | TBA |
 
 ## Homeworks 

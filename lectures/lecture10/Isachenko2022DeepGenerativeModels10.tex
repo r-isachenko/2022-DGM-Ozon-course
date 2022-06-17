@@ -82,12 +82,6 @@
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
-\AtBeginSection[ ]
-{
-	\begin{frame}{Outline}
-		\tableofcontents[currentsection]
-	\end{frame}
-}
 %=======
 \section{Wasserstein GAN}
 %=======
@@ -110,7 +104,7 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017}
 \end{frame}
 %=======
-\begin{frame}{Wassestein GAN}
+\begin{frame}{Wasserstein GAN}
 	\begin{block}{Standard GAN objective}
 		\vspace{-0.2cm}
 		\[
@@ -194,9 +188,9 @@
 			\[
 				\max_{\| f \|_L \leq 1} \left[ \bbE_{\pi(\bx)} f(\bx)  - \bbE_{p(\bx)} f(\bx)\right].
 			\]
-			\item if $f^*$ is differentiable, $\gamma(\bx = \by) = 0$ and $\hat{\bx}_t = t \bx + (1 - t) \by$ with $\bx \sim \pi(\bx)$, $\by \sim p(\bx | \btheta)$, $t \in [0, 1]$ it holds that
+			\item if $f^*$ is differentiable, $\gamma(\by = \bz) = 0$ and $\hat{\bx}_t = t \by + (1 - t) \bz$ with $\by \sim \pi(\bx)$, $\bz \sim p(\bx | \btheta)$, $t \in [0, 1]$ it holds that
 			\[
-				\bbP_{(\bx, \by) \sim \gamma} \left[ \nabla f^*(\hat{\bx}_t) = \frac{\by - \hat{\bx}_t}{\| \by - \hat{\bx}_t \|} \right] = 1.
+				\bbP_{(\by, \bz) \sim \gamma} \left[ \nabla f^*(\hat{\bx}_t) = \frac{\bz - \hat{\bx}_t}{\| \bz - \hat{\bx}_t \|} \right] = 1.
 			\]
 		\end{enumerate}
 	\end{block}
@@ -216,7 +210,7 @@
 		\]
 	\end{block}
 	\begin{itemize}
-		\item Samples $\hat{\bx}_t = t \bx + (1 - t) \by$ with $t \in [0, 1]$ are uniformly sampled along straight lines between pairs of points: $\bx$ from the data distribution $\pi(\bx)$ and $\by$ from the generator distribution $p(\bx | \btheta)$.
+		\item Samples $\hat{\bx}_t = t \by + (1 - t) \bz$ with $t \in [0, 1]$ are uniformly sampled along straight lines between pairs of points: $\by$ from the data distribution $\pi(\bx)$ and $\bz$ from the generator distribution $p(\bx | \btheta)$.
 		\item Enforcing the unit gradient norm constraint everywhere is intractable, it turns out to be sifficient to enforce it only along these straight lines.
 	\end{itemize}
 
@@ -244,7 +238,7 @@
 	\begin{block}{Definition}
 		$\| \bA \|_2$ is a \textit{spectral norm} of matrix $\bA$:
 		\[
-			\| \bA \|_2 = \max_{\bh \neq 0} \frac{\|\bA \bh\|_2}{\|\bh\|_2} = \max_{\|\bh\|_2 \leq 1} \| \bA \bh \|_2 = \lambda_{\text{max}}(\bA^T \bA),
+			\| \bA \|_2 = \max_{\bh \neq 0} \frac{\|\bA \bh\|_2}{\|\bh\|_2} = \max_{\|\bh\|_2 \leq 1} \| \bA \bh \|_2 = \sqrt{\lambda_{\text{max}}(\bA^T \bA)},
 		\]
 		where $\lambda_{\text{max}}(\bA^T \bA)$ is the largest eigenvalue value of $\bA^T \bA$.
 	\end{block}
@@ -282,7 +276,7 @@
 	\begin{block}{Critic spectral norm}
 		\vspace{-0.4cm}
 		\[
-			\| f \|_L \leq \| \bW_{K+1}\| \cdot \prod_{k=1}^K  \| \sigma_k \|_L \cdot \| \bW_k \|_2 = \prod_{k=1}^{K+1} \|\bW_k\|_2.
+			\| f \|_L \leq \| \bW_{K+1}\|_2 \cdot \prod_{k=1}^K  \| \sigma_k \|_L \cdot \| \bW_k \|_2 = \prod_{k=1}^{K+1} \|\bW_k\|_2.
 		\]
 		\vspace{-0.2cm}
 	\end{block}
@@ -292,19 +286,19 @@
 \end{frame}
 %=======
 \begin{frame}{Spectral Normalization GAN}
-	How to compute $ \| \bW \|_2 = \lambda_{\text{max}}(\bW^T \bW)$? \\
+	How to compute $ \| \bW \|_2 = \sqrt{\lambda_{\text{max}}(\bW^T \bW)}$? \\
 	 If we apply SVD to compute the $\| \bW \|_2$ at each iteration, the algorithm becomes intractable.
 	 
 	 \begin{block}{Power iteration method}
 	 	\begin{itemize}
 	 		\item $\bu_0$ -- random vector.
-	 		\item for $k = 0, \dots, K - 1$: ($k$ is a fixed number of steps)
+	 		\item for $k = 0, \dots, K - 1$: ($K$ is a fixed number of steps)
 	 		\[
 	 			\bv_{k+1} = \frac{\bW^T \bu_{k}}{\| \bW^T \bu_{k} \|}, \quad \bu_{k+1} = \frac{\bW \bv_{k+1}}{\| \bW \bv_{k+1} \|}.
 	 		\]
 	 		\item approximate the spectral norm
 	 		\[
-	 			\| \bW \|_2 = \lambda_{\text{max}}(\bW^T \bW) \approx \bu_{K}^T \bW \bv_{K}.
+	 			\| \bW \|_2 = \sqrt{\lambda_{\text{max}}(\bW^T \bW)} \approx \bu_{K}^T \bW \bv_{K}.
 	 		\]
 	 	\end{itemize}
 	 \end{block}
@@ -409,7 +403,7 @@
 		\end{multline*}
 	\vspace{-0.6cm}
 	\end{block}
-	This is a lower bound because of Jensen-Shannon inequality and restricted class of functions $\cT: \cX \rightarrow \bbR$.
+	This is a lower bound because of Jensen inequality and restricted class of functions $\cT: \cX \rightarrow \bbR$.
 	
 	\myfootnotewithlink{https://arxiv.org/abs/1606.00709}{Nowozin S., Cseke B., Tomioka R. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization, 2016}
 \end{frame}
@@ -459,7 +453,7 @@
 		\vfill
 		\item Weight clipping is a terrible way to enforce Lipschitzness. Gradient Penalty works better.
 		\vfill
-		\item Spectral normalization is a weight normalization technique to enforce Lipshitzness, which is helpful for generator and discriminator.
+		\item Spectral normalization is a weight normalization technique to enforce Lipshitzness, which is helpful for generator and critic.
 		\vfill
 		\item f-divergence family is a unified framework for divergence minimization, which uses variational approximation. Standard GAN is a special case of it.
 	\end{itemize}

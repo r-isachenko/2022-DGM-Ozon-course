@@ -80,12 +80,273 @@
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
-\AtBeginSection[ ]
-{
-	\begin{frame}{Outline}
-		\tableofcontents[currentsection]
-	\end{frame}
-}
+%=======
+\section{Discrete VAE latent representations}
+%=======
+\begin{frame}{Discrete VAE latents}
+	\begin{block}{Motivation}
+		\begin{itemize}
+			\item Previous VAE models had \textbf{continuous} latent variables $\bz$.
+			\item \textbf{Discrete} representations $\bz$ are potentially a more natural fit for many of the modalities.
+			\item Powerful autoregressive models (like PixelCNN) have been developed for modelling distributions over discrete variables.
+			\item All cool transformer-like models work with discrete tokens.
+		\end{itemize}
+	\end{block}
+	\begin{block}{ELBO}
+		\vspace{-0.3cm}
+		\[
+			\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(\bz | \bx, \bphi)} \log p(\bx | \bz , \btheta) - KL(q(\bz| \bx, \bphi) || p(\bz)) \rightarrow \max_{\bphi, \btheta}.
+		\]
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{itemize}
+		\item Reparametrization trick to get unbiased gradients.
+		\item Normal assumptions for $q(\bz | \bx, \bphi)$ and $p(\bz)$ to compute KL analytically.
+	\end{itemize}
+\end{frame}
+%=======
+\begin{frame}{Discrete VAE latents}
+	\begin{block}{Assumptions}
+		\begin{itemize}
+			\item Define dictionary (word book) space $\{\be_k\}_{k=1}^K$, where $\be_k \in \bbR^C$, $K$ is the size of the dictionary.
+			\item Let $c \sim \text{Categorical}(\bpi)$, where 
+			\vspace{-0.6cm}
+			\[
+				\bpi = (\pi_1, \dots, \pi_K), \quad \pi_k = P(c = k), \quad \sum_{k=1}^K \pi_k = 1.
+			\]
+			\vspace{-0.6cm}
+			\item Let VAE model has discrete latent representation $c$ with prior $p(c) = \text{Uniform}\{1, \dots, K\}$.
+		\end{itemize}
+	\end{block}
+	\vspace{-0.3cm}
+	\begin{block}{How it should work?}
+		\begin{itemize}
+			\item Our variational posterior $q(c | \bx, \bphi) = \text{Categorical}(\bpi(\bx, \bphi))$ (encoder) outputs discrete probabilities vector.
+			\item We sample $c^*$ from $q(c | \bx, \bphi)$ (reparametrization trick analogue).
+			\item Our generative distribution $p(\bx | \be_{c^*}, \btheta)$ (decoder).
+		\end{itemize}
+	\end{block}
+
+\end{frame}
+%=======
+\begin{frame}{Discrete VAE latents}
+		\begin{block}{ELBO}
+			\vspace{-0.5cm}
+			\[
+				\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | c, \btheta) - KL(q(c| \bx, \bphi) || p(c)) \rightarrow \max_{\bphi, \btheta}.
+			\]
+			\vspace{-0.5cm}
+		\end{block}
+		\begin{block}{KL term}
+			\vspace{-0.8cm}
+			\begin{multline*}
+				KL(q(c| \bx, \bphi) || p(c)) = \sum_{k=1}^K q(k | \bx, \bphi) \log \frac{q(k | \bx, \bphi)}{p(k)} = 
+				\\ = \sum_{k=1}^K q(k | \bx, \bphi) \left[\log q(k | \bx, \bphi)  - \log p(k) \right] = - H(q(c | \bx, \bphi)) + \log K. 
+			\end{multline*}
+		\end{block}
+		\begin{itemize}
+			\item Reparametrization trick does not work now (we sample from discrete distribution).
+			\item Entropy term should be estimated.
+		\end{itemize}
+\end{frame}
+%=======
+\subsection{Vector quantization}
+%=======
+\begin{frame}{Vector quantization}
+	\begin{block}{Quantized representation}
+		$\bz_q \in \bbR^{C}$  for $\bz \in \bbR^C$ is defined by a nearest neighbour look-up using the shared dictionary space
+		\vspace{-0.3cm}
+		\[
+			\bz_q = \be_{k^*}, \quad \text{where } k^* = \argmin_k \| \bz - \be_k \|.
+		\] 
+		\vspace{-0.7cm}
+	\end{block}
+	\begin{itemize}
+		\item Let our encoder outputs continuous representation $\bz$. 
+		\item Quantization will give us the discrete distribution $q(c | \bx, \bphi)$.
+	\end{itemize}
+	\vspace{-0.2cm}
+	\begin{block}{Quantization procedure}
+		If we have tensor with the spatial dimenstions we apply the quantization for each of $W \times H$ locations.
+		\begin{minipage}[t]{0.65\columnwidth}
+			\begin{figure}
+				\includegraphics[width=0.8\linewidth]{figs/fqgan_cnn.png}
+			\end{figure}
+		\end{minipage}%
+		\begin{minipage}[t]{0.35\columnwidth}
+			\begin{figure}
+				\includegraphics[width=0.7\linewidth]{figs/fqgan_lookup}
+			\end{figure}
+		\end{minipage}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/2004.02088}{Zhao Y. et al. Feature Quantization Improves GAN Training, 2020} 
+\end{frame}
+%=======
+\begin{frame}{Vector Quantized VAE}
+	Let VAE latent variable $\bc \in \bbR^{W \times H}$ is the discrete with spatial-independent variational posterior and prior distributions  
+	\vspace{-0.3cm}
+	\[
+		q(\bc | \bx, \bphi) = \prod_{i=1}^W \prod_{j=1}^H q(c_{ij} | \bx, \bphi); \quad p(\bc) = \prod_{i=1}^W \prod_{j=1}^H \text{Uniform}\{1, \dots, K\}.
+	\]
+	Let $\bz_e = \text{NN}_e(\bx, \bphi) \in \bbR^{W \times H \times C}$ is the encoder output.
+	\begin{block}{Deterministic variational posterior}
+		\vspace{-0.6cm}
+		\[
+			q(c_{ij} = k^* | \bx, \bphi) = \begin{cases}
+				1 , \quad \text{for } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \|; \\
+				0, \quad \text{otherwise}.
+			\end{cases}
+		\]
+		$KL(q(c| \bx, \bphi) || p(c))$ term in ELBO is constant, entropy of the posterior is zero.
+		\[
+			KL(q(c | \bx, \bphi) || p(c)) = - H(q(c | \bx, \bphi)) + \log K = \log K. 
+		\]
+	\end{block}
+	
+	\myfootnotewithlink{https://arxiv.org/abs/1711.00937}{Oord A., Vinyals O., Kavukcuoglu K. Neural Discrete Representation Learning, 2017} 
+\end{frame}
+%=======
+\begin{frame}{Vector Quantized VAE}
+	\begin{block}{ELBO}
+		\vspace{-0.6cm}
+		\[
+			\mathcal{L} (\bphi, \btheta)  = \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) - \log K =  \log p(\bx | \bz_q, \btheta) - \log K,
+		\]
+		where $z_q = \be_{k^*}$, $k^* = \argmin_k \| \bz_e - \be_k \|$.
+	\end{block}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\linewidth]{figs/vqvae}
+	\end{figure}
+	\textbf{Problem:} $\argmin$ is not differentiable.
+	\begin{block}{Straight-through gradient estimation}
+		\vspace{-0.6cm}
+		\[
+			\frac{\partial \log p(\bx | \bz_q , \btheta)}{\partial \bphi} = \frac{\partial \log p(\bx | \bz_q, \btheta)}{\partial \bz_q} \cdot {\color{red}\frac{\partial \bz_q}{\partial \bphi}} \approx \frac{\partial \log p(\bx | \bz_q, \btheta)}{\partial \bz_q} \cdot \frac{\partial \bz_e}{\partial \bphi}
+		\]
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1711.00937}{Oord A., Vinyals O., Kavukcuoglu K. Neural Discrete Representation Learning, 2017} 
+\end{frame}
+%=======
+\begin{frame}{Vector Quantized VAE-2}
+	\begin{block}{Samples 1024x1024}
+		\vspace{-0.2cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.63\linewidth]{figs/vqvae2_faces}
+		\end{figure}
+	\end{block}
+	\vspace{-0.6cm}
+	\begin{block}{Samples diversity}
+		\vspace{-0.2cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.65\linewidth]{figs/vqvae2_diversity}
+		\end{figure}
+	\end{block}
+	\myfootnotewithlink{https://arxiv.org/abs/1906.00446}{Razavi A., Oord A., Vinyals O. Generating Diverse High-Fidelity Images with VQ-VAE-2, 2019} 
+\end{frame}
+%=======
+\subsection{Gumbel-softmax}
+%=======
+\begin{frame}{Gumbel-softmax trick}
+	\begin{itemize}
+		\item VQ-VAE has deterministic variational posterior (it allows to get rid of discrete sampling and reparametrization trick).
+		\item There is no uncertainty in the encoder output. 
+	\end{itemize}
+	\vspace{-0.2cm}
+	\begin{block}{Gumbel-max trick}
+		Let $g_k \sim \text{Gumbel}(0, 1)$ for $k = 1, \dots, K$, i.e. $g = - \log (\log u)$, $u \sim \text{Uniform}[0, 1]$. Then a discrete random variable
+		\vspace{-0.2cm}
+		\[
+			c = \argmax_k [\log \pi_k + g_k],
+		\]
+		\vspace{-0.5cm} \\
+		has a categorical distribution $c \sim \text{Categorical}(\bpi)$.
+	\end{block}
+	\begin{itemize}
+		\item Let our encoder $q(c | \bx, \bphi) = \text{Categorical}(\bpi(\bx, \bphi))$ outputs logits of $\bpi(\bx, \bphi)$.
+		\item We could sample from the discrete distribution using Gumbel-max reparametrization.
+	\end{itemize}
+
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
+\begin{frame}{Gumbel-softmax trick}
+	\begin{block}{Reparametrization trick}
+		\vspace{-0.7cm}
+		\[
+			\nabla_{\bphi} \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} \log p(\bx | \be_{k^*} , \btheta),
+		\]
+		where $k^* = \argmax_k [\log q(k | \bx, \bphi) + g_k]$.
+	\end{block}
+	\textbf{Problem:} We still have non-differentiable $\argmax$ operation.
+	
+	\begin{block}{Gumbel-softmax relaxation}
+		Concrete distribution = continuous + discrete
+		\vspace{-0.2cm}
+		\[
+			\hat{c}_k = \frac{\exp \left(\frac{\log q(k | \bx, \bphi) + g_k}{\tau}\right)}{\sum_{j=1}^K \exp \left(\frac{\log q(j | \bx, \bphi) + g_j}{\tau}\right)}, \quad k = 1, \dots, K.
+		\]
+		\vspace{-0.4cm} \\
+		Here $\tau$ is a temperature parameter. Now we have differentiable operation, but the gradient estimate is biased now.
+ 	\end{block}
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
+\begin{frame}{Gumbel-softmax trick}
+	 \vspace{-0.3cm}
+	\begin{block}{Concrete distribution}
+	 	\begin{figure}
+	 		\includegraphics[width=0.8\linewidth]{figs/gumbel_softmax}
+	 	\end{figure}
+	 	\vspace{-0.7cm}
+	 	\begin{figure}
+	 		\includegraphics[width=0.8\linewidth]{figs/simplex}
+	 	\end{figure} 
+	 	\vspace{-0.5cm}
+	 \end{block}
+	\begin{block}{Reparametrization trick}
+		\vspace{-0.4cm}
+		\[
+			\nabla_{\bphi} \mathbb{E}_{q(c | \bx, \bphi)} \log p(\bx | \be_{c} , \btheta) = \bbE_{\text{Gumbel}(0, 1)} \nabla_{\bphi} \log p(\bx | \bz , \btheta),
+		\]
+		where $\bz = \sum_{k=1}^K\hat{c}_k \be_k$ (all operations are differentiable now).
+	\end{block}
+ 	\vspace{-0.2cm}
+	\myfootnote{
+	\href{https://arxiv.org/abs/1611.00712}{Maddison C. J., Mnih A., Teh Y. W. The Concrete distribution: A continuous relaxation of discrete random variables, 2016} \\
+	\href{https://arxiv.org/abs/1611.01144}{Jang E., Gu S., Poole B. Categorical reparameterization with Gumbel-Softmax, 2016}
+	}
+\end{frame}
+%=======
+\begin{frame}{DALL-E}
+	\begin{block}{Deterministic VQ-VAE posterior}
+		\vspace{-0.3cm}
+		\[
+			q(\hat{z}_{ij} = k^* | \bx) = \begin{cases}
+				1 , \quad \text{for } k^* = \argmin_k \| [\bz_e]_{ij} - \be_k \| \\
+				0, \quad \text{otherwise}.
+			\end{cases}
+		\]
+		\vspace{-0.3cm}
+	\end{block}
+	\begin{itemize}
+		\item Gumbel-Softmax trick allows to make true categorical distribution and sample from it.
+		\item Since latent space is discrete we could train autoregressive transformers in it.
+		\item It is a natural way to incorporate text and image token spaces.
+	\end{itemize}
+	\begin{figure}
+		\includegraphics[width=\linewidth]{figs/dalle}
+	\end{figure}
+	\myfootnotewithlink{https://arxiv.org/abs/2102.1209}{Ramesh A. et al. Zero-shot text-to-image generation, 2021}
+\end{frame}
 %=======
 \section{Neural ODE}
 %=======
@@ -99,7 +360,7 @@
 	\begin{block}{Euler update step}
 		\vspace{-0.6cm}
 		\[
-		    \frac{\bz(t + \Delta t) - \bz(t)}{\Delta t} = f(\bz(t), \btheta) \quad \Rightarrow \quad \bz(t + \Delta t) = \bz(t) + \Delta t f(\bz(t), \btheta).
+		    \frac{\bz(t + \Delta t) - \bz(t)}{\Delta t} = f(\bz(t), \btheta) \quad \Rightarrow \quad \bz(t + \Delta t) = \bz(t) + \Delta t \cdot f(\bz(t), \btheta).
 		\]
 		\vspace{-0.7cm}
 	\end{block}
@@ -179,192 +440,17 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}     
 \end{frame}
 %=======
-\begin{frame}{Neural ODE}
-	\begin{block}{Adjoint functions}
-		\vspace{-0.3cm}
-		\[
-			\ba_{\bz}(t) = \frac{\partial L(\by)}{\partial \bz(t)}; \quad \ba_{\btheta}(t) = \frac{\partial L(\by)}{\partial \btheta(t)}.
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{block}{Theorem (Pontryagin)}
-	\vspace{-0.6cm}
-	\[
-	     \frac{d \ba_{\bz}(t)}{dt} = - \ba_{\bz}(t)^T \cdot \frac{\partial f(\bz(t), \btheta)}{\partial \bz}; \quad \frac{d \ba_{\btheta}(t)}{dt} = - \ba_{\bz}(t)^T \cdot \frac{\partial f(\bz(t), \btheta)}{\partial \btheta}.
-	\]
-	Do we know any initilal condition?
-	\end{block}
-	\begin{block}{Solution for adjoint function}
-		\vspace{-0.8cm}
-		\begin{align*}
-			 \frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0\\
-			 \frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)}\\
-		\end{align*}
-		\vspace{-1.5cm}
-	\end{block}
-	\textbf{Note:} These equations are solved back in time.
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-\begin{frame}{Neural ODE}
-	\vspace{-0.2cm}
-	\begin{block}{Forward pass}
-		\vspace{-0.5cm}
-		\[
-			\bz(t_1) = \int^{t_1}_{t_0} f(\bz(t), \btheta) d t  + \bz_0 \quad \Rightarrow \quad \text{ODE Solver}
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{block}{Backward pass}
-		\vspace{-0.8cm}
-		\begin{equation*}
-			\left.
-				{\footnotesize 
-				\begin{aligned}
-					\frac{\partial L}{\partial \btheta(t_0)} &= \ba_{\btheta}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \btheta(t)} dt + 0 \\
-					\frac{\partial L}{\partial \bz(t_0)} &= \ba_{\bz}(t_0) =  - \int_{t_1}^{t_0} \ba_{\bz}(t)^T \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} dt + \frac{\partial L}{\partial \bz(t_1)} \\
-					\bz(t_0) &= - \int^{t_0}_{t_1} f(\bz(t), \btheta) d t  + \bz_1.
-				\end{aligned}
-				}
-			\right\rbrace
-			 \Rightarrow
-			\text{ODE Solver}
-		\end{equation*}
-		\vspace{-0.4cm} 
-	\end{block}
-	\textbf{Note:} These scary formulas are the standard backprop in the discrete case.
-	\begin{figure}
-		\centering
-		\includegraphics[width=\linewidth]{figs/neural_ode}
-	\end{figure}
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-\section{Continuous-in-time normalizing flows}
-%=======
-\begin{frame}{Continuous Normalizing Flows}
-	\begin{block}{Discrete Normalizing Flows}
-		\vspace{-0.8cm}
-		  \[
-		  \bz_{t+1} = f(\bz_t, \btheta); \quad \log p(\bz_{t+1}) = \log p(\bz_{t}) - \log \left| \det \frac{\partial f(\bz_t, \btheta)}{\partial \bz_{t}} \right| .
-		  \]
-		\vspace{-0.7cm}
-	\end{block}
-	\begin{block}{Continuous-in-time dynamic transformation}
-		\vspace{-0.2cm}
-		\[
-			\frac{d\bz(t)}{dt} = f(\bz(t), \btheta).
-		\]
-		\vspace{-0.4cm}
-	\end{block}
-	Assume that function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$. From Picard’s existence theorem, it follows that the above ODE has a \textbf{unique solution}.
-	\begin{block}{Forward and inverse transforms}
-		\vspace{-0.7cm}
-		\begin{align*}
-			\bx &= \bz(t_1) = \bz(t_0) + \int_{t_0}^{t_1} f(\bz(t), \btheta) dt \\
-			\bz &= \bz(t_0) = \bz(t_1) + \int_{t_1}^{t_0} f(\bz(t), \btheta) dt \\
-		\end{align*}
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1912.02762}{Papamakarios G. et al. Normalizing flows for probabilistic modeling and inference, 2019}   
-\end{frame}
-%=======
-\begin{frame}{Continuous Normalizing Flows}
-	To train this flow we have to get the way to calculate the density~$p(\bz(t))$.
-	\begin{block}{Theorem (Fokker-Planck)}
-		if function $f$ is uniformly Lipschitz continuous in $\bz$ and continuous in $t$, then
-		\vspace{-0.3cm}
-		\[
-			\frac{\partial \log p(\bz(t))}{\partial t} = - \text{trace} \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right).
-		\]
-		\vspace{-0.5cm}
-	\end{block}
-	\textbf{Note:} Unlike discrete-in-time flows, the function $f$ does not need to be bijective, because uniqueness guarantees that the entire transformation is automatically bijective.
-	\begin{block}{Density evaluation}
-		\vspace{-0.4cm}
-		\[
-			\log p(\bx | \btheta) = \log p(\bz) - \int_{t_0}^{t_1} \text{trace}  \left( \frac{\partial f (\bz(t), \btheta)}{\partial \bz(t)} \right) dt.
-		\]
-		\textbf{Adjoint} method is used to integral evaluation.
-	\end{block}
-	\myfootnotewithlink{https://arxiv.org/abs/1806.07366}{Chen R. T. Q. et al. Neural Ordinary Differential Equations, 2018}   
-\end{frame}
-%=======
-\begin{frame}{Continuous Normalizing Flows}
-	\vspace{-0.6cm}
-	\begin{block}{Forward transform + log-density}
-		\vspace{-0.8cm}
-		\[
-			\begin{bmatrix}
-				\bx \\
-				\log p(\bx | \btheta)
-			\end{bmatrix}
-			= 
-			\begin{bmatrix}
-				\bz \\
-				\log p(\bz)
-			\end{bmatrix} + 
-			\int_{t_0}^{t_1} 
-			\begin{bmatrix}
-				f(\bz(t), \btheta) \\
-				- \text{trace} \left( \frac{\partial f(\bz(t), \btheta)}{\partial \bz(t)} \right) 
-			\end{bmatrix} dt.
-		\]
-		\vspace{-0.6cm}
-	\end{block}
-	\begin{itemize}
-		\item Discrete-in-time normalizing flows need invertible $f$. It costs $O(d^3)$ to get determinant of Jacobian.
-		\item Continuous-in-time flows require only smoothness of $f$. It costs $O(d^2)$ to get trace of Jacobian.
-	\end{itemize}
-	\vspace{-0.5cm}
-	\begin{minipage}[t]{0.4\columnwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.75\linewidth]{figs/cnf_flow.png}
-		\end{figure}
-	\end{minipage}%
-	\begin{minipage}[t]{0.6\columnwidth}
-		\begin{figure}
-			  \centering
-			  \includegraphics[width=0.8\linewidth]{figs/ffjord.png}
-		\end{figure}
-	\end{minipage}
-	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
-\end{frame}
-%=======
-\begin{frame}{FFJORD}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.75\linewidth]{figs/flow_comparison.png}
-	\end{figure}
-	\vspace{-0.4cm}
-	\begin{block}{Density estimation (forward KL)}
-		\vspace{-0.2cm}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\linewidth]{figs/ffjord_forward}
-		\end{figure}
-		\vspace{-0.5cm}
-	\end{block}
-	\begin{block}{Flows for variational inference (reverse KL)}
-		\vspace{-0.2cm}
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\linewidth]{figs/ffjord_reverse}
-		\end{figure}
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
-\end{frame}
-%=======
 \begin{frame}{Summary}
 	\begin{itemize}
+		\item Vector Quantization is the way to create VAE with discrete latent space and deterministic variational posterior. 
+		\vfill
+		\item Straight-through gradient ignores quanrize operation in backprop.
+		\vfill
+		\item Gumbel-softmax trick relaxes discrete problem to continuous one using Gumbel-max reparametrization trick.
+		\vfill
+		\item It becomes more and more popular to use discrete latent spaces in the fields of image/video/music generaton.
+		\vfill		
 		\item Residual networks could be interpreted as solution of ODE with Euler method.
-		\vfill
-		\item Adjoint method generalizes backpropagation procedure and allows to train Neural ODE solving ODE for adjoint function back in time.
-		\vfill
-		\item Fokker-Planck theorem allows to construct continuous-in-time normalizing flow with less functional restrictions.
-		\vfill
-		\item FFJORD model makes such kind of flows scalable.
 	\end{itemize}
 \end{frame}
 %=======

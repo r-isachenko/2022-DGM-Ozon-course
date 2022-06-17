@@ -1614,6 +1614,31 @@ where $i$ is treated as random variable:
 	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
 \end{frame}
 %=======
+\begin{frame}{FFJORD}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.75\linewidth]{figs/flow_comparison.png}
+	\end{figure}
+	\vspace{-0.4cm}
+	\begin{block}{Density estimation (forward KL)}
+		\vspace{-0.2cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{figs/ffjord_forward}
+		\end{figure}
+		\vspace{-0.5cm}
+	\end{block}
+	\begin{block}{Flows for variational inference (reverse KL)}
+		\vspace{-0.2cm}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\linewidth]{figs/ffjord_reverse}
+		\end{figure}
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1810.01367}{Grathwohl W. et al. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, 2018} 
+\end{frame}
+%=======
 \section{Vector Quantized VAE-2}
 %=======
 \begin{frame}{Vector Quantized VAE}

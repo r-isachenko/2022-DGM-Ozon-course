@@ -12,7 +12,7 @@
 		\begin{block}{WGAN objective}
 			\vspace{-0.5cm}
 			\[
-				\min_{G} W(\pi || p) = \min_{G} \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bz)} f(G(\bz), \bphi )\right].
+				\min_{\btheta} W(\pi || p) = \min_{\btheta} \max_{\bphi \in \boldsymbol{\Phi}} \left[ \bbE_{\pi(\bx)} f(\bx, \bphi)  - \bbE_{p(\bz)} f(G(\bz, \btheta), \bphi )\right].
 			\]
 			\vspace{-0.5cm}
 		\end{block}
@@ -27,7 +27,7 @@
 			\]
 			\vspace{-0.7cm}
 		\end{block}
-		Samples $\hat{\bx}_t = t \bx + (1 - t) \by$ with $t \in [0, 1]$ are uniformly sampled along straight lines between pairs of points: $\bx$ from the data distribution $\pi(\bx)$ and $\by$ from the generator distribution $p(\bx | \btheta)$.
+		Samples $\hat{\bx}_t = t \by + (1 - t) \bz$ with $t \in [0, 1]$ are uniformly sampled along straight lines between pairs of points: $\by$ from the data distribution $\pi(\bx)$ and $\bz$ from the generator distribution $p(\bx | \btheta)$.
 		\myfootnote{
 		\href{https://arxiv.org/abs/1701.07875}{Arjovsky M., Chintala S., Bottou L. Wasserstein GAN, 2017} \\
 		\href{https://arxiv.org/abs/1704.00028}{Gulrajani I. et al. Improved Training of Wasserstein GANs, 2017} }
@@ -91,12 +91,6 @@
 \begin{frame}{Outline}
 	\tableofcontents
 \end{frame}
-\AtBeginSection[ ]
-{
-	\begin{frame}{Outline}
-		\tableofcontents[currentsection]
-	\end{frame}
-}
 %=======
 \section{Evaluation of likelihood-free models}
 %=======
@@ -155,6 +149,8 @@
 	\myfootnotewithlink{https://medium.com/octavian-ai/a-simple-explanation-of-the-inception-score-372dff6a8c7a}{image credit: https://medium.com/octavian-ai/a-simple-explanation-of-the-inception-score-372dff6a8c7a}
 \end{frame}
 %=======
+\subsection{Inception score}
+%=======
 \begin{frame}{Evaluation of likelihood-free models}
 		\begin{block}{What do we want from samples?}
 		\begin{itemize}
@@ -175,7 +171,7 @@
 	\myfootnotewithlink{https://arxiv.org/abs/1606.03498}{Salimans T. et al. Improved Techniques for Training GANs, 2016}
 \end{frame}
 %=======
-\section{Inception score/FID/Precision-Recall}
+\subsection{Frechet Inception Distance}
 %=======
 \begin{frame}{Evaluation of likelihood-free models}
 	\begin{block}{Theorem (informal)}
@@ -195,9 +191,9 @@
 		\vspace{-0.5cm}
 	\end{block}
 	\begin{itemize}
-		\item Representations are outputs of intermediate layer from pretrained classification model.
-		\item $\mathbf{m}_{\pi}$, $\bSigma_{\pi} $ are mean vector and covariance matrix of feature representations for real samples from $\pi(\bx)$
-		\item $\mathbf{m}_{p}$, $\bSigma_p$ are mean vector and covariance matrix of feature representations for generated samples from $p(\bx | \btheta)$.
+		\item Representations are the outputs of the intermediate layer from the pretrained classification model.
+		\item $\mathbf{m}_{\pi}$, $\bSigma_{\pi} $ are the mean vector and the covariance matrix of feature representations for samples from $\pi(\bx)$
+		\item $\mathbf{m}_{p}$, $\bSigma_p$ are the mean vector and the covariance matrix of feature representations for samples from $p(\bx | \btheta)$.
 	\end{itemize} 
 
 	\myfootnotewithlink{https://arxiv.org/abs/1706.08500}{Heusel M. et al. GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium, 2017}
@@ -242,6 +238,8 @@
 	\myfootnote{\href{https://arxiv.org/abs/1801.01973}{Barratt S., Sharma R. A Note on the Inception Score, 2018} \\
 	\href{https://arxiv.org/abs/1706.08500}{Heusel M. et al. GANs Trained by a Two Time-Scale Update Rule Converge to a Local Nash Equilibrium, 2017}}
 \end{frame}
+%=======
+\subsection{Precision-Recall}
 %=======
 \begin{frame}{Precision-Recall for Generative Models}
 	\begin{block}{What do we want from samples}
@@ -297,6 +295,30 @@
 		\includegraphics[width=0.75\linewidth]{figs/pr_truncation}
 	\end{figure}
 	\myfootnotewithlink{https://arxiv.org/abs/1904.06991}{Kynkäänniemi T. et al. Improved precision and recall metric for assessing generative models, 2019}
+\end{frame}
+%=======
+\begin{frame}{Truncation trick}
+	\begin{block}{BigGAN: truncated normal sampling}
+		\vspace{-0.3cm}
+		\[
+			p(\bz | b) = \cN(\bz | 0, 1) / \int_{-\infty}^\psi \cN(\bz | 0, 1) d\bz
+		\]
+		Components of $\bz \sim \cN(0, \bI)$ which fall outside a predefined range are resampled.
+	\end{block}
+	
+	\begin{block}{StyleGAN}
+		\vspace{-0.2cm}
+		\[
+			\bz' = \hat{\bz} + \psi \cdot (\bz - \hat{\bz}), \quad \hat{\bz} = \bbE_{\bz} \bz
+		\]
+		\vspace{-0.2cm}
+		\begin{itemize}
+			\item Constant $\psi$ is a tradeoff between diversity and fidelity. 
+			\item $\psi=0.7$ is used for most of the results.
+		\end{itemize}
+	\end{block}
+
+	\myfootnotewithlink{https://arxiv.org/abs/1812.04948}{Karras T., Laine S., Aila T. A Style-Based Generator Architecture for Generative Adversarial Networks, 2018}
 \end{frame}
 %=======
 \section{Evolution of GANs}
@@ -384,7 +406,7 @@
 		\end{figure}
 	\end{block}
 	\myfootnotewithlink{https://arxiv.org/abs/1710.10196}{Karras T. et al. Progressive Growing of GANs for Improved Quality, Stability, and Variation, 2017}
-s\end{frame}
+\end{frame}
 \begin{frame}{Progressive Growing GAN}
 	Grow both the generator and discriminator progressively, new layers will introduce higher-resolution details as the training progresses. 
 	\begin{itemize}
@@ -441,31 +463,6 @@ s\end{frame}
 	\myfootnotewithlink{https://arxiv.org/abs/1812.04948}{Karras T., Laine S., Aila T. A Style-Based Generator Architecture for Generative Adversarial Networks, 2018}
 \end{frame}
 %=======
-\begin{frame}{Truncation trick}
-	\begin{block}{BigGAN: truncated normal sampling}
-		\vspace{-0.3cm}
-		\[
-			p(\bz | b) = \cN(\bz | 0, 1) / \int_{-\infty}^b \cN(\bz | 0, 1) d\bz
-		\]
-		Components of $\bz \sim \cN(0, \bI)$ which fall outside a predefined range are resampled.
-	\end{block}
-	
-	\begin{block}{StyleGAN}
-		\vspace{-0.2cm}
-		\[
-			\bw' = \hat{\bw} + \psi \cdot (\bw - \hat{\bw}), \quad \hat{\bw} = \bbE_{\bz} p(f(\bz))
-		\]
-		\vspace{-0.2cm}
-		\begin{itemize}
-			\item Constant $\psi$ is a tradeoff between diversity and fidelity. 
-			\item $\psi=0.7$ is used for most of the results.
-			\item Truncation is done only at the low-resolution layers.
-		\end{itemize}
-	\end{block}
-
-	\myfootnotewithlink{https://arxiv.org/abs/1812.04948}{Karras T., Laine S., Aila T. A Style-Based Generator Architecture for Generative Adversarial Networks, 2018}
-\end{frame}
-%=======
 \begin{frame}{StyleGAN}
 	\begin{block}{Truncation trick}
 		\begin{figure}
@@ -488,7 +485,9 @@ s\end{frame}
 	\begin{itemize}
 		\item Inception Score and Frechet Inception Distance are the common metrics for GAN evaluation, but both of them have drawbacks.
 		\vfill
-		\item Precision-recall allows to select model with compromise with sample quality and sample diversity.	\item Self-Attention GAN allows to make huge receptive field and reduce convolution inductive bias.
+		\item Precision-recall allows to select model that compromises the sample quality and the sample diversity.	
+		\vfill
+		\item Self-Attention GAN allows to make huge receptive field and reduce convolutional inductive bias.
 		\vfill
 		\item BigGAN shows that large batch size increase model quality gradually.
 		\vfill
